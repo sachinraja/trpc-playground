@@ -1,0 +1,31 @@
+{
+  "name": "@trpc-playground/core",
+  "version": "0.0.0",
+  "description": "playground for trpc",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsup"
+  },
+  "exports": {
+    "./playground": "./dist/playground.js",
+    "./css": "./global.css"
+  },
+  "keywords": [
+    "trpc",
+    "playground"
+  ],
+  "author": "Sachin Raja <sachinraja2349@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "preact": "10.5.15"
+  },
+  "devDependencies": {
+    "@vanilla-extract/css": "1.6.8",
+    "@vanilla-extract/esbuild-plugin": "2.0.1",
+    "autoprefixer": "10.4.0",
+    "postcss": "8.4.5",
+    "postcss-prefix-selector": "1.14.0",
+    "tailwindcss": "3.0.5"
+  }
+}

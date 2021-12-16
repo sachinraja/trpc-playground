@@ -1,0 +1,6 @@
+{
+  "editor.defaultFormatter": "dprint.dprint",
+  "dprint.path": "node_modules/dprint/dprint",
+  // ignore @tailwind rules
+  "css.lint.unknownAtRules": "ignore"
+}

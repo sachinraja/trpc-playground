@@ -1,24 +1,38 @@
 {
   "name": "@trpc-playground/core",
   "version": "0.0.0",
-  "description": "playground for trpc",
-  "main": "index.js",
+  "description": "core components for trpc-playground",
   "type": "module",
-  "scripts": {
-    "build": "tsup"
+  "repository": {
+    "directory": "packages/core",
+    "type": "git",
+    "url": "https://github.com/sachinraja/trpc-playground"
   },
-  "exports": {
-    "./playground": "./dist/playground.js",
-    "./css": "./global.css"
+  "homepage": "https://github.com/sachinraja/trpc-playground#readme",
+  "bugs": {
+    "url": "https://github.com/sachinraja/trpc-playground/issues"
   },
+  "author": "Sachin Raja <sachinraja2349@gmail.com>",
+  "license": "MIT",
   "keywords": [
     "trpc",
     "playground"
   ],
-  "author": "Sachin Raja <sachinraja2349@gmail.com>",
-  "license": "MIT",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "exports": {
+    "./playground": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.cjs"
+    },
+    "./css": "./dist/index.css"
+  },
+  "scripts": {
+    "build": "tsup",
+    "type-check": "tsc"
+  },
   "dependencies": {
-    "preact": "10.5.15"
+    "preact": "10.6.4"
   },
   "devDependencies": {
     "@vanilla-extract/css": "1.6.8",

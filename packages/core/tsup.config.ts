@@ -1,7 +1,8 @@
 import { defineConfig } from 'tsup'
 
 const config = defineConfig({
-  entry: ['src/components/playground.tsx'],
+  entry: ['src/index.ts'],
+  inject: ['preact-inject.js'],
   format: ['cjs', 'esm'],
   dts: {
     resolve: true,

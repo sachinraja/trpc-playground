@@ -16,8 +16,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build": "vite build",
+    "preview": "vite preview",
+    "type-check": "tsc"
   },
   "devDependencies": {
     "@preact/preset-vite": "2.1.5",

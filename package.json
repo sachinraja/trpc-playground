@@ -1,11 +1,12 @@
 {
   "name": "trpc-playground",
+  "type": "module",
   "private": true,
   "scripts": {
     "format": "dprint fmt",
     "lint": "run-p lint:*",
     "lint:format": "dprint check",
-    "lint:types": "tsc",
+    "lint:types": "pnpm -r type-check",
     "lint:js": "eslint .",
     "prepare": "husky install",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"

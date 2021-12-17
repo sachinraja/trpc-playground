@@ -5,11 +5,7 @@
     "jsxImportSource": "preact",
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment",
-    "baseUrl": ".",
-    "paths": {
-      "react": ["node_modules/preact/compat/"],
-      "react-dom": ["node_modules/preact/compat/"]
-    }
+    "baseUrl": "."
   },
   "include": ["src", "tsup.config.ts"]
 }

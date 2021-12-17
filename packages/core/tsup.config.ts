@@ -1,5 +1,18 @@
-import alias from 'esbuild-plugin-alias'
+import path from 'node:path'
 import { defineConfig } from 'tsup'
+// tsup does not expose esbuild
+import { Plugin } from '../../node_modules/.pnpm/esbuild@0.14.2/node_modules/esbuild'
+
+const preactCompatPlugin: Plugin = {
+  name: 'preact-compat',
+  setup(build) {
+    const preact = path.join(process.cwd(), 'node_modules', 'preact', 'compat', 'dist', 'compat.module.js')
+
+    build.onResolve({ filter: /^(react-dom|react)$/ }, () => {
+      return { path: preact }
+    })
+  },
+}
 
 const config = defineConfig({
   entry: ['src/index.ts'],
@@ -10,9 +23,7 @@ const config = defineConfig({
   },
   splitting: true,
   clean: true,
-  // esbuildPlugins: [alias({
-  //   'react': 'preact/compat',
-  // })],
+  esbuildPlugins: [preactCompatPlugin],
 })
 
 export default config

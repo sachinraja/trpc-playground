@@ -4,7 +4,6 @@ export function App() {
   return (
     <>
       <Playground />
-      <p className='text-primary'>hi</p>
     </>
   )
 }

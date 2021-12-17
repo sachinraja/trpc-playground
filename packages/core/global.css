@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.trpc-playground {
+  --primary-color: #2596be;
+  --primary-color-triplet: 37, 150, 190;
+}
+
+.scroll::-webkit-scrollbar {
+   width: 12px;
+   height: 4px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+   border-radius: 10px;
+   background-color: rgba(var(--primary-color-triplet), 0.4);
+}
+

@@ -1,3 +1,4 @@
+import alias from 'esbuild-plugin-alias'
 import { defineConfig } from 'tsup'
 
 const config = defineConfig({
@@ -9,6 +10,9 @@ const config = defineConfig({
   },
   splitting: true,
   clean: true,
+  // esbuildPlugins: [alias({
+  //   'react': 'preact/compat',
+  // })],
 })
 
 export default config

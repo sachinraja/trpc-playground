@@ -5,7 +5,7 @@ module.exports = {
     require('postcss-prefix-selector')({
       prefix: '.trpc-playground',
       transform: function(prefix, selector, prefixedSelector) {
-        if (['body', 'html'].includes(selector)) {
+        if (['body', 'html', '.trpc-playground'].includes(selector)) {
           return prefix
         } else {
           return prefixedSelector

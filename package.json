@@ -32,5 +32,13 @@
   "sideEffects": false,
   "lint-staged": {
     "*.{js,ts,md,json,yaml}": "dprint fmt"
+  },
+  "pnpm": {
+    "overrides": {
+      "react-ssr-prepass": "npm:preact-ssr-prepass@1.2.0"
+    }
+  },
+  "dependencies": {
+    "preact-ssr-prepass": "^1.2.0"
   }
 }

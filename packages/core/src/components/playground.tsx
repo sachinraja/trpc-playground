@@ -1,8 +1,11 @@
-import '../../global.css'
 import { Editor } from './editor'
 import { AddIcon } from './icon'
 import { BaseTab, Tab, TabGroup } from './tab'
 import { Toolbar } from './toolbar'
+
+export type PlaygroundProps = {
+  tsTypes: string[]
+}
 
 export const Playground = () => {
   return (

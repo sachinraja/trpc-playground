@@ -10,7 +10,7 @@ const IndexPage = () => {
   return (
     <div>
       <p>{hello.data.greeting}</p>
-      <Playground tsTypes={['hi']} />
+      <Playground />
     </div>
   )
 }

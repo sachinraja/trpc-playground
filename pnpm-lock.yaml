@@ -134,10 +134,12 @@ importers:
       next: 12.0.7
       next-plugin-preact: 3.0.6
       postcss: 8.4.5
+      preact-render-to-string: 5.1.19
       react: npm:@preact/compat@17.0.3
       react-dom: npm:@preact/compat@17.0.3
       react-query: ^3.34.5
       react-ssr-prepass: npm:preact-ssr-prepass@1.2.0
+      scheduler: 0.20.2
       typescript: 4.5.4
       zod: ^3.11.6
     dependencies:
@@ -156,8 +158,10 @@ importers:
       '@types/react': 17.0.37
       eslint: 8.5.0
       eslint-config-next: 12.0.7_151adb91c2dbffa9bf336078aa7406b9
-      next-plugin-preact: 3.0.6_next@12.0.7
+      next-plugin-preact: 3.0.6_14664238db1431b7088fb9b798f3b263
       postcss: 8.4.5
+      preact-render-to-string: 5.1.19
+      scheduler: 0.20.2
       typescript: 4.5.4
 
 packages:
@@ -7604,7 +7608,7 @@ packages:
     resolution: { integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc= }
     dev: true
 
-  /next-plugin-preact/3.0.6_next@12.0.7:
+  /next-plugin-preact/3.0.6_14664238db1431b7088fb9b798f3b263:
     resolution:
       {
         integrity: sha512-Ze8c8h0jaCPbG0X9T5jJpSDtrfvU9NLlt+DJWtxOu2fn6qPbNU3s61F1hTcldZb3IbpXkp5iGnhPCdgGZEGrCQ==,
@@ -7618,6 +7622,7 @@ packages:
       '@prefresh/next': 1.5.0_next@12.0.7
       '@prefresh/webpack': 3.3.2
       module-alias: 2.2.2
+      preact-render-to-string: 5.1.19
     transitivePeerDependencies:
       - '@prefresh/babel-plugin'
       - next
@@ -8779,6 +8784,17 @@ packages:
       source-map-js: 1.0.1
     dev: true
 
+  /preact-render-to-string/5.1.19:
+    resolution:
+      {
+        integrity: sha512-bj8sn/oytIKO6RtOGSS/1+5CrQyRSC99eLUnEVbqUa6MzJX5dYh7wu9bmT0d6lm/Vea21k9KhCQwvr2sYN3rrQ==,
+      }
+    peerDependencies:
+      preact: '>=10'
+    dependencies:
+      pretty-format: 3.8.0
+    dev: true
+
   /preact-ssr-prepass/1.2.0:
     resolution:
       {
@@ -8831,6 +8847,10 @@ packages:
       ansi-regex: 5.0.1
       ansi-styles: 5.2.0
       react-is: 17.0.2
+    dev: true
+
+  /pretty-format/3.8.0:
+    resolution: { integrity: sha1-v77VbV6ad2ZF9LH/eqGjrE+jw4U= }
     dev: true
 
   /process/0.11.10:
@@ -9337,6 +9357,16 @@ packages:
     engines: { node: '>=10' }
     dependencies:
       xmlchars: 2.2.0
+    dev: true
+
+  /scheduler/0.20.2:
+    resolution:
+      {
+        integrity: sha512-2eWfGgAqqWFGqtdMmcL5zCMK1U8KlXv8SQFGglL3CEtd0aDVDWgeF/YoCmvln55m5zSk3J/20hTaSBeSObsQDQ==,
+      }
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
     dev: true
 
   /semver/5.7.1:

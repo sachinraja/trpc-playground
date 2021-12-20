@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { defineConfig } from 'tsup'
 // tsup does not expose esbuild
-import { Plugin } from '../../node_modules/.pnpm/esbuild@0.14.2/node_modules/esbuild'
+import { Plugin } from '../../node_modules/.pnpm/esbuild@0.14.5/node_modules/esbuild'
 
 const preactCompatPlugin: Plugin = {
   name: 'preact-compat',

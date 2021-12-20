@@ -38,7 +38,7 @@
     "@codemirror/lang-json": "0.19.1",
     "@codemirror/state": "0.19.6",
     "@codemirror/theme-one-dark": "0.19.1",
-    "@codemirror/view": "0.19.34",
+    "@codemirror/view": "0.19.35",
     "@heroicons/react": "1.0.5",
     "@trpc/react": "9.16.0",
     "react-query": "3.34.5",

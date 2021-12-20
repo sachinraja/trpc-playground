@@ -1,7 +1,8 @@
-import { trpc } from 'lib/trpc'
 import { Playground } from '../../core/src/components/playground'
+import { trpc } from '../../core/src/components/playground/provider'
 
-const IndexPage = () => {
+const Component = () => {
+  // @ts-expect-error this exists, trpc just can't find it
   const hello = trpc.useQuery(['hello', { text: 'client' }])
   if (!hello.data) {
     return <div>Loading...</div>
@@ -10,7 +11,17 @@ const IndexPage = () => {
   return (
     <div>
       <p>{hello.data.greeting}</p>
-      <Playground />
+      <p></p>
+    </div>
+  )
+}
+
+const IndexPage = () => {
+  return (
+    <div>
+      <Playground>
+        <Component />
+      </Playground>
     </div>
   )
 }

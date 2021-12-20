@@ -1,17 +1,23 @@
 import { ComponentChildren, FunctionalComponent } from 'preact'
 import { CloseIcon } from './icon'
 
-type TabProps = {
-  children: ComponentChildren
+type Tab = {
+  name: string
+  doc: string
 }
 
-export const BaseTab = ({ children }: TabProps) => (
+type TabGroupProps = {
+  children: ComponentChildren
+  tabs: Tab[]
+}
+
+export const BaseTab: FunctionalComponent = ({ children }) => (
   <div className='bg-primary p-2 rounded-sm inline-flex items-center'>
     {children}
   </div>
 )
 
-export const Tab = ({ children }: TabProps) => {
+export const Tab: FunctionalComponent = ({ children }) => {
   return (
     <BaseTab>
       {children}
@@ -20,6 +26,6 @@ export const Tab = ({ children }: TabProps) => {
   )
 }
 
-export const TabGroup: FunctionalComponent = ({ children }) => {
+export const TabGroup = ({ children }: TabGroupProps) => {
   return <div className='flex space-x-2 overflow-x-scroll scroll'>{children}</div>
 }

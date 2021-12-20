@@ -1,5 +1,6 @@
 {
   "name": "trpc-playground",
+  "type": "module",
   "private": true,
   "scripts": {
     "format": "dprint fmt",

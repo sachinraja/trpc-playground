@@ -39,7 +39,7 @@
     "@codemirror/lang-json": "0.19.1",
     "@codemirror/state": "0.19.6",
     "@codemirror/theme-one-dark": "0.19.1",
-    "@codemirror/view": "0.19.35",
+    "@codemirror/view": "0.19.36",
     "@heroicons/react": "1.0.5",
     "@trpc/react": "9.16.0",
     "clsx": "1.1.1",

@@ -1,18 +1,13 @@
-import { ComponentChildren, FunctionalComponent } from 'preact'
+import clsx from 'clsx'
+import { ComponentChildren, ComponentProps, FunctionalComponent } from 'preact'
 import { CloseIcon } from './icon'
 
-type Tab = {
-  name: string
-  doc: string
-}
-
-type TabGroupProps = {
+type BaseTabProps = {
   children: ComponentChildren
-  tabs: Tab[]
-}
+} & ComponentProps<'div'>
 
-export const BaseTab: FunctionalComponent = ({ children }) => (
-  <div className='bg-primary p-2 rounded-sm inline-flex items-center'>
+export const BaseTab = ({ children, className, ...props }: BaseTabProps) => (
+  <div className={clsx('bg-primary p-2 rounded-sm inline-flex items-center', className)} {...props}>
     {children}
   </div>
 )
@@ -26,6 +21,15 @@ export const Tab: FunctionalComponent = ({ children }) => {
   )
 }
 
-export const TabGroup = ({ children }: TabGroupProps) => {
-  return <div className='flex space-x-2 overflow-x-scroll scroll'>{children}</div>
+type TabGroupProps = {
+  children: ComponentChildren
+  className?: string
+}
+
+export const TabGroup = ({ children, className }: TabGroupProps) => {
+  return (
+    <div className={clsx('flex space-x-2 overflow-x-scroll scroll', className)}>
+      {children}
+    </div>
+  )
 }

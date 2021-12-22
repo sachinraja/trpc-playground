@@ -1,6 +1,6 @@
 import { createReactQueryHooks } from '@trpc/react'
 import { FunctionalComponent } from 'preact'
-import { useMemo } from 'react'
+import { useMemo } from 'preact/hooks'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 export const trpc = createReactQueryHooks()

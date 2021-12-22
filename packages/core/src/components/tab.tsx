@@ -1,6 +1,5 @@
 import clsx from 'clsx'
-import { ComponentChildren, ComponentProps, FunctionalComponent } from 'preact'
-import { CloseIcon } from './icon'
+import { ComponentChildren, ComponentProps } from 'preact'
 
 type BaseTabProps = {
   children: ComponentChildren
@@ -11,15 +10,6 @@ export const BaseTab = ({ children, className, ...props }: BaseTabProps) => (
     {children}
   </div>
 )
-
-export const Tab: FunctionalComponent = ({ children }) => {
-  return (
-    <BaseTab>
-      {children}
-      <CloseIcon title='Close tab' className='ml-4 text-slate-800' width={20} height={20} />
-    </BaseTab>
-  )
-}
 
 type TabGroupProps = {
   children: ComponentChildren

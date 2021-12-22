@@ -17,7 +17,10 @@
     "baseUrl": ".",
     "paths": {
       "@server/*": ["server/*"]
-    }
+    },
+    "jsxImportSource": "preact",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment"
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

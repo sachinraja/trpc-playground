@@ -63,7 +63,7 @@ importers:
       postcss: 8.4.5
       postcss-prefix-selector: 1.14.0
       preact: 10.6.4
-      react-query: 3.34.5
+      react-query: 3.34.6
       rodemirror: 1.6.6
       tailwindcss: 3.0.7
       zod: 3.11.6
@@ -78,9 +78,9 @@ importers:
       '@codemirror/theme-one-dark': 0.19.1
       '@codemirror/view': 0.19.37
       '@heroicons/react': 1.0.5
-      '@trpc/react': 9.16.0_4fd6acb618798205d2fd856a2f2526ac
+      '@trpc/react': 9.16.0_b563b5b0a4b8c724dd5f1837231b76e2
       clsx: 1.1.1
-      react-query: 3.34.5
+      react-query: 3.34.6
       rodemirror: 1.6.6_7bf11a59ae6b6032fe84fbf49fd468ed
       zod-to-ts: 0.1.0_typescript@4.5.4+zod@3.11.6
       zustand: 3.6.7
@@ -133,7 +133,7 @@ importers:
       preact-render-to-string: ^5.1.19
       react: npm:@preact/compat@^17.0.3
       react-dom: npm:@preact/compat@^17.0.3
-      react-query: 3.34.5
+      react-query: 3.34.6
       react-ssr-prepass: npm:preact-ssr-prepass@1.2.0
       scheduler: ^0.20.2
       typescript: 4.5.4
@@ -141,7 +141,7 @@ importers:
     dependencies:
       '@next/bundle-analyzer': 12.0.7
       '@trpc/client': 9.16.0_@trpc+server@9.16.0
-      '@trpc/react': 9.16.0_886ab91bf7ffaa06d441f14d53475d2d
+      '@trpc/react': 9.16.0_97578fc2a4ddf0af67fd073befb00c6e
       '@trpc/server': 9.16.0
       next: 12.0.7_9bfab5d69556db861da30525f2351767
       next-plugin-preact: 3.0.6_20cc205883d3b9aa7f5427bc77927aa2
@@ -149,7 +149,7 @@ importers:
       preact-render-to-string: 5.1.19_preact@10.6.4
       react: /@preact/compat/17.0.3_preact@10.6.4
       react-dom: /@preact/compat/17.0.3_preact@10.6.4
-      react-query: 3.34.5_9bfab5d69556db861da30525f2351767
+      react-query: 3.34.6_9bfab5d69556db861da30525f2351767
       react-ssr-prepass: /preact-ssr-prepass/1.2.0_preact@10.6.4
       scheduler: 0.20.2
       zod: 3.11.6
@@ -1557,21 +1557,7 @@ packages:
       '@trpc/server': 9.16.0
     dev: false
 
-  /@trpc/react/9.16.0_4fd6acb618798205d2fd856a2f2526ac:
-    resolution: {integrity: sha512-gaF+631mXWaziUlDYNksiAhRV7VdjcA04a7by9ZhFVgTzsHXc5VMX57X1Uo2LdWUcW7zOfWiaYBpYs7fRbAv9w==}
-    peerDependencies:
-      '@trpc/client': 9.16.0
-      '@trpc/server': 9.16.0
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-      react-query: ^3.31.0
-    dependencies:
-      '@babel/runtime': 7.16.5
-      '@trpc/server': 9.16.0
-      react-query: 3.34.5
-    dev: false
-
-  /@trpc/react/9.16.0_886ab91bf7ffaa06d441f14d53475d2d:
+  /@trpc/react/9.16.0_97578fc2a4ddf0af67fd073befb00c6e:
     resolution: {integrity: sha512-gaF+631mXWaziUlDYNksiAhRV7VdjcA04a7by9ZhFVgTzsHXc5VMX57X1Uo2LdWUcW7zOfWiaYBpYs7fRbAv9w==}
     peerDependencies:
       '@trpc/client': 9.16.0
@@ -1585,7 +1571,21 @@ packages:
       '@trpc/server': 9.16.0
       react: /@preact/compat/17.0.3_preact@10.6.4
       react-dom: /@preact/compat/17.0.3_preact@10.6.4
-      react-query: 3.34.5_9bfab5d69556db861da30525f2351767
+      react-query: 3.34.6_9bfab5d69556db861da30525f2351767
+    dev: false
+
+  /@trpc/react/9.16.0_b563b5b0a4b8c724dd5f1837231b76e2:
+    resolution: {integrity: sha512-gaF+631mXWaziUlDYNksiAhRV7VdjcA04a7by9ZhFVgTzsHXc5VMX57X1Uo2LdWUcW7zOfWiaYBpYs7fRbAv9w==}
+    peerDependencies:
+      '@trpc/client': 9.16.0
+      '@trpc/server': 9.16.0
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+      react-query: ^3.31.0
+    dependencies:
+      '@babel/runtime': 7.16.5
+      '@trpc/server': 9.16.0
+      react-query: 3.34.6
     dev: false
 
   /@trpc/server/9.16.0:
@@ -6394,8 +6394,8 @@ packages:
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
 
-  /react-query/3.34.5:
-    resolution: {integrity: sha512-qk1hYo+y90LGY5W4kNEYT5yCk8gyL1fVTMoRZfzBTaSdaZWOcdvij36MmkhIqiPdXoEt5pBvX2ejokazwq8haw==}
+  /react-query/3.34.6:
+    resolution: {integrity: sha512-2UKldH8T2PjmLxaOzANok7yITQn9FF1pBbrZFF1hvukBjYefHtCjUur+GOVAWMhrsskcCoKRviei4hcpvj9wLQ==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0
       react-dom: '*'
@@ -6411,8 +6411,8 @@ packages:
       match-sorter: 6.3.1
     dev: false
 
-  /react-query/3.34.5_9bfab5d69556db861da30525f2351767:
-    resolution: {integrity: sha512-qk1hYo+y90LGY5W4kNEYT5yCk8gyL1fVTMoRZfzBTaSdaZWOcdvij36MmkhIqiPdXoEt5pBvX2ejokazwq8haw==}
+  /react-query/3.34.6_9bfab5d69556db861da30525f2351767:
+    resolution: {integrity: sha512-2UKldH8T2PjmLxaOzANok7yITQn9FF1pBbrZFF1hvukBjYefHtCjUur+GOVAWMhrsskcCoKRviei4hcpvj9wLQ==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0
       react-dom: '*'

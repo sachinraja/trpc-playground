@@ -9,7 +9,8 @@
     "lint:types": "pnpm -r type-check",
     "lint:js": "eslint .",
     "prepare": "husky install",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "dev": "pnpm dev --filter next-app"
   },
   "devDependencies": {
     "@swc/core": "1.2.121",

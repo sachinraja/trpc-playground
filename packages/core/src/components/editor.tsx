@@ -5,18 +5,27 @@ import { json } from '@codemirror/lang-json'
 import { EditorState } from '@codemirror/state'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { EditorView, keymap } from '@codemirror/view'
-import { useEffect, useState } from 'preact/hooks'
+import { atom, useAtom } from 'jotai'
+import { useEffect, useLayoutEffect } from 'preact/hooks'
 import { useMemo } from 'react'
 import CodeMirror from 'rodemirror'
-import { useTabStore } from './tab-store'
+import { currentTabAtom, currentTabIndexAtom, previousTabIndexAtom, tabsAtom } from './tab-store'
 
 const elementProps = {
   className: 'flex-1',
 }
 
+const editorViewAtom = atom<EditorView | null>(null)
+const currentValueAtom = atom((get) => get(currentTabAtom).doc)
+
 export const Editor = () => {
-  const [editorView, setEditorView] = useState<EditorView>()
-  const { tabs, setTabs, previousTabIndex, currentTabIndex, currentTabId } = useTabStore()
+  const [editorView, setEditorView] = useAtom(editorViewAtom)
+  const [, setTabs] = useAtom(tabsAtom)
+  const [previousTabIndex] = useAtom(previousTabIndexAtom)
+  const [currentTabIndex] = useAtom(currentTabIndexAtom)
+  const [currentTab] = useAtom(currentTabAtom)
+  const [currentValue] = useAtom(currentValueAtom)
+
   const extensions = useMemo(() => [
     basicSetup,
     oneDark,
@@ -29,35 +38,41 @@ export const Editor = () => {
   ], [])
   const jsonExtensions = useMemo(() => [json(), oneDark, EditorState.readOnly.of(true)], [])
 
-  const [currentValue, setCurrentValue] = useState(tabs[currentTabIndex].doc)
+  useLayoutEffect(() => {
+    if (!editorView || (previousTabIndex === currentTabIndex)) return
+
+    setTabs((tabs) => {
+      const newTabs = [...tabs]
+
+      newTabs[previousTabIndex].doc = editorView.state.doc.toString()
+
+      return newTabs
+    })
+  }, [editorView, previousTabIndex, currentTabIndex, currentTab, setTabs])
 
   useEffect(() => {
     if (!editorView) return
 
-    const newTabs = [...tabs]
-
-    if (currentTabIndex !== previousTabIndex) {
-      newTabs[previousTabIndex].doc = editorView.state.doc.toString()
-    }
-
-    setTabs(newTabs)
-    setCurrentValue(tabs[currentTabIndex].doc)
-  }, [editorView, previousTabIndex, currentTabIndex, currentTabId, setTabs])
+    editorView.dispatch({
+      changes: {
+        from: 0,
+        to: editorView.state.doc.length,
+        insert: currentTab.doc,
+      },
+    })
+  }, [editorView, currentTab])
 
   return (
     <div className='grid grid-cols-2 items-stretch z-30'>
       <CodeMirror
-        selection={{ head: 0, anchor: 0 }}
-        value={currentValue}
         extensions={extensions}
-        onEditorViewChange={(editorView) => {
-          setEditorView(editorView)
-        }}
+        onEditorViewChange={(editorView) => setEditorView(editorView)}
       />
       <CodeMirror
         value={JSON.stringify(elementProps, null, 2)}
         extensions={jsonExtensions}
       />
+      {currentValue}
     </div>
   )
 }

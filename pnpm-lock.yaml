@@ -59,6 +59,7 @@ importers:
       '@types/react': 17.0.37
       autoprefixer: 10.4.0
       clsx: 1.1.1
+      jotai: 1.4.9
       postcss: 8.4.5
       postcss-prefix-selector: 1.14.0
       preact: 10.6.4
@@ -67,7 +68,6 @@ importers:
       tailwindcss: 3.0.7
       zod: 3.11.6
       zod-to-ts: 0.1.0
-      zustand: 3.6.7
     dependencies:
       '@codemirror/basic-setup': 0.19.1
       '@codemirror/history': 0.19.0
@@ -79,10 +79,10 @@ importers:
       '@heroicons/react': 1.0.5
       '@trpc/react': 9.16.0_4fd6acb618798205d2fd856a2f2526ac
       clsx: 1.1.1
+      jotai: 1.4.9_react-query@3.34.5
       react-query: 3.34.5
       rodemirror: 1.6.6_460dd73699589ec18a4a58bb0cce4b0f
       zod-to-ts: 0.1.0_typescript@4.5.4+zod@3.11.6
-      zustand: 3.6.7
     devDependencies:
       '@trpc/server': 9.16.0
       '@types/react': 17.0.37
@@ -6515,6 +6515,46 @@ packages:
       - utf-8-validate
     dev: true
 
+  /jotai/1.4.9_react-query@3.34.5:
+    resolution:
+      {
+        integrity: sha512-NHh3UIIelfUBUjcJi+oXHoL9rISkj8LZu3eeXR5KL1VBYLOuPVK0TTTDfbgdwm5B83zpxNAhTlhb/aKlJBtP0g==,
+      }
+    engines: { node: '>=12.7.0' }
+    peerDependencies:
+      '@babel/core': '*'
+      '@babel/template': '*'
+      '@urql/core': '*'
+      immer: '*'
+      optics-ts: '*'
+      react: '>=16.8'
+      react-query: '*'
+      valtio: '*'
+      wonka: '*'
+      xstate: '*'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/template':
+        optional: true
+      '@urql/core':
+        optional: true
+      immer:
+        optional: true
+      optics-ts:
+        optional: true
+      react-query:
+        optional: true
+      valtio:
+        optional: true
+      wonka:
+        optional: true
+      xstate:
+        optional: true
+    dependencies:
+      react-query: 3.34.5
+    dev: false
+
   /joycon/3.0.1:
     resolution:
       {
@@ -10274,16 +10314,3 @@ packages:
       {
         integrity: sha512-daZ80A81I3/9lIydI44motWe6n59kRBfNzTuS2bfzVh1nAXi667TOTWWtatxyG+fwgNUiagSj/CWZwRRbevJIg==,
       }
-
-  /zustand/3.6.7:
-    resolution:
-      {
-        integrity: sha512-bYWKXMfoJwZyliFgidcQ3tJC/F2f2hHq1+lhTk8dVPX2k28i4VnpnKjBGNxAd2QNliV0m455Vm+gDL8LShrV3g==,
-      }
-    engines: { node: '>=12.7.0' }
-    peerDependencies:
-      react: '>=16.8'
-    peerDependenciesMeta:
-      react:
-        optional: true
-    dev: false

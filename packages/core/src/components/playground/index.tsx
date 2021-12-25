@@ -12,12 +12,10 @@ export type PlaygroundProps = {
 export const Playground = ({ children }: PlaygroundProps) => {
   return (
     <PlaygroundProvider>
-      <div className='trpc-playground'>
-        <div className='text-white bg-slate-800 pt-4'>
-          <TabManager />
-          <Toolbar />
-          <Editor />
-        </div>
+      <div className='text-white bg-slate-800 pt-4'>
+        <TabManager />
+        <Toolbar />
+        <Editor />
       </div>
       {children}
     </PlaygroundProvider>

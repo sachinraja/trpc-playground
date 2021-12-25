@@ -1,6 +1,7 @@
+import { useAtom } from 'jotai'
 import { AddIcon, CloseIcon } from '../icon'
 import { BaseTab, TabGroup } from '../tab'
-import { useTabStore } from '../tab-store'
+import { currentTabIndexAtom, previousTabIndexAtom, tabsAtom, totalTabsCreatedAtom } from '../tab-store'
 
 export type Tab = {
   id: number
@@ -11,18 +12,14 @@ export type Tab = {
 const createNewDefaultTab = (id: number): Tab => ({
   id,
   name: 'New Tab',
-  doc: '',
+  doc: 're',
 })
 
 export const TabManager = () => {
-  const {
-    tabs,
-    setTabs,
-    currentTabIndex,
-    setCurrentTabIndex,
-    incrementTotalTabsCreated,
-    setCurrentTabId,
-  } = useTabStore()
+  const [tabs, setTabs] = useAtom(tabsAtom)
+  const [, setPreviousTabIndex] = useAtom(previousTabIndexAtom)
+  const [currentTabIndex, setCurrentTabIndex] = useAtom(currentTabIndexAtom)
+  const [totalTabsCreated, setTotalTabsCreated] = useAtom(totalTabsCreatedAtom)
 
   return (
     <TabGroup className='mx-2'>
@@ -32,27 +29,39 @@ export const TabManager = () => {
             key={tab.id}
             className={currentTabIndex === index ? undefined : 'opacity-70'}
           >
-            <button onClick={() => setCurrentTabIndex(index)}>
+            <button
+              onClick={() => {
+                setPreviousTabIndex(currentTabIndex)
+                setCurrentTabIndex(index)
+              }}
+            >
               <p>{tab.name}</p>
             </button>
 
             <button
               className='ml-4'
               onClick={() => {
-                const newTabs = [...tabs]
-                newTabs.splice(index, 1)
-                if (newTabs.length === 0) {
-                  const newTotalTabsCreated = incrementTotalTabsCreated()
-                  newTabs.push(createNewDefaultTab(newTotalTabsCreated))
-                }
+                setTabs((tabs) => {
+                  const newTabs = [...tabs]
+                  newTabs.splice(index, 1)
+                  if (newTabs.length === 0) {
+                    newTabs.push(createNewDefaultTab(totalTabsCreated))
+                    setTotalTabsCreated((totalTabsCreated) => totalTabsCreated + 1)
+                  }
 
-                let newIndex = currentTabIndex
-                const lastNewTabsIndex = newTabs.length - 1
-                if (newIndex > lastNewTabsIndex) newIndex = lastNewTabsIndex
+                  let newPreviousTabIndex = currentTabIndex
+                  let newIndex = currentTabIndex
+                  const lastNewTabsIndex = newTabs.length - 1
+                  if (newIndex > lastNewTabsIndex) {
+                    newPreviousTabIndex = lastNewTabsIndex
+                    newIndex = lastNewTabsIndex
+                  }
 
-                setTabs(newTabs)
-                setCurrentTabId(newTabs[newIndex].id)
-                setCurrentTabIndex(newIndex)
+                  setPreviousTabIndex(newPreviousTabIndex)
+                  setCurrentTabIndex(newIndex)
+
+                  return newTabs
+                })
               }}
             >
               <CloseIcon title='Close tab' className='text-slate-800' width={20} height={20} />
@@ -64,10 +73,10 @@ export const TabManager = () => {
       <BaseTab>
         <button
           onClick={() => {
-            const newTotalTabsCreated = incrementTotalTabsCreated()
-
-            const newTabs: Tab[] = [...tabs, createNewDefaultTab(newTotalTabsCreated)]
+            const newTabs: Tab[] = [...tabs, createNewDefaultTab(totalTabsCreated)]
             setTabs(newTabs)
+            setTotalTabsCreated((totalTabsCreated) => totalTabsCreated + 1)
+            setPreviousTabIndex(currentTabIndex)
             setCurrentTabIndex(newTabs.length - 1)
           }}
         >

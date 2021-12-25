@@ -46,7 +46,7 @@
     "react-query": "3.34.5",
     "rodemirror": "1.6.6",
     "zod-to-ts": "0.1.0",
-    "zustand": "3.6.7"
+    "jotai": "1.4.9"
   },
   "peerDependencies": {
     "@trpc/server": "^9",

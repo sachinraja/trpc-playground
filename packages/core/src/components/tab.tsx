@@ -6,7 +6,7 @@ type BaseTabProps = {
 } & ComponentProps<'div'>
 
 export const BaseTab = ({ children, className, ...props }: BaseTabProps) => (
-  <div className={clsx('bg-primary p-2 rounded-sm inline-flex items-center', className)} {...props}>
+  <div className={clsx('bg-primary flex-shrink-0 p-2 rounded-sm inline-flex items-center', className)} {...props}>
     {children}
   </div>
 )

@@ -13,10 +13,12 @@ export const PlaygroundProvider: FunctionalComponent = ({ children }) => {
   const queryClient = useMemo(() => new QueryClient(), [])
 
   return (
-    <trpc.Provider client={client} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>
-        {children}
-      </QueryClientProvider>
-    </trpc.Provider>
+    <div className='trpc-playground'>
+      <trpc.Provider client={client} queryClient={queryClient}>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </trpc.Provider>
+    </div>
   )
 }

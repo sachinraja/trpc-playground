@@ -16,7 +16,6 @@ const elementProps = {
 }
 
 const editorViewAtom = atom<EditorView | null>(null)
-const currentValueAtom = atom((get) => get(currentTabAtom).doc)
 
 export const Editor = () => {
   const [editorView, setEditorView] = useAtom(editorViewAtom)
@@ -24,7 +23,6 @@ export const Editor = () => {
   const [previousTabIndex] = useAtom(previousTabIndexAtom)
   const [currentTabIndex] = useAtom(currentTabIndexAtom)
   const [currentTab] = useAtom(currentTabAtom)
-  const [currentValue] = useAtom(currentValueAtom)
 
   const extensions = useMemo(() => [
     basicSetup,
@@ -72,7 +70,6 @@ export const Editor = () => {
         value={JSON.stringify(elementProps, null, 2)}
         extensions={jsonExtensions}
       />
-      {currentValue}
     </div>
   )
 }

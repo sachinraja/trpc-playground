@@ -12,7 +12,7 @@ export type Tab = {
 const createNewDefaultTab = (id: number): Tab => ({
   id,
   name: 'New Tab',
-  doc: 're',
+  doc: '',
 })
 
 export const TabManager = () => {

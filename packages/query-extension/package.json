@@ -41,5 +41,8 @@
     "@codemirror/rangeset": "0.19.5",
     "@codemirror/state": "0.19.6",
     "relaxed-json": "1.0.3"
+  },
+  "devDependencies": {
+    "@types/relaxed-json": "1.0.1"
   }
 }

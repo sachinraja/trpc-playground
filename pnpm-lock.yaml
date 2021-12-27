@@ -159,12 +159,15 @@ importers:
       '@codemirror/language': 0.19.7
       '@codemirror/rangeset': 0.19.5
       '@codemirror/state': 0.19.6
+      '@types/relaxed-json': 1.0.1
       relaxed-json: 1.0.3
     dependencies:
       '@codemirror/language': 0.19.7
       '@codemirror/rangeset': 0.19.5
       '@codemirror/state': 0.19.6
       relaxed-json: 1.0.3
+    devDependencies:
+      '@types/relaxed-json': 1.0.1
 
 packages:
   /@babel/code-frame/7.12.11:
@@ -1222,6 +1225,13 @@ packages:
       '@types/prop-types': 15.7.4
       '@types/scheduler': 0.16.2
       csstype: 3.0.10
+    dev: true
+
+  /@types/relaxed-json/1.0.1:
+    resolution:
+      {
+        integrity: sha512-UnBKvLCa16RNrNeq8K2NoiAN6Whrw/fPjh6iWl1uYt4T+/AqykJKfQv1OL/ktkLprmwQPnBlmT3fu9xTc3o9AA==,
+      }
     dev: true
 
   /@types/resolve/1.17.1:

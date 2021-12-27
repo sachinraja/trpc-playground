@@ -1,11 +1,10 @@
 import path from 'node:path'
 import { defineConfig } from 'tsup'
-// tsup does not expose esbuild
-import { Plugin } from '../../node_modules/.pnpm/esbuild@0.14.5/node_modules/esbuild'
 
-const preactCompatPlugin: Plugin = {
+const preactCompatPlugin = {
   name: 'preact-compat',
-  setup(build) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setup(build: any) {
     const preact = path.join(process.cwd(), 'node_modules', 'preact', 'compat', 'dist', 'compat.module.js')
 
     build.onResolve({ filter: /^(react-dom|react)$/ }, () => {

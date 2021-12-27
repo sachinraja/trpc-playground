@@ -43,10 +43,10 @@
     "@heroicons/react": "1.0.5",
     "@trpc/react": "9.16.0",
     "clsx": "1.1.1",
+    "jotai": "1.4.9",
     "react-query": "3.34.6",
     "rodemirror": "1.6.6",
-    "zod-to-ts": "0.1.0",
-    "jotai": "1.4.9"
+    "zod-to-ts": "0.1.0"
   },
   "peerDependencies": {
     "@trpc/server": "^9",

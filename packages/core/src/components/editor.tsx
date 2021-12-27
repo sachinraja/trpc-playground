@@ -9,6 +9,7 @@ import { atom, useAtom } from 'jotai'
 import { useEffect, useLayoutEffect } from 'preact/hooks'
 import { useMemo } from 'react'
 import CodeMirror from 'rodemirror'
+import * as queryExtension from '../../../query-extension/src'
 import { currentTabAtom, currentTabIndexAtom, previousTabIndexAtom, tabsAtom } from './tab-store'
 
 const elementProps = {
@@ -33,6 +34,7 @@ export const Editor = () => {
       key: 'Mod-Shift-z',
       preventDefault: true,
     }]),
+    queryExtension.state(),
   ], [])
   const jsonExtensions = useMemo(() => [json(), oneDark, EditorState.readOnly.of(true)], [])
 

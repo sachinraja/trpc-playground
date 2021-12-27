@@ -1,0 +1,45 @@
+{
+  "name": "@trpc-playground/query-extension",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "parse query syntax for trpc-playground",
+  "main": "dist/index.cjs",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.cjs"
+    }
+  },
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "type-check": "tsc",
+    "prepublishOnly": "pnpm build",
+    "test": "vitest"
+  },
+  "sideEffects": false,
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": [
+      "esm",
+      "cjs"
+    ],
+    "dts": {
+      "resolve": true
+    },
+    "splitting": true,
+    "clean": true
+  },
+  "dependencies": {
+    "@codemirror/language": "0.19.7",
+    "@codemirror/rangeset": "0.19.5",
+    "@codemirror/state": "0.19.6",
+    "relaxed-json": "1.0.3"
+  }
+}

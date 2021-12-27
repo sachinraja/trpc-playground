@@ -17,7 +17,7 @@ importers:
       npm-run-all: 4.1.5
       preact: 10.6.4
       preact-ssr-prepass: 1.2.0
-      tsup: 5.11.8
+      tsup: 5.11.9
       typescript: 4.5.4
       vite: 2.7.6
       vitest: 0.0.113
@@ -33,7 +33,7 @@ importers:
       npm-run-all: 4.1.5
       preact: 10.6.4
       preact-ssr-prepass: 1.2.0_preact@10.6.4
-      tsup: 5.11.8_typescript@4.5.4
+      tsup: 5.11.9_typescript@4.5.4
       typescript: 4.5.4
       vite: 2.7.6
       vitest: 0.0.113_vite@2.7.6
@@ -76,7 +76,7 @@ importers:
       jotai: 1.4.9_react-query@3.34.6
       react-query: 3.34.6
       rodemirror: 1.6.6_7bf11a59ae6b6032fe84fbf49fd468ed
-      zod-to-ts: 0.1.0_typescript@4.5.4+zod@3.11.6
+      zod-to-ts: 0.1.0_zod@3.11.6
     devDependencies:
       '@trpc/server': 9.16.0
       '@types/react': 17.0.38
@@ -117,6 +117,7 @@ importers:
       '@trpc/server': 9.16.0
       '@types/node': 17.0.4
       '@types/react': 17.0.38
+      '@types/relaxed-json': 1.0.1
       eslint: 8.5.0
       eslint-config-next: 12.0.7
       next: ^12.0.7
@@ -128,6 +129,7 @@ importers:
       react-dom: npm:@preact/compat@^17.0.3
       react-query: 3.34.6
       react-ssr-prepass: npm:preact-ssr-prepass@1.2.0
+      relaxed-json: 1.0.3
       scheduler: ^0.20.2
       typescript: 4.5.4
       zod: 3.11.6
@@ -144,15 +146,29 @@ importers:
       react-dom: /@preact/compat/17.0.3_preact@10.6.4
       react-query: 3.34.6_9bfab5d69556db861da30525f2351767
       react-ssr-prepass: /preact-ssr-prepass/1.2.0_preact@10.6.4
+      relaxed-json: 1.0.3
       scheduler: 0.20.2
       zod: 3.11.6
     devDependencies:
       '@types/node': 17.0.4
       '@types/react': 17.0.38
+      '@types/relaxed-json': 1.0.1
       eslint: 8.5.0
       eslint-config-next: 12.0.7_151adb91c2dbffa9bf336078aa7406b9
       postcss: 8.4.5
       typescript: 4.5.4
+
+  packages/query-extension:
+    specifiers:
+      '@codemirror/language': 0.19.7
+      '@codemirror/rangeset': 0.19.5
+      '@codemirror/state': 0.19.6
+      relaxed-json: 1.0.3
+    dependencies:
+      '@codemirror/language': 0.19.7
+      '@codemirror/rangeset': 0.19.5
+      '@codemirror/state': 0.19.6
+      relaxed-json: 1.0.3
 
 packages:
   /@babel/code-frame/7.12.11:
@@ -1212,6 +1228,13 @@ packages:
       csstype: 3.0.10
     dev: true
 
+  /@types/relaxed-json/1.0.1:
+    resolution:
+      {
+        integrity: sha512-UnBKvLCa16RNrNeq8K2NoiAN6Whrw/fPjh6iWl1uYt4T+/AqykJKfQv1OL/ktkLprmwQPnBlmT3fu9xTc3o9AA==,
+      }
+    dev: true
+
   /@types/resolve/1.17.1:
     resolution:
       {
@@ -2161,6 +2184,13 @@ packages:
     resolution:
       {
         integrity: sha512-Y2oEozpomLn7Q3HFP7dpww7AtMJplbM9lGZP6RDfHqmbeRjiwRg4n6VM6j4KLmRke85uWEI7JqF17f3pqdRA0g==,
+      }
+    dev: false
+
+  /commander/2.20.3:
+    resolution:
+      {
+        integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==,
       }
     dev: false
 
@@ -6382,6 +6412,18 @@ packages:
     engines: { node: '>=8' }
     dev: true
 
+  /relaxed-json/1.0.3:
+    resolution:
+      {
+        integrity: sha512-b7wGPo7o2KE/g7SqkJDDbav6zmrEeP4TK2VpITU72J/M949TLe/23y/ZHJo+pskcGM52xIfFoT9hydwmgr1AEg==,
+      }
+    engines: { node: '>= 0.10.0' }
+    hasBin: true
+    dependencies:
+      chalk: 2.4.2
+      commander: 2.20.3
+    dev: false
+
   /remove-accents/0.4.2:
     resolution: { integrity: sha1-CkPTqq4egNuRngeuJUsoXZ4ce7U= }
     dev: false
@@ -7217,14 +7259,14 @@ packages:
         integrity: sha512-hcVC3wYEziELGGmEEXue7D75zbwIIVUMWAVbHItGPx0ziyXxrOMQx4rQEVEV45Ut/1IotuEvwqPopzIOkDMf0A==,
       }
 
-  /tsup/5.11.8_typescript@4.5.4:
+  /tsup/5.11.9_typescript@4.5.4:
     resolution:
       {
-        integrity: sha512-MB348Kkip7NlHkISq/1YxNauj6qc8yiOL5mslUifLZtjBKEbSasaGdQRTRcHeM+cZ31sA+59XAnNyEIAjZajCQ==,
+        integrity: sha512-APFcd9qKblMVO35O5OyIcfa4lwBrVNinwtifUojO78I6j0aDhS4fQ06gq6vF1b/+Z83pYDWNb0R2fmO9PX3IVQ==,
       }
     hasBin: true
     peerDependencies:
-      typescript: ^4.5.4
+      typescript: ^4.1.0
     peerDependenciesMeta:
       typescript:
         optional: true
@@ -7619,7 +7661,7 @@ packages:
     engines: { node: '>=10' }
     dev: false
 
-  /zod-to-ts/0.1.0_typescript@4.5.4+zod@3.11.6:
+  /zod-to-ts/0.1.0_zod@3.11.6:
     resolution:
       {
         integrity: sha512-MBuE4XXoo1L51/zWNHFlFdQiNekt+WinFt/z0uW/VdK5AtxfetYZUrzfQ5SamJIOI+fyKhkBiIgYlBk17AxAvQ==,
@@ -7628,7 +7670,6 @@ packages:
       typescript: ^4
       zod: ^3
     dependencies:
-      typescript: 4.5.4
       zod: 3.11.6
     dev: false
 

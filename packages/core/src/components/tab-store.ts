@@ -3,20 +3,20 @@ import { Tab } from './playground/tab-manager'
 
 const currentTab = {
   id: 0,
-  name: 'Vitest',
-  doc: 'const run = () => expect(1).toBeNumber()',
+  name: 'basic query',
+  doc: "query('hello', { text: 'client' })",
 }
 
 export const tabsAtom = atom<Tab[]>([
   currentTab,
   {
     id: 1,
-    name: 'Tab 2 | gql',
-    doc: "console.log('Hell world!')",
+    name: 'Vitest',
+    doc: 'const run = () => expect(1).toBeNumber()',
   },
   {
     id: 2,
-    name: 'Tab 3 | gql',
+    name: 'Console Log',
     doc: "console.log('Hello world!')",
   },
 ])

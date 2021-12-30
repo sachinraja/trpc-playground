@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 
 export const trpc = createReactQueryHooks()
 
-const client = trpc.createClient({
+export const client = trpc.createClient({
   url: 'http://localhost:3000/api/trpc',
 })
 

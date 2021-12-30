@@ -10,13 +10,11 @@ import { useEffect, useLayoutEffect } from 'preact/hooks'
 import { useMemo } from 'react'
 import CodeMirror from 'rodemirror'
 import * as queryExtension from '../../../query-extension/src'
+import { client } from './playground/provider'
 import { currentTabAtom, currentTabIndexAtom, previousTabIndexAtom, tabsAtom } from './tab-store'
 
-const elementProps = {
-  className: 'flex-1',
-}
-
 const editorViewAtom = atom<EditorView | null>(null)
+const jsonValueAtom = atom(JSON.stringify({ foo: 'bar' }, null, 2))
 
 export const Editor = () => {
   const [editorView, setEditorView] = useAtom(editorViewAtom)
@@ -24,6 +22,7 @@ export const Editor = () => {
   const [previousTabIndex] = useAtom(previousTabIndexAtom)
   const [currentTabIndex] = useAtom(currentTabIndexAtom)
   const [currentTab] = useAtom(currentTabAtom)
+  const [jsonValue, setJsonValue] = useAtom(jsonValueAtom)
 
   const extensions = useMemo(() => [
     basicSetup,
@@ -35,8 +34,24 @@ export const Editor = () => {
       preventDefault: true,
     }]),
     queryExtension.state({
-      onExecute(query) {
-        console.log('execute', query)
+      async onExecute(query) {
+        const firstArg = query.args[0]
+        if (typeof firstArg !== 'string') return
+
+        const args = [firstArg, query.args[1]] as const
+        try {
+          if (query.operation === 'query') {
+            console.log(query)
+            // @ts-expect-error not possible to type args here, they could be anything
+            const response = await client.query(...args)
+            return setJsonValue(JSON.stringify(response, null, 2))
+          } else if (query.operation === 'mutate') {
+            // @ts-expect-error not possible to type args here, they could be anything
+            await client.mutation(...args)
+          }
+        } catch (e) {
+          return setJsonValue(JSON.stringify(e, null, 2))
+        }
       },
     }),
     queryExtension.gutter(),
@@ -75,7 +90,8 @@ export const Editor = () => {
         onEditorViewChange={(editorView) => setEditorView(editorView)}
       />
       <CodeMirror
-        value={JSON.stringify(elementProps, null, 2)}
+        value={jsonValue}
+        selection={{ head: 0, anchor: 0 }}
         extensions={jsonExtensions}
       />
     </div>

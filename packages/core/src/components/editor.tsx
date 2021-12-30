@@ -6,6 +6,7 @@ import { EditorState } from '@codemirror/state'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { EditorView, keymap } from '@codemirror/view'
 import { atom, useAtom } from 'jotai'
+import inspect from 'object-inspect'
 import { useEffect, useLayoutEffect } from 'preact/hooks'
 import { useMemo } from 'react'
 import CodeMirror from 'rodemirror'
@@ -13,8 +14,9 @@ import * as queryExtension from '../../../query-extension/src'
 import { client } from './playground/provider'
 import { currentTabAtom, currentTabIndexAtom, previousTabIndexAtom, tabsAtom } from './tab-store'
 
+const printObject = (obj: unknown) => inspect(obj, { indent: 2 })
 const editorViewAtom = atom<EditorView | null>(null)
-const jsonValueAtom = atom(JSON.stringify({ foo: 'bar' }, null, 2))
+const jsonValueAtom = atom(printObject({ foo: 'bar' }))
 
 export const Editor = () => {
   const [editorView, setEditorView] = useAtom(editorViewAtom)
@@ -44,13 +46,13 @@ export const Editor = () => {
             console.log(query)
             // @ts-expect-error not possible to type args here, they could be anything
             const response = await client.query(...args)
-            return setJsonValue(JSON.stringify(response, null, 2))
+            return setJsonValue(printObject(response))
           } else if (query.operation === 'mutate') {
             // @ts-expect-error not possible to type args here, they could be anything
             await client.mutation(...args)
           }
         } catch (e) {
-          return setJsonValue(JSON.stringify(e, null, 2))
+          return setJsonValue(printObject(e))
         }
       },
     }),

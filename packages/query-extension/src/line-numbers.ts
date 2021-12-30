@@ -25,7 +25,7 @@ class LineNumberMarker extends GutterMarker {
     return this.number === other.number
   }
 
-  toDOM(view: EditorView) {
+  toDOM() {
     const widget = document.createElement('div')
     widget.classList.add('cm-gutterElement')
     widget.textContent = `${this.number}`
@@ -53,7 +53,7 @@ class RunQueryMarker extends GutterMarker {
     return this.number === other.number && this.active === other.active
   }
 
-  toDOM(view: EditorView) {
+  toDOM() {
     // Feathericons: play-circle
     const svg = document.createElementNS(SVG_NAMESPACE, 'svg')
     svg.setAttribute('xmlns', SVG_NAMESPACE)

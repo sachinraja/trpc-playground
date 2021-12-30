@@ -34,7 +34,13 @@ export const Editor = () => {
       key: 'Mod-Shift-z',
       preventDefault: true,
     }]),
-    queryExtension.state(),
+    queryExtension.state({
+      onExecute(query) {
+        console.log('execute', query)
+      },
+    }),
+    queryExtension.gutter(),
+    queryExtension.lineNumbers(),
   ], [])
   const jsonExtensions = useMemo(() => [json(), oneDark, EditorState.readOnly.of(true)], [])
 

@@ -1,3 +1,4 @@
+import { NextPage } from 'next'
 import { Playground } from '../../core/src/components/playground'
 import { trpc } from '../../core/src/components/playground/provider'
 
@@ -16,7 +17,7 @@ const Component = () => {
   )
 }
 
-const IndexPage = () => {
+const IndexPage: NextPage = () => {
   return (
     <div>
       <Playground>
@@ -24,6 +25,12 @@ const IndexPage = () => {
       </Playground>
     </div>
   )
+}
+
+IndexPage.getInitialProps = (ctx) => {
+  console.log(ctx.req?.method)
+
+  return {}
 }
 
 export default IndexPage

@@ -13,7 +13,7 @@
     ]
   },
   "includes": ["**/*.{ts,tsx,js,jsx,cjs,mjs,json,json5,md,yaml}"],
-  "excludes": ["**/node_modules", "pnpm-lock.yaml", "dist", ".next"],
+  "excludes": ["**/node_modules", "pnpm-lock.yaml", "dist", ".next", "packages/typescript-extension/src/types"],
   "plugins": [
     "https://plugins.dprint.dev/typescript-0.60.0.wasm",
     "https://plugins.dprint.dev/json-0.13.2.wasm",

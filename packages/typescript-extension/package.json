@@ -42,6 +42,7 @@
     "@codemirror/autocomplete": "0.19.9",
     "@codemirror/lang-javascript": "0.19.3",
     "@codemirror/lint": "0.19.3",
+    "@codemirror/state": "0.19.6",
     "@codemirror/tooltip": "0.19.10",
     "@codemirror/view": "0.19.37",
     "@types/node": "17.0.4",

@@ -17,7 +17,6 @@
     "preact-render-to-string": "5.1.19",
     "react": "npm:@preact/compat@17.0.3",
     "react-dom": "npm:@preact/compat@17.0.3",
-    "react-query": "3.34.7",
     "react-ssr-prepass": "npm:preact-ssr-prepass@1.2.0",
     "scheduler": "0.20.2",
     "zod": "3.11.6"

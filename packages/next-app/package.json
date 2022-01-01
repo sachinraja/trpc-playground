@@ -26,10 +26,10 @@
   "devDependencies": {
     "@types/node": "17.0.4",
     "@types/react": "17.0.38",
+    "esbuild-register": "3.3.1",
     "eslint": "8.5.0",
     "eslint-config-next": "12.0.7",
     "postcss": "8.4.5",
-    "typescript": "4.5.4",
-    "urlencoded-body-parser": "3.0.0"
+    "typescript": "4.5.4"
   }
 }

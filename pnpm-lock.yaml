@@ -121,6 +121,7 @@ importers:
       '@trpc/server': 9.16.0
       '@types/node': 17.0.4
       '@types/react': 17.0.38
+      esbuild-register: 3.3.1
       eslint: 8.5.0
       eslint-config-next: 12.0.7
       next: ^12.0.7
@@ -134,7 +135,6 @@ importers:
       react-ssr-prepass: npm:preact-ssr-prepass@1.2.0
       scheduler: ^0.20.2
       typescript: 4.5.4
-      urlencoded-body-parser: 3.0.0
       zod: 3.11.6
     dependencies:
       '@next/bundle-analyzer': 12.0.7
@@ -154,11 +154,11 @@ importers:
     devDependencies:
       '@types/node': 17.0.4
       '@types/react': 17.0.38
+      esbuild-register: 3.3.1
       eslint: 8.5.0
       eslint-config-next: 12.0.7_151adb91c2dbffa9bf336078aa7406b9
       postcss: 8.4.5
       typescript: 4.5.4
-      urlencoded-body-parser: 3.0.0
 
   packages/query-extension:
     specifiers:
@@ -1973,6 +1973,7 @@ packages:
         integrity: sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==,
       }
     engines: { node: '>= 0.8' }
+    dev: false
 
   /cac/6.7.12:
     resolution:
@@ -2600,6 +2601,7 @@ packages:
   /depd/1.1.2:
     resolution: { integrity: sha1-m81S4UwJd2PnSbJ0xDRu0uVgtak= }
     engines: { node: '>= 0.6' }
+    dev: false
 
   /des.js/1.0.1:
     resolution:
@@ -3299,6 +3301,15 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /esbuild-register/3.3.1:
+    resolution:
+      {
+        integrity: sha512-DjK9rOeo+Dhq8DXKy52DF2+O7zNPXkFRg9lZfqXDGLU6AzrULxBJZPOOFcH6WCNfkwqymKOZoNvd/ncCvEjwdw==,
+      }
+    peerDependencies:
+      esbuild: '>=0.12 <1'
+    dev: true
 
   /esbuild-sunos-64/0.13.15:
     resolution:
@@ -4329,6 +4340,7 @@ packages:
       setprototypeof: 1.1.1
       statuses: 1.5.0
       toidentifier: 1.0.0
+    dev: false
 
   /https-browserify/1.0.0:
     resolution: { integrity: sha1-7AbBDgo0wPL68Zn3/X/Hj//QPHM= }
@@ -4359,6 +4371,7 @@ packages:
     engines: { node: '>=0.10.0' }
     dependencies:
       safer-buffer: 2.1.2
+    dev: false
 
   /iconv-lite/0.6.3:
     resolution:
@@ -5026,11 +5039,6 @@ packages:
       {
         integrity: sha512-dn6wd0uw5GsdswPFfsgMp5NSB0/aDe6fK94YJV/AJDYXL6HVLWBsxeq7js7Ad+mU2K9LAlwpk6kN2D5mwCPVow==,
       }
-    dev: true
-
-  /media-typer/0.3.0:
-    resolution: { integrity: sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g= }
-    engines: { node: '>= 0.6' }
     dev: true
 
   /memorystream/0.3.1:
@@ -6431,16 +6439,6 @@ packages:
       }
     engines: { node: '>=6' }
 
-  /qs/6.10.2:
-    resolution:
-      {
-        integrity: sha512-mSIdjzqznWgfd4pMii7sHtaYF8rx8861hBO80SraY5GT0XQibWZWJSid0avzHGkDIZLImux2S5mXO0Hfct2QCw==,
-      }
-    engines: { node: '>=0.6' }
-    dependencies:
-      side-channel: 1.0.4
-    dev: true
-
   /querystring-es3/0.2.1:
     resolution: { integrity: sha1-nsYfeQSYdXB9aUFFlv2Qek1xHnM= }
     engines: { node: '>=0.4.x' }
@@ -6500,6 +6498,7 @@ packages:
       http-errors: 1.7.3
       iconv-lite: 0.4.24
       unpipe: 1.0.0
+    dev: false
 
   /react-is/16.13.1:
     resolution:
@@ -6840,6 +6839,7 @@ packages:
       {
         integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==,
       }
+    dev: false
 
   /scheduler/0.20.2:
     resolution:
@@ -6886,6 +6886,7 @@ packages:
       {
         integrity: sha512-JvdAWfbXeIGaZ9cILp38HntZSFSo3mWg6xGcJJsd+d4aRMOqauag1C63dJfDw7OaMYwEbHMOxEZ1lqVRYP2OAw==,
       }
+    dev: false
 
   /sha.js/2.4.11:
     resolution:
@@ -7064,6 +7065,7 @@ packages:
   /statuses/1.5.0:
     resolution: { integrity: sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow= }
     engines: { node: '>= 0.6' }
+    dev: false
 
   /stream-browserify/3.0.0:
     resolution:
@@ -7429,6 +7431,7 @@ packages:
         integrity: sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==,
       }
     engines: { node: '>=0.6' }
+    dev: false
 
   /totalist/1.1.0:
     resolution:
@@ -7602,6 +7605,7 @@ packages:
   /unpipe/1.0.0:
     resolution: { integrity: sha1-sr9O6FFKrmFltIF4KdIbLvSZBOw= }
     engines: { node: '>= 0.8' }
+    dev: false
 
   /uri-js/4.4.1:
     resolution:
@@ -7610,17 +7614,6 @@ packages:
       }
     dependencies:
       punycode: 2.1.1
-    dev: true
-
-  /urlencoded-body-parser/3.0.0:
-    resolution:
-      {
-        integrity: sha512-Wv99/IIj6mZTawqmG2BOSgGYCRi3P/oW3LHNjTW+UWrDQ3sqRrONJ1Yed5REmUqI3E5uH3WCdLyOiq2JxrWwfw==,
-      }
-    dependencies:
-      media-typer: 0.3.0
-      qs: 6.10.2
-      raw-body: 2.4.1
     dev: true
 
   /use-subscription/1.5.1_@preact+compat@17.0.3:

@@ -77,15 +77,17 @@ export const Editor = () => {
   useEffect(() => {
     if (!editorView) return
     ;(async () => {
-      const data = await fetch(window.location.href, {
+      console.log('start request', window.location.href)
+      const response = await fetch(window.location.href, {
         method: 'POST',
         body: JSON.stringify({ operation: 'getTypes' }),
       })
-
-      console.log(data)
+      console.log('end request')
+      const types: string[] = await response.json()
+      console.log(types)
 
       editorView.dispatch(injectTypes({
-        '/index.d.ts': 'declare function query(query: string, data: { text: string }): Promise<string>',
+        '/index.d.ts': types.join('\n'),
       }))
     })()
   }, [editorView])

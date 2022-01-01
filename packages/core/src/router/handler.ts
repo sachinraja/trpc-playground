@@ -1,8 +1,9 @@
 type IncomingRequest = {
   method?: string
-  body?: Record<string, any>
+  body?: Record<string, unknown>
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type TrpcPlaygroundOptions = {}
 
 type HandlerParams = {

@@ -61,7 +61,6 @@
     "autoprefixer": "10.4.0",
     "postcss": "8.4.5",
     "postcss-prefix-selector": "1.14.0",
-    "preact": "10.6.4",
     "tailwindcss": "3.0.7",
     "zod": "3.11.6"
   }

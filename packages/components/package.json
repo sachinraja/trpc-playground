@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "description": "core components for trpc-playground",
   "repository": {
-    "directory": "packages/core",
+    "directory": "packages/components",
     "type": "git",
     "url": "https://github.com/sachinraja/trpc-playground"
   },
@@ -21,21 +21,17 @@
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "exports": {
-    "./playground": {
+    ".": {
       "import": "./dist/index.js",
       "default": "./dist/index.cjs"
-    },
-    "./handlers/next": {
-      "import": "./dist/handlers/next.js",
-      "default": "./dist/handlers/next.cjs"
-    },
-    "./css": "./dist/index.css"
+    }
   },
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "tsup",
+    "prepublishOnly": "pnpm build",
     "watch": "tsup --watch --no-dts",
     "type-check": "tsc"
   },
@@ -59,6 +55,7 @@
     "preact": "^10"
   },
   "devDependencies": {
+    "@trpc/server": "9.16.0",
     "@types/object-inspect": "1.8.1",
     "@types/react": "17.0.38",
     "autoprefixer": "10.4.1",

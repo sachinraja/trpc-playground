@@ -6,7 +6,6 @@ overrides:
 importers:
   .:
     specifiers:
-      '@trpc-playground/html': workspace:*
       '@types/node': 17.0.5
       '@typescript-eslint/eslint-plugin': 5.8.1
       '@typescript-eslint/parser': 5.8.1
@@ -23,7 +22,6 @@ importers:
       vite: 2.7.10
       vitest: 0.0.125
     devDependencies:
-      '@trpc-playground/html': link:packages/html
       '@types/node': 17.0.5
       '@typescript-eslint/eslint-plugin': 5.8.1_13039593e64cd539d0b4c5c2da390958
       '@typescript-eslint/parser': 5.8.1_eslint@8.6.0+typescript@4.5.4
@@ -51,6 +49,7 @@ importers:
       '@codemirror/view': 0.19.37
       '@heroicons/react': 1.0.5
       '@trpc/react': 9.16.0
+      '@trpc/server': 9.16.0
       '@types/object-inspect': 1.8.1
       '@types/react': 17.0.38
       autoprefixer: 10.4.1
@@ -71,13 +70,14 @@ importers:
       '@codemirror/theme-one-dark': 0.19.1
       '@codemirror/view': 0.19.37
       '@heroicons/react': 1.0.5
-      '@trpc/react': 9.16.0_react-query@3.34.7
+      '@trpc/react': 9.16.0_0d9ad078797cd91ba4597a01ca35d592
       clsx: 1.1.1
       jotai: 1.5.0_react-query@3.34.7
       object-inspect: 1.12.0
       react-query: 3.34.7
       rodemirror: 1.6.6_7bf11a59ae6b6032fe84fbf49fd468ed
     devDependencies:
+      '@trpc/server': 9.16.0
       '@types/object-inspect': 1.8.1
       '@types/react': 17.0.38
       autoprefixer: 10.4.1_postcss@8.4.5
@@ -1366,6 +1366,23 @@ packages:
       '@trpc/server': 9.16.0
     dev: false
 
+  /@trpc/react/9.16.0_0d9ad078797cd91ba4597a01ca35d592:
+    resolution:
+      {
+        integrity: sha512-gaF+631mXWaziUlDYNksiAhRV7VdjcA04a7by9ZhFVgTzsHXc5VMX57X1Uo2LdWUcW7zOfWiaYBpYs7fRbAv9w==,
+      }
+    peerDependencies:
+      '@trpc/client': 9.16.0
+      '@trpc/server': 9.16.0
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+      react-query: ^3.31.0
+    dependencies:
+      '@babel/runtime': 7.16.5
+      '@trpc/server': 9.16.0
+      react-query: 3.34.7
+    dev: false
+
   /@trpc/react/9.16.0_9fbb0618c615a8f22100144970bc9d53:
     resolution:
       {
@@ -1383,22 +1400,6 @@ packages:
       '@trpc/server': 9.16.0
       react: /@preact/compat/17.0.3_preact@10.6.4
       react-dom: /@preact/compat/17.0.3_preact@10.6.4
-    dev: false
-
-  /@trpc/react/9.16.0_react-query@3.34.7:
-    resolution:
-      {
-        integrity: sha512-gaF+631mXWaziUlDYNksiAhRV7VdjcA04a7by9ZhFVgTzsHXc5VMX57X1Uo2LdWUcW7zOfWiaYBpYs7fRbAv9w==,
-      }
-    peerDependencies:
-      '@trpc/client': 9.16.0
-      '@trpc/server': 9.16.0
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-      react-query: ^3.31.0
-    dependencies:
-      '@babel/runtime': 7.16.5
-      react-query: 3.34.7
     dev: false
 
   /@trpc/server/9.16.0:

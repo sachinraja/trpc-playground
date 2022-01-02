@@ -1,6 +1,6 @@
 import { render } from 'preact'
-import '../../core/global.css'
-import { Playground } from '../../core/src/components/playground'
+import '../../components/global.css'
+import { Playground } from '../../components/src/components/playground'
 
 render(
   <div>

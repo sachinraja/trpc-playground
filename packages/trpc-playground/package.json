@@ -1,0 +1,57 @@
+{
+  "name": "trpc-playground",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "playground for tRPC",
+  "repository": {
+    "directory": "packages/trpc-playground",
+    "type": "git",
+    "url": "https://github.com/sachinraja/trpc-playground"
+  },
+  "homepage": "https://github.com/sachinraja/trpc-playground#readme",
+  "bugs": {
+    "url": "https://github.com/sachinraja/trpc-playground/issues"
+  },
+  "author": "Sachin Raja <sachinraja2349@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "trpc",
+    "playground"
+  ],
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "handlers"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "watch": "tsup --watch --no-dts",
+    "type-check": "tsc"
+  },
+  "peerDependencies": {
+    "@trpc/server": "^9",
+    "next": "^10 || ^11 || ^12",
+    "zod": "^3"
+  },
+  "peerDependenciesMeta": {
+    "next": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@trpc-playground/html": "workspace:*",
+    "zod-to-ts": "0.1.0"
+  },
+  "devDependencies": {
+    "@trpc/server": "9.16.0",
+    "next": "12.0.7",
+    "zod": "3.11.6"
+  }
+}

@@ -19,16 +19,19 @@
     "html",
     "playground"
   ],
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
+  "types": "./index.d.ts",
   "exports": {
-    "./playground": {
+    ".": {
       "import": "./dist/index.js",
-      "default": "./dist/index.cjs"
+      "types": "./index.d.ts"
     }
   },
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && node scripts/build.js",
     "type-check": "tsc"
   },
   "devDependencies": {

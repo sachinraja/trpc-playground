@@ -1,0 +1,35 @@
+{
+  "name": "@trpc-playground/types",
+  "type": "module",
+  "version": "0.0.0",
+  "description": "types for trpc-playground",
+  "repository": {
+    "directory": "packages/types",
+    "type": "git",
+    "url": "https://github.com/sachinraja/trpc-playground"
+  },
+  "homepage": "https://github.com/sachinraja/trpc-playground#readme",
+  "bugs": {
+    "url": "https://github.com/sachinraja/trpc-playground/issues"
+  },
+  "author": "Sachin Raja <sachinraja2349@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "trpc",
+    "playground",
+    "types"
+  ],
+  "types": "src/index.d.ts",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "type-check": "tsc"
+  },
+  "peerDependencies": {
+    "@trpc/server": "^9"
+  },
+  "devDependencies": {
+    "@trpc/server": "9.16.0"
+  }
+}

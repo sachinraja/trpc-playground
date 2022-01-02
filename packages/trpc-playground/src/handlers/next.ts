@@ -1,18 +1,32 @@
-import { cdnHtml } from '@trpc-playground/html'
+import { TrpcPlaygroundConfig } from '@trpc-playground/types'
 import { NextApiHandler } from 'next'
 import { resolveTypes } from '..'
-import { TrpcPlaygroundOptions } from './types'
+import { renderPlaygroundPage } from '../render'
 
-export const nextHandler = ({ router }: TrpcPlaygroundOptions): NextApiHandler => {
+export const nextHandler = (config: TrpcPlaygroundConfig): NextApiHandler => {
+  const { router } = config
+  const htmlPage = renderPlaygroundPage(config)
+
   return (req, res) => {
-    console.log(req.url)
-    if (req.method === 'GET') {
-      res.setHeader('Content-Type', 'text/html; charset=utf-8')
-      res.end(cdnHtml)
-    } else if (req.method === 'POST') {
-      console.log(req.body)
-      const types = resolveTypes(router)
-      res.json(types)
+    switch (req.method) {
+      case 'GET': {
+        res.setHeader('Content-Type', 'text/html; charset=utf-8')
+        res.end(htmlPage)
+        break
+      }
+
+      case 'POST': {
+        const body = JSON.parse(req.body)
+
+        if (body.operation === 'getTypes') {
+          const types = resolveTypes(router)
+          res.json(types)
+        } else {
+          // not a valid operation, 400 Bad Request
+          res.status(400).end()
+        }
+        break
+      }
     }
   }
 }

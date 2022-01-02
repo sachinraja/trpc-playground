@@ -7,5 +7,10 @@
   <body>
     <div id="app"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      window.addEventListener('load', function() {
+        TrpcPlayground.init(document.getElementById('app'), %config%)
+      })
+    </script>
   </body>
 </html>

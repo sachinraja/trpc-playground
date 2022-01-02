@@ -10,6 +10,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.8.1
       '@typescript-eslint/parser': 5.8.1
       dprint: 0.19.2
+      esbuild-node-loader: 0.6.3
       eslint: 8.6.0
       eslint-config-prettier: 8.3.0
       husky: 7.0.4
@@ -26,6 +27,7 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.8.1_13039593e64cd539d0b4c5c2da390958
       '@typescript-eslint/parser': 5.8.1_eslint@8.6.0+typescript@4.5.4
       dprint: 0.19.2
+      esbuild-node-loader: 0.6.3_typescript@4.5.4
       eslint: 8.6.0
       eslint-config-prettier: 8.3.0_eslint@8.6.0
       husky: 7.0.4
@@ -48,6 +50,7 @@ importers:
       '@codemirror/theme-one-dark': 0.19.1
       '@codemirror/view': 0.19.37
       '@heroicons/react': 1.0.5
+      '@trpc-playground/types': workspace:*
       '@trpc/react': 9.16.0
       '@trpc/server': 9.16.0
       '@types/object-inspect': 1.8.1
@@ -77,6 +80,7 @@ importers:
       react-query: 3.34.7
       rodemirror: 1.6.6_7bf11a59ae6b6032fe84fbf49fd468ed
     devDependencies:
+      '@trpc-playground/types': link:../types
       '@trpc/server': 9.16.0
       '@types/object-inspect': 1.8.1
       '@types/react': 17.0.38
@@ -88,8 +92,12 @@ importers:
   packages/html:
     specifiers:
       '@preact/preset-vite': 2.1.7
+      '@trpc-playground/types': workspace:*
+      cheerio: 1.0.0-rc.10
     devDependencies:
       '@preact/preset-vite': 2.1.7_preact@10.6.4+vite@2.7.10
+      '@trpc-playground/types': link:../types
+      cheerio: 1.0.0-rc.10
 
   packages/next-app:
     specifiers:
@@ -156,17 +164,25 @@ importers:
   packages/trpc-playground:
     specifiers:
       '@trpc-playground/html': workspace:*
+      '@trpc-playground/types': workspace:*
       '@trpc/server': 9.16.0
       next: 12.0.7
       zod: 3.11.6
       zod-to-ts: 0.1.0
     dependencies:
       '@trpc-playground/html': link:../html
+      '@trpc-playground/types': link:../types
       zod-to-ts: 0.1.0_typescript@4.5.4+zod@3.11.6
     devDependencies:
       '@trpc/server': 9.16.0
       next: 12.0.7
       zod: 3.11.6
+
+  packages/types:
+    specifiers:
+      '@trpc/server': 9.16.0
+    devDependencies:
+      '@trpc/server': 9.16.0
 
   packages/typescript-extension:
     specifiers:
@@ -2038,6 +2054,10 @@ packages:
         integrity: sha512-D7iWRBvnZE8ecXiLj/9wbxH7Tk79fAh8IHaTNq1RWRixsS02W+5qS+iE9yq6RYl0asXx5tw0bLhmT5pIfbSquw==,
       }
 
+  /boolbase/1.0.0:
+    resolution: { integrity: sha1-aN/1++YMUes3cl6p4+0xDcwed24= }
+    dev: true
+
   /brace-expansion/1.1.11:
     resolution:
       {
@@ -2302,6 +2322,35 @@ packages:
     resolution: { integrity: sha1-V00xLt2Iu13YkS6Sht1sCu1KrII= }
     dev: true
 
+  /cheerio-select/1.5.0:
+    resolution:
+      {
+        integrity: sha512-qocaHPv5ypefh6YNxvnbABM07KMxExbtbfuJoIie3iZXX1ERwYmJcIiRrr9H05ucQP1k28dav8rpdDgjQd8drg==,
+      }
+    dependencies:
+      css-select: 4.2.1
+      css-what: 5.1.0
+      domelementtype: 2.2.0
+      domhandler: 4.3.0
+      domutils: 2.8.0
+    dev: true
+
+  /cheerio/1.0.0-rc.10:
+    resolution:
+      {
+        integrity: sha512-g0J0q/O6mW8z5zxQ3A8E8J1hUgp4SMOvEoW/x84OwyHKe/Zccz83PVT4y5Crcr530FV6NgmKI1qvGTKVl9XXVw==,
+      }
+    engines: { node: '>= 6' }
+    dependencies:
+      cheerio-select: 1.5.0
+      dom-serializer: 1.3.2
+      domhandler: 4.3.0
+      htmlparser2: 6.1.0
+      parse5: 6.0.1
+      parse5-htmlparser2-tree-adapter: 6.0.1
+      tslib: 2.3.1
+    dev: true
+
   /chokidar/3.5.1:
     resolution:
       {
@@ -2539,6 +2588,27 @@ packages:
       randombytes: 2.1.0
       randomfill: 1.0.4
 
+  /css-select/4.2.1:
+    resolution:
+      {
+        integrity: sha512-/aUslKhzkTNCQUB2qTX84lVmfia9NyjP3WpDGtj/WxhwBzWBYUV3DgUpurHTme8UTPcPlAD1DJ+b0nN/t50zDQ==,
+      }
+    dependencies:
+      boolbase: 1.0.0
+      css-what: 5.1.0
+      domhandler: 4.3.0
+      domutils: 2.8.0
+      nth-check: 2.0.1
+    dev: true
+
+  /css-what/5.1.0:
+    resolution:
+      {
+        integrity: sha512-arSMRWIIFY0hV8pIxZMEfmMI47Wj3R/aWpZDDxWYCPEiOMv6tfOrnpDtgxBYPEQD4V0Y/958+1TdC3iWTFcUPw==,
+      }
+    engines: { node: '>= 6' }
+    dev: true
+
   /css.escape/1.5.1:
     resolution: { integrity: sha1-QuJ9T6BK4y+TGktNQZH6nN3ul8s= }
 
@@ -2745,12 +2815,51 @@ packages:
       esutils: 2.0.3
     dev: true
 
+  /dom-serializer/1.3.2:
+    resolution:
+      {
+        integrity: sha512-5c54Bk5Dw4qAxNOI1pFEizPSjVsx5+bpJKmL2kPn8JhBUq2q09tTCa3mjijun2NfK78NMouDYNMBkOrPZiS+ig==,
+      }
+    dependencies:
+      domelementtype: 2.2.0
+      domhandler: 4.3.0
+      entities: 2.2.0
+    dev: true
+
   /domain-browser/4.19.0:
     resolution:
       {
         integrity: sha512-fRA+BaAWOR/yr/t7T9E9GJztHPeFjj8U35ajyAjCDtAAnTn1Rc1f6W6VGPJrO1tkQv9zWu+JRof7z6oQtiYVFQ==,
       }
     engines: { node: '>=10' }
+
+  /domelementtype/2.2.0:
+    resolution:
+      {
+        integrity: sha512-DtBMo82pv1dFtUmHyr48beiuq792Sxohr+8Hm9zoxklYPfa6n0Z3Byjj2IV7bmr2IyqClnqEQhfgHJJ5QF0R5A==,
+      }
+    dev: true
+
+  /domhandler/4.3.0:
+    resolution:
+      {
+        integrity: sha512-fC0aXNQXqKSFTr2wDNZDhsEYjCiYsDWl3D01kwt25hm1YIPyDGHvvi3rw+PLqHAl/m71MaiF7d5zvBr0p5UB2g==,
+      }
+    engines: { node: '>= 4' }
+    dependencies:
+      domelementtype: 2.2.0
+    dev: true
+
+  /domutils/2.8.0:
+    resolution:
+      {
+        integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==,
+      }
+    dependencies:
+      dom-serializer: 1.3.2
+      domelementtype: 2.2.0
+      domhandler: 4.3.0
+    dev: true
 
   /dprint/0.19.2:
     resolution:
@@ -2815,6 +2924,13 @@ packages:
     engines: { node: '>=8.6' }
     dependencies:
       ansi-colors: 4.1.1
+    dev: true
+
+  /entities/2.2.0:
+    resolution:
+      {
+        integrity: sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==,
+      }
     dev: true
 
   /error-ex/1.3.2:
@@ -3142,6 +3258,18 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /esbuild-node-loader/0.6.3_typescript@4.5.4:
+    resolution:
+      {
+        integrity: sha512-Bf6o8SiMMh5+r20jsjAThNOtzo3t8Ye4Qdzz+twWHnxu28SdkGUr5ahq8iX0qbd+I9ge8sLNX7oQoNW1YzHlqA==,
+      }
+    peerDependencies:
+      typescript: ^4.0
+    dependencies:
+      esbuild: 0.13.15
+      typescript: 4.5.4
+    dev: true
 
   /esbuild-openbsd-64/0.13.15:
     resolution:
@@ -4083,6 +4211,18 @@ packages:
       {
         integrity: sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==,
       }
+    dev: true
+
+  /htmlparser2/6.1.0:
+    resolution:
+      {
+        integrity: sha512-gyyPk6rgonLFEDGoeRgQNaEUvdJ4ktTmmUh/h2t7s+M8oPpIPxgNACWa+6ESR57kXstwqPiCut0V8NRpcwgU7A==,
+      }
+    dependencies:
+      domelementtype: 2.2.0
+      domhandler: 4.3.0
+      domutils: 2.8.0
+      entities: 2.2.0
     dev: true
 
   /http-errors/1.7.3:
@@ -5192,6 +5332,15 @@ packages:
       path-key: 3.1.1
     dev: true
 
+  /nth-check/2.0.1:
+    resolution:
+      {
+        integrity: sha512-it1vE95zF6dTT9lBsYbxvqh0Soy4SPowchj0UBGj/V6cTPnXXtQOPUbhZ6CmGzAD/rW22LQK6E96pcdJXk4A4w==,
+      }
+    dependencies:
+      boolbase: 1.0.0
+    dev: true
+
   /object-assign/4.1.1:
     resolution: { integrity: sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM= }
     engines: { node: '>=0.10.0' }
@@ -5436,6 +5585,22 @@ packages:
       error-ex: 1.3.2
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
+    dev: true
+
+  /parse5-htmlparser2-tree-adapter/6.0.1:
+    resolution:
+      {
+        integrity: sha512-qPuWvbLgvDGilKc5BoicRovlT4MtYT6JfJyBOMDsKoiT+GiuP5qyrPCnR9HcPECIJJmZh5jRndyNThnhhb/vlA==,
+      }
+    dependencies:
+      parse5: 6.0.1
+    dev: true
+
+  /parse5/6.0.1:
+    resolution:
+      {
+        integrity: sha512-Ofn/CTFzRGTTxwpNEs9PP93gXShHcTq255nzRYSKe8AkVpZY7e1fpmTfOyoIvjP5HG7Z2ZM7VS9PPhQGW2pOpw==,
+      }
     dev: true
 
   /path-browserify/1.0.1:

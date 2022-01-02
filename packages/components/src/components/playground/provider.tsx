@@ -1,26 +1,39 @@
+import { HtmlValidTrpcPlaygroundConfig } from '@trpc-playground/types'
 import { createReactQueryHooks } from '@trpc/react'
 import { AnyRouter } from '@trpc/server'
-import { FunctionalComponent } from 'preact'
+import { atom } from 'jotai'
+import { Provider as JotaiProvider } from 'jotai'
+import { ComponentChildren } from 'preact'
 import { useMemo } from 'preact/hooks'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
 // need to pass in AnyRouter to satisfy rollup-plugin-dts
 export const trpc = createReactQueryHooks<AnyRouter>()
 
-export const client = trpc.createClient({
-  url: 'http://localhost:3000/api/trpc',
-})
+type PlaygroundProviderProps = {
+  config: HtmlValidTrpcPlaygroundConfig
+  children: ComponentChildren
+}
 
-export const PlaygroundProvider: FunctionalComponent = ({ children }) => {
+type TrpcClient = ReturnType<typeof trpc.createClient>
+export const trpcClientAtom = atom<TrpcClient>(null!)
+
+export const PlaygroundProvider = ({ config, children }: PlaygroundProviderProps) => {
   const queryClient = useMemo(() => new QueryClient(), [])
+  const trpcClient = useMemo(() =>
+    trpc.createClient({
+      url: config.endpoint,
+    }), [])
 
   return (
     <div className='trpc-playground'>
-      <trpc.Provider client={client} queryClient={queryClient}>
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
-      </trpc.Provider>
+      <JotaiProvider initialValues={[[trpcClientAtom, trpcClient]]}>
+        <trpc.Provider client={trpcClient} queryClient={queryClient}>
+          <QueryClientProvider client={queryClient}>
+            {children}
+          </QueryClientProvider>
+        </trpc.Provider>
+      </JotaiProvider>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 {
   "name": "@trpc-playground/html",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "html for trpc-playground",
   "type": "module",
   "repository": {
@@ -39,6 +39,8 @@
     "type-check": "tsc"
   },
   "devDependencies": {
-    "@preact/preset-vite": "2.1.7"
+    "@preact/preset-vite": "2.1.7",
+    "@trpc-playground/types": "workspace:*",
+    "cheerio": "1.0.0-rc.10"
   }
 }

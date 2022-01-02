@@ -10,6 +10,5 @@ export const resolveTypes = (router: AnyRouter) =>
     const inputType = printNode(node)
 
     const queryType = `declare function query(name: '${name}', input: ${inputType}): void`
-    console.log(queryType)
     return queryType
   })

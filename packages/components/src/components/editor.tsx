@@ -10,7 +10,7 @@ import { useEffect, useLayoutEffect, useMemo } from 'preact/hooks'
 import CodeMirror from 'rodemirror'
 import * as queryExtension from '../../../query-extension/src'
 import { injectTypes, typescript } from '../../../typescript-extension/src'
-import { client } from './playground/provider'
+import { trpcClientAtom } from './playground/provider'
 
 import { currentTabAtom, currentTabIndexAtom, previousTabIndexAtom, tabsAtom } from './tab-store'
 const printObject = (obj: unknown) => inspect(obj, { indent: 2 })
@@ -24,6 +24,7 @@ export const Editor = () => {
   const [currentTabIndex] = useAtom(currentTabIndexAtom)
   const [currentTab] = useAtom(currentTabAtom)
   const [responseObjectValue, setResponseObjectValue] = useAtom(jsonValueAtom)
+  const [trpcClient] = useAtom(trpcClientAtom)
 
   const extensions = useMemo(() => [
     basicSetup,
@@ -39,16 +40,15 @@ export const Editor = () => {
         const firstArg = query.args[0]
         if (typeof firstArg !== 'string') return
 
-        const args = [firstArg, query.args[1]] as const
+        // force type to satisfy trpc args because it cannot infer types from router
+        const args = [firstArg, query.args[1]] as unknown as [string, undefined]
+
         try {
           if (query.operation === 'query') {
-            console.log(query)
-            // @ts-expect-error not possible to type args here, they could be anything
-            const response = await client.query(...args)
+            const response = await trpcClient.query(...args)
             return setResponseObjectValue(printObject(response))
           } else if (query.operation === 'mutate') {
-            // @ts-expect-error not possible to type args here, they could be anything
-            await client.mutation(...args)
+            await trpcClient.mutation(...args)
           }
         } catch (e) {
           return setResponseObjectValue(printObject(e))
@@ -76,14 +76,11 @@ export const Editor = () => {
   useEffect(() => {
     if (!editorView) return
     ;(async () => {
-      console.log('start request', window.location.href)
       const response = await fetch(window.location.href, {
         method: 'POST',
         body: JSON.stringify({ operation: 'getTypes' }),
       })
-      console.log('end request')
       const types: string[] = await response.json()
-      console.log(types)
 
       editorView.dispatch(injectTypes({
         '/index.d.ts': types.join('\n'),

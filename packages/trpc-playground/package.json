@@ -47,6 +47,7 @@
   },
   "dependencies": {
     "@trpc-playground/html": "workspace:*",
+    "@trpc-playground/types": "workspace:*",
     "zod-to-ts": "0.1.0"
   },
   "devDependencies": {

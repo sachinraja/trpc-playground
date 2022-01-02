@@ -31,8 +31,6 @@ export class QueryRangeValue extends RangeValue {
         }
       })
     }
-
-    console.log(this.query.args)
   }
 }
 

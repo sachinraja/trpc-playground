@@ -1,10 +1,13 @@
+import { HtmlValidTrpcPlaygroundConfig } from '@trpc-playground/types'
 import { render } from 'preact'
 import '../../components/global.css'
-import { Playground } from '../../components/src/components/playground'
+// dprint-ignore
+import { Playground } from '../../components/src/components/playground' 
 
-render(
-  <div>
-    <Playground />
-  </div>,
-  document.body,
-)
+; // eslint-disable-next-line @typescript-eslint/no-explicit-any
+;((window as any).TrpcPlayground) = {
+  init(element: HTMLElement, config: string) {
+    const jsonParsedConfig: HtmlValidTrpcPlaygroundConfig = JSON.parse(config)
+    render(<Playground config={jsonParsedConfig} />, element)
+  },
+}

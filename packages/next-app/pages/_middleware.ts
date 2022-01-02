@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   // create an instance of the class to access the public methods. This uses `next()`,
   // you could use `redirect()` or `rewrite()` as well
   const response = NextResponse.next()
-  console.log(request.method, request.url)
+
   if (request.url === '/' && request.method === 'POST') {
     const types = resolveTypes(appRouter)
     return NextResponse.json(types)

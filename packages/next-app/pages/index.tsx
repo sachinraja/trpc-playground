@@ -18,11 +18,9 @@ const Component = () => {
 
 const IndexPage = () => {
   return (
-    <div>
-      <Playground>
-        <Component />
-      </Playground>
-    </div>
+    <Playground config={{ endpoint: 'http://localhost:3000/api/trpc' }}>
+      <Component />
+    </Playground>
   )
 }
 

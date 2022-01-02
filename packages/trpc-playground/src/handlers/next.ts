@@ -6,7 +6,7 @@ import { renderPlaygroundPage } from '../render'
 export const nextHandler = (config: TrpcPlaygroundConfig): NextApiHandler => {
   const { router } = config
   const htmlPage = renderPlaygroundPage(config)
-
+  console.log(htmlPage)
   return (req, res) => {
     switch (req.method) {
       case 'GET': {

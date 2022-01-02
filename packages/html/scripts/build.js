@@ -8,11 +8,17 @@ const distPath = path.join(__dirname, '..', 'dist')
 const indexHtmlPath = path.join(distPath, 'index.html')
 const indexHtmlContents = await fs.readFile(indexHtmlPath, 'utf8')
 const jsDelivrIndexHtmlContents = indexHtmlContents.replace(
-  '/assets',
+  /\/assets/g,
   '//cdn.jsdelivr.net/npm/@trpc-playground/html/assets',
 )
 
-const jsHtmlPath = path.join(distPath, 'index.js')
-const jsFileContents = `export const html = ${JSON.stringify(jsDelivrIndexHtmlContents)}`
+const esmJsHtmlPath = path.join(distPath, 'index.js')
+const cjsJsHtmlPath = path.join(distPath, 'index.cjs')
 
-await fs.writeFile(jsHtmlPath, jsFileContents)
+const variableName = 'cdnHtml'
+const cdnHtmlDeclaration = `const ${variableName} = ${JSON.stringify(jsDelivrIndexHtmlContents)}`
+
+await Promise.all([
+  fs.writeFile(esmJsHtmlPath, `export ${cdnHtmlDeclaration}`),
+  fs.writeFile(cjsJsHtmlPath, `${cdnHtmlDeclaration}\nmodule.exports = { ${variableName} }`),
+])

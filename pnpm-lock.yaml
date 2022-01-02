@@ -6,6 +6,7 @@ overrides:
 importers:
   .:
     specifiers:
+      '@trpc-playground/html': workspace:*
       '@types/node': 17.0.5
       '@typescript-eslint/eslint-plugin': 5.8.1
       '@typescript-eslint/parser': 5.8.1
@@ -22,6 +23,7 @@ importers:
       vite: 2.7.10
       vitest: 0.0.125
     devDependencies:
+      '@trpc-playground/html': link:packages/html
       '@types/node': 17.0.5
       '@typescript-eslint/eslint-plugin': 5.8.1_13039593e64cd539d0b4c5c2da390958
       '@typescript-eslint/parser': 5.8.1_eslint@8.6.0+typescript@4.5.4

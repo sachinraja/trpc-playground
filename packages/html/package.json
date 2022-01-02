@@ -1,6 +1,6 @@
 {
   "name": "@trpc-playground/html",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "html for trpc-playground",
   "type": "module",
   "repository": {
@@ -19,12 +19,15 @@
     "html",
     "playground"
   ],
-  "types": "./index.d.ts",
+  "types": "index.d.ts",
+  "main": "dist/index.js",
   "exports": {
     ".": {
       "import": "./dist/index.js",
+      "default": "./dist/index.cjs",
       "types": "./index.d.ts"
-    }
+    },
+    "./css": "./dist/assets/index.css"
   },
   "files": [
     "dist",

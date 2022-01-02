@@ -31,6 +31,9 @@
     },
     "./css": "./dist/index.css"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "watch": "tsup --watch --no-dts",

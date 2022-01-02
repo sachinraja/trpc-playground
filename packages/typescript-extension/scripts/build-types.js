@@ -25,7 +25,7 @@ const dependencies = {
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const DEST_ROOT = path.join(__dirname, '..', 'src', 'types')
+const DEST_ROOT = path.resolve(__dirname, '..', 'src', 'types')
 
 const DISCLAIMER = '// This file was generated, do not edit manually\n\n'
 

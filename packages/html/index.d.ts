@@ -1,3 +1,3 @@
-declare const html: string
+declare const cdnHtml: string
 
-export { html }
+export { cdnHtml }

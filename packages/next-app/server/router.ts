@@ -15,5 +15,17 @@ export const appRouter = trpc
       }
     },
   })
+  .query('hello_num', {
+    input: z
+      .object({
+        text: z.number(),
+      })
+      .nullish(),
+    resolve({ input }) {
+      return {
+        greeting: `hello ${input?.text ?? 'world'}`,
+      }
+    },
+  })
 
 export type AppRouter = typeof appRouter

@@ -3,5 +3,5 @@ import { nextHandler } from '../../../trpc-playground/src/handlers/next'
 
 export default nextHandler({
   router: appRouter,
-  endpoint: 'trpc-playground',
+  endpoint: 'http://localhost:3000/api/trpc',
 })

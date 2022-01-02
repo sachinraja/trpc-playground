@@ -17,6 +17,7 @@ type PlaygroundProviderProps = {
 
 type TrpcClient = ReturnType<typeof trpc.createClient>
 export const trpcClientAtom = atom<TrpcClient>(null!)
+export const configAtom = atom<HtmlValidTrpcPlaygroundConfig>(null!)
 
 export const PlaygroundProvider = ({ config, children }: PlaygroundProviderProps) => {
   const queryClient = useMemo(() => new QueryClient(), [])
@@ -27,7 +28,12 @@ export const PlaygroundProvider = ({ config, children }: PlaygroundProviderProps
 
   return (
     <div className='trpc-playground'>
-      <JotaiProvider initialValues={[[trpcClientAtom, trpcClient]]}>
+      <JotaiProvider
+        initialValues={[
+          [trpcClientAtom, trpcClient],
+          [configAtom, config],
+        ]}
+      >
         <trpc.Provider client={trpcClient} queryClient={queryClient}>
           <QueryClientProvider client={queryClient}>
             {children}

@@ -1,11 +1,11 @@
-import { HtmlValidTrpcPlaygroundConfig } from '@trpc-playground/types'
+import { ClientConfig } from '@trpc-playground/types'
 import { ComponentChildren } from 'preact'
-import { Editor } from '../editor'
-import { Toolbar } from '../toolbar'
+import { Editor } from './editor'
 import { PlaygroundProvider } from './provider'
 import { TabManager } from './tab-manager'
+import { Toolbar } from './toolbar'
 export type PlaygroundProps = {
-  config: HtmlValidTrpcPlaygroundConfig
+  config: ClientConfig
   children?: ComponentChildren
 }
 

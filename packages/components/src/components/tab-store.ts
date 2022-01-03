@@ -1,5 +1,5 @@
 import { atom } from 'jotai'
-import { Tab } from './playground/tab-manager'
+import { Tab } from './tab-manager'
 
 const currentTab = {
   id: 0,

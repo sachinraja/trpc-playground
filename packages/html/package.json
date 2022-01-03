@@ -1,6 +1,6 @@
 {
   "name": "@trpc-playground/html",
-  "version": "0.0.4",
+  "version": "0.0.9",
   "description": "html for trpc-playground",
   "type": "module",
   "repository": {

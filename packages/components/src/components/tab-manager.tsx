@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai'
-import { AddIcon, CloseIcon } from '../icon'
-import { BaseTab, TabGroup } from '../tab'
-import { currentTabIndexAtom, previousTabIndexAtom, tabsAtom, totalTabsCreatedAtom } from '../tab-store'
+import { AddIcon, CloseIcon } from './icon'
+import { BaseTab, TabGroup } from './tab'
+import { currentTabIndexAtom, previousTabIndexAtom, tabsAtom, totalTabsCreatedAtom } from './tab-store'
 
 export type Tab = {
   id: number

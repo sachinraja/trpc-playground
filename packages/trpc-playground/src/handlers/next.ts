@@ -1,4 +1,4 @@
-import { TrpcPlaygroundConfig } from '@trpc-playground/types'
+import { PlaygroundRequestOperation, TrpcPlaygroundConfig } from '@trpc-playground/types'
 import { NextApiHandler } from 'next'
 import { resolveTypes } from '..'
 import { renderPlaygroundPage } from '../render'
@@ -6,7 +6,7 @@ import { renderPlaygroundPage } from '../render'
 export const nextHandler = (config: TrpcPlaygroundConfig): NextApiHandler => {
   const { router } = config
   const htmlPage = renderPlaygroundPage(config)
-  console.log(htmlPage)
+
   return (req, res) => {
     switch (req.method) {
       case 'GET': {
@@ -17,8 +17,9 @@ export const nextHandler = (config: TrpcPlaygroundConfig): NextApiHandler => {
 
       case 'POST': {
         const body = JSON.parse(req.body)
+        const operation: PlaygroundRequestOperation = body.operation
 
-        if (body.operation === 'getTypes') {
+        if (operation === 'getTypes') {
           const types = resolveTypes(router)
           res.json(types)
         } else {

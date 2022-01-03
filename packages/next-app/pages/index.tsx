@@ -1,5 +1,5 @@
 import { Playground } from '../../components/src'
-import { trpc } from '../../components/src/components/playground/provider'
+import { trpc } from '../../components/src/components/provider'
 
 const Component = () => {
   // @ts-expect-error this exists, trpc just can't find it

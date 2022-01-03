@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai'
-import { configAtom } from './playground/provider'
+import { configAtom } from './provider'
 
 export const Toolbar = () => {
   const [config] = useAtom(configAtom)

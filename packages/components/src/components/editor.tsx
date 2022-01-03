@@ -6,11 +6,12 @@ import { oneDark } from '@codemirror/theme-one-dark'
 import { EditorView, keymap } from '@codemirror/view'
 import { atom, useAtom } from 'jotai'
 import inspect from 'object-inspect'
-import { useEffect, useLayoutEffect, useMemo } from 'preact/hooks'
+import { useCallback, useEffect, useLayoutEffect, useMemo } from 'preact/hooks'
 import CodeMirror from 'rodemirror'
 import * as queryExtension from '../../../query-extension/src'
-import { injectTypes, typescript } from '../../../typescript-extension/src'
-import { trpcClientAtom } from './playground/provider'
+import { injectTypes, setDiagnostics, typescript } from '../../../typescript-extension/src'
+import { makePlaygroundRequest } from '../playground-request'
+import { configAtom, trpcClientAtom } from './provider'
 
 import { currentTabAtom, currentTabIndexAtom, previousTabIndexAtom, tabsAtom } from './tab-store'
 const printObject = (obj: unknown) => inspect(obj, { indent: 2 })
@@ -25,6 +26,17 @@ export const Editor = () => {
   const [currentTab] = useAtom(currentTabAtom)
   const [responseObjectValue, setResponseObjectValue] = useAtom(jsonValueAtom)
   const [trpcClient] = useAtom(trpcClientAtom)
+  const [config] = useAtom(configAtom)
+
+  const refreshTypes = useCallback(async () => {
+    if (!editorView) return
+
+    const types = await makePlaygroundRequest('getTypes')
+
+    editorView.dispatch(injectTypes({
+      '/index.d.ts': types.join('\n'),
+    }))
+  }, [editorView])
 
   const extensions = useMemo(() => [
     basicSetup,
@@ -75,20 +87,6 @@ export const Editor = () => {
 
   useEffect(() => {
     if (!editorView) return
-    ;(async () => {
-      const response = await fetch(window.location.href, {
-        method: 'POST',
-        body: JSON.stringify({ operation: 'getTypes' }),
-      })
-      const types: string[] = await response.json()
-
-      editorView.dispatch(injectTypes({
-        '/index.d.ts': types.join('\n'),
-      }))
-    })()
-  }, [editorView])
-  useEffect(() => {
-    if (!editorView) return
 
     editorView.dispatch({
       changes: {
@@ -98,6 +96,24 @@ export const Editor = () => {
       },
     })
   }, [editorView, currentTab])
+
+  useEffect(() => {
+    refreshTypes()
+    // no need to refresh types anymore
+    if (config.refreshTypesTimeout === null || !editorView) return
+
+    const refreshTypesTimeoutMs = config.refreshTypesTimeout
+
+    let refreshTypesTimeoutId = setTimeout(async function recursiveRefreshTypes() {
+      await refreshTypes()
+      // refresh ts linter diagnostics after types are refreshed
+      editorView.dispatch(await setDiagnostics(editorView.state))
+
+      refreshTypesTimeoutId = setTimeout(recursiveRefreshTypes, refreshTypesTimeoutMs)
+    }, refreshTypesTimeoutMs)
+
+    return () => clearTimeout(refreshTypesTimeoutId)
+  }, [editorView])
 
   return (
     <div className='grid grid-cols-2 items-stretch z-30'>

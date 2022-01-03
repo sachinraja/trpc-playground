@@ -78,8 +78,7 @@ export const Editor = () => {
 
     setTabs((tabs) => {
       const newTabs = [...tabs]
-
-      newTabs[previousTabIndex].doc = editorView.state.doc.toString()
+      newTabs[previousTabIndex] = { ...newTabs[previousTabIndex], doc: editorView.state.doc.toString() }
 
       return newTabs
     })

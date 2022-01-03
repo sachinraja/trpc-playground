@@ -1,3 +1,16 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const coreConfig = require('../components/postcss.config.cjs')
-module.exports = coreConfig
+module.exports = {
+  plugins: [
+    require('tailwindcss')(),
+    require('autoprefixer')(),
+    require('postcss-prefix-selector')({
+      prefix: '.trpc-playground',
+      transform(prefix, selector, prefixedSelector) {
+        if (['body', 'html', '.trpc-playground'].includes(selector)) {
+          return prefix
+        } else {
+          return prefixedSelector
+        }
+      },
+    }),
+  ],
+}

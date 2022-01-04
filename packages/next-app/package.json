@@ -23,7 +23,7 @@
     "zod": "3.11.6"
   },
   "devDependencies": {
-    "@trpc-playground/components": "workspace:*0.0.0",
+    "@trpc-playground/components": "workspace:0.0.0",
     "@trpc-playground/html": "workspace:0.0.9",
     "@types/react": "17.0.38",
     "eslint-config-next": "12.0.7",

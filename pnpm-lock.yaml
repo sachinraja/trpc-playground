@@ -108,7 +108,7 @@ importers:
   packages/next-app:
     specifiers:
       '@next/bundle-analyzer': 12.0.7
-      '@trpc-playground/components': workspace:*0.0.0
+      '@trpc-playground/components': workspace:0.0.0
       '@trpc-playground/html': workspace:0.0.9
       '@trpc/client': 9.16.0
       '@trpc/react': 9.16.0

@@ -35,6 +35,7 @@
   "scripts": {
     "build": "tsup",
     "clean": "rimraf dist",
+    "prepublishOnly": "pnpm build",
     "watch": "tsup --watch --no-dts",
     "type-check": "tsc"
   },

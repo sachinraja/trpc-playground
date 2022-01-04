@@ -1,10 +1,10 @@
 {
   "name": "@trpc-playground/query-extension",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "description": "parse query syntax for trpc-playground",
   "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -12,15 +12,14 @@
       "default": "./dist/index.cjs"
     }
   },
-  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "tsup",
+    "clean": "rimraf dist",
     "type-check": "tsc",
-    "prepublishOnly": "pnpm build",
-    "test": "vitest"
+    "prepublishOnly": "pnpm build"
   },
   "sideEffects": false,
   "tsup": {

@@ -20,7 +20,9 @@
   ],
   "main": "dist/index.cjs",
   "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
+    "./package.json": "./package.json",
     ".": {
       "import": "./dist/index.js",
       "default": "./dist/index.cjs"
@@ -30,7 +32,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "run-p build:*",
+    "build:js": "tsup",
+    "build:types": "tsc -p tsconfig.build.json",
+    "clean": "rimraf dist",
     "prepublishOnly": "pnpm build",
     "watch": "tsup --watch --no-dts",
     "type-check": "tsc"
@@ -49,7 +54,9 @@
     "jotai": "1.5.0",
     "object-inspect": "1.12.0",
     "react-query": "3.34.7",
-    "rodemirror": "1.6.6"
+    "rodemirror": "1.6.6",
+    "@trpc-playground/query-extension": "workspace:*",
+    "@trpc-playground/typescript-extension": "workspace:*"
   },
   "peerDependencies": {
     "preact": "^10"

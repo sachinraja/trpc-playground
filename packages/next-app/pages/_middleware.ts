@@ -1,7 +1,7 @@
 import { appRouter } from '@server/router'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { resolveTypes } from '../../trpc-playground/src'
+import { resolveTypes } from 'trpc-playground'
 
 export function middleware(request: NextRequest) {
   // create an instance of the class to access the public methods. This uses `next()`,

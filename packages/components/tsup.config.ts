@@ -17,9 +17,6 @@ const config = defineConfig({
   entry: ['src/index.ts'],
   inject: ['preact-inject.js'],
   format: ['cjs', 'esm'],
-  dts: {
-    resolve: true,
-  },
   splitting: true,
   clean: true,
   esbuildPlugins: [preactCompatPlugin],

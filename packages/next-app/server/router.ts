@@ -6,7 +6,7 @@ export const appRouter = trpc
   .query('hello', {
     input: z
       .object({
-        text: z.string().nullish(),
+        text: z.number().nullish(),
       })
       .nullish(),
     resolve({ input }) {

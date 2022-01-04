@@ -21,7 +21,9 @@
   ],
   "types": "index.d.ts",
   "main": "dist/index.js",
+  "style": "dist/assets/index.css",
   "exports": {
+    "./package.json": "./package.json",
     ".": {
       "import": "./dist/index.js",
       "default": "./dist/index.cjs",
@@ -35,12 +37,13 @@
   ],
   "scripts": {
     "build": "vite build && node scripts/build.js",
+    "clean": "rimraf dist",
     "prepublishOnly": "pnpm build",
     "type-check": "tsc"
   },
   "devDependencies": {
     "@preact/preset-vite": "2.1.7",
-    "@trpc-playground/types": "workspace:*",
-    "cheerio": "1.0.0-rc.10"
+    "@trpc-playground/components": "workspace:*",
+    "@trpc-playground/types": "workspace:*"
   }
 }

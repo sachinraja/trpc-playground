@@ -1,9 +1,9 @@
 {
   "name": "@trpc-playground/typescript-extension",
-  "private": true,
   "version": "0.0.0",
   "description": "tsserver support for codemirror",
   "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -11,17 +11,16 @@
       "default": "./dist/index.cjs"
     }
   },
-  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "tsup",
+    "clean": "rimraf dist src/types",
     "prepare": "pnpm build-types",
     "build-types": "node ./scripts/build-types.js",
     "type-check": "tsc",
-    "prepublishOnly": "pnpm build",
-    "test": "vitest"
+    "prepublishOnly": "pnpm build"
   },
   "sideEffects": false,
   "tsup": {

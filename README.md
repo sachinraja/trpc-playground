@@ -1,3 +1,1 @@
-# trpc-playground
-
-playground for tRPC
+packages/trpc-playground/README.md

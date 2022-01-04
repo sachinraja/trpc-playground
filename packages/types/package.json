@@ -20,6 +20,12 @@
     "types"
   ],
   "types": "src/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./src/index.d.ts"
+    }
+  },
   "files": [
     "src"
   ],

@@ -17,6 +17,7 @@ export const nextHandler = (config: TrpcPlaygroundConfig): NextApiHandler => {
 
       case 'POST': {
         const body = JSON.parse(req.body)
+
         const operation: PlaygroundRequestOperation = body.operation
 
         if (operation === 'getTypes') {

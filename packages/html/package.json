@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@preact/preset-vite": "2.1.7",
-    "@trpc-playground/components": "workspace:*",
-    "@trpc-playground/types": "workspace:*"
+    "@trpc-playground/components": "workspace:0.0.0",
+    "@trpc-playground/types": "workspace:0.0.0"
   }
 }

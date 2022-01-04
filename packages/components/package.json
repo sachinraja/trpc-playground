@@ -55,8 +55,8 @@
     "object-inspect": "1.12.0",
     "react-query": "3.34.7",
     "rodemirror": "1.6.6",
-    "@trpc-playground/query-extension": "workspace:*",
-    "@trpc-playground/typescript-extension": "workspace:*"
+    "@trpc-playground/query-extension": "workspace:0.0.0",
+    "@trpc-playground/typescript-extension": "workspace:0.0.0"
   },
   "peerDependencies": {
     "preact": "^10"

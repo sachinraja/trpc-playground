@@ -10,10 +10,12 @@ import { atom, useAtom } from 'jotai'
 import inspect from 'object-inspect'
 import { useCallback, useEffect, useLayoutEffect, useMemo } from 'preact/hooks'
 import CodeMirror from 'rodemirror'
+import { transform } from 'sucrase-browser'
 import { makePlaygroundRequest } from '../playground-request'
+import { maskedEval } from '../utils/masked-eval'
 import { configAtom, trpcClientAtom } from './provider'
-
 import { currentTabAtom, currentTabIndexAtom, previousTabIndexAtom, tabsAtom } from './tab-store'
+
 const printObject = (obj: unknown) => inspect(obj, { indent: 2 })
 const editorViewAtom = atom<EditorView | null>(null)
 const jsonValueAtom = atom(printObject({ foo: 'bar' }))
@@ -125,6 +127,50 @@ export const Editor = () => {
         selection={{ head: 0, anchor: 0 }}
         extensions={jsonExtensions}
       />
+      <button
+        onClick={async () => {
+          if (!editorView) {
+            console.log('no editor view')
+            return
+          }
+
+          // if the code exited because a failed query
+          let didQueryFail = false
+
+          const queryResponses: unknown[] = []
+          try {
+            // transform imports because export {} does not make sense in eval function
+            const transformed = transform(editorView?.state.doc.toString(), { transforms: ['typescript', 'imports'] })
+
+            await maskedEval(transformed.code, {
+              async query(path: string, args: never) {
+                try {
+                  const response = await trpcClient.query(path, args)
+                  console.log('start query', path)
+                  queryResponses.push(response)
+                  console.log('finish query', path)
+                  return response
+                } catch (e) {
+                  // add error response before throwing
+                  queryResponses.push(e)
+                  didQueryFail = true
+                  throw e
+                }
+              },
+            })
+          } catch (e) {
+            // if the query failed, the response object is already set
+            if (!didQueryFail) return setResponseObjectValue(printObject(e))
+          }
+
+          console.log('last', queryResponses)
+
+          const responseObjectValue = `${queryResponses.map((response) => printObject(response)).join(',\n\n')}`
+          setResponseObjectValue(responseObjectValue)
+        }}
+      >
+        Run All Queries
+      </button>
     </div>
   )
 }

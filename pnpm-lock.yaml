@@ -67,6 +67,7 @@ importers:
       postcss-prefix-selector: 1.14.0
       react-query: 3.34.7
       rodemirror: 1.6.6
+      sucrase-browser: 3.16.0
       tailwindcss: 3.0.8
     dependencies:
       '@codemirror/basic-setup': 0.19.1
@@ -85,6 +86,7 @@ importers:
       object-inspect: 1.12.0
       react-query: 3.34.7
       rodemirror: 1.6.6_7bf11a59ae6b6032fe84fbf49fd468ed
+      sucrase-browser: 3.16.0
     devDependencies:
       '@trpc-playground/types': link:../types
       '@trpc/server': 9.16.0
@@ -2149,7 +2151,6 @@ packages:
 
   /any-promise/1.3.0:
     resolution: { integrity: sha1-q8av7tzqUugJzcA3au0845Y10X8= }
-    dev: true
 
   /anymatch/3.1.2:
     resolution:
@@ -2847,7 +2848,6 @@ packages:
         integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==,
       }
     engines: { node: '>= 6' }
-    dev: true
 
   /commander/6.2.1:
     resolution:
@@ -4549,7 +4549,6 @@ packages:
       minimatch: 3.0.4
       once: 1.4.0
       path-is-absolute: 1.0.1
-    dev: true
 
   /glob/7.1.7:
     resolution:
@@ -5336,7 +5335,6 @@ packages:
       {
         integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==,
       }
-    dev: true
 
   /load-json-file/4.0.0:
     resolution: { integrity: sha1-L19Fq5HjMhYjT9U62rZo607AmTs= }
@@ -5684,7 +5682,6 @@ packages:
       any-promise: 1.3.0
       object-assign: 4.1.1
       thenify-all: 1.6.0
-    dev: true
 
   /nano-staged/0.5.0:
     resolution:
@@ -6421,7 +6418,6 @@ packages:
         integrity: sha512-ZIrVPH+A52Dw84R0L3/VS9Op04PuQ2SEoJL6bkshmiTic/HldyW9Tf7oH5mhJZBK7NmDx27vSMrYEXPXclpDKw==,
       }
     engines: { node: '>= 6' }
-    dev: true
 
   /pkg-dir/4.2.0:
     resolution:
@@ -7487,6 +7483,22 @@ packages:
         integrity: sha512-8/3pSmthWM7lsPBKv7NXkzn2Uc9W7NotcwGNpJaa3k7WMM1XDCA4MgT5k/8BIexd5ydZdboXtU90XH9Ec4Bv/Q==,
       }
 
+  /sucrase-browser/3.16.0:
+    resolution:
+      {
+        integrity: sha512-RiT9M8OsFyYhaBs0GjpHfNH2yy5NfMwPOL18NLnGBWnyWNf3cS3oG8hwMTkd5Xw9V4pArTIfR3TKwTH1kolO/w==,
+      }
+    engines: { node: '>=8' }
+    hasBin: true
+    dependencies:
+      commander: 4.1.1
+      glob: 7.1.6
+      lines-and-columns: 1.2.4
+      mz: 2.7.0
+      pirates: 4.0.4
+      ts-interface-checker: 0.1.13
+    dev: false
+
   /sucrase/3.20.3:
     resolution:
       {
@@ -7600,7 +7612,6 @@ packages:
     engines: { node: '>=0.8' }
     dependencies:
       thenify: 3.3.1
-    dev: true
 
   /thenify/3.3.1:
     resolution:
@@ -7609,7 +7620,6 @@ packages:
       }
     dependencies:
       any-promise: 1.3.0
-    dev: true
 
   /timers-browserify/2.0.12:
     resolution:
@@ -7710,7 +7720,6 @@ packages:
       {
         integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==,
       }
-    dev: true
 
   /tsconfig-paths/3.12.0:
     resolution:

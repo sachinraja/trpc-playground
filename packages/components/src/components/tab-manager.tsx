@@ -12,7 +12,7 @@ export type Tab = {
 const createNewDefaultTab = (id: number): Tab => ({
   id,
   name: 'New Tab',
-  doc: '',
+  doc: "await query('hello', { text: 'client' })\nexport {}",
 })
 
 export const TabManager = () => {

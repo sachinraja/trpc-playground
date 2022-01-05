@@ -4,7 +4,7 @@ import { Tab } from './tab-manager'
 const currentTab = {
   id: 0,
   name: 'basic query',
-  doc: "query('hello', { text: 'client' })",
+  doc: "await query('hello', { text: 'client' })\nexport {}",
 }
 
 export const tabsAtom = atom<Tab[]>([

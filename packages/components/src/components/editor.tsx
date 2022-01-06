@@ -5,12 +5,13 @@ import { EditorState } from '@codemirror/state'
 import { oneDark } from '@codemirror/theme-one-dark'
 import { EditorView, keymap } from '@codemirror/view'
 import * as queryExtension from '@trpc-playground/query-extension'
-import { injectTypes, setDiagnostics, typescript } from '@trpc-playground/typescript-extension'
+import { injectTypes, setDiagnostics, tsTheme, typescript } from '@trpc-playground/typescript-extension'
 import { atom, useAtom } from 'jotai'
 import inspect from 'object-inspect'
 import { useCallback, useEffect, useLayoutEffect, useMemo } from 'preact/hooks'
 import CodeMirror from 'rodemirror'
 import { transform } from 'sucrase-browser'
+import { baseTheme } from '../base-theme'
 import { makePlaygroundRequest } from '../playground-request'
 import { maskedEval } from '../utils/masked-eval'
 import { configAtom, trpcClientAtom } from './provider'
@@ -43,6 +44,8 @@ export const Editor = () => {
   const extensions = useMemo(() => [
     basicSetup,
     oneDark,
+    baseTheme,
+    tsTheme,
     javascript({ typescript: true }),
     keymap.of([{
       run: redo,

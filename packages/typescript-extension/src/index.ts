@@ -204,3 +204,5 @@ export function typescript(): Extension {
     }),
   ]
 }
+
+export { tsTheme } from './theme'

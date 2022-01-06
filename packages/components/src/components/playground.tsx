@@ -12,6 +12,11 @@ export type PlaygroundProps = {
 export const Playground = ({ config, children }: PlaygroundProps) => {
   return (
     <PlaygroundProvider config={config}>
+      <link
+        href='https://fonts.googleapis.com/css?family=JetBrains+Mono'
+        rel='stylesheet'
+      />
+
       <div className='text-white bg-slate-800 pt-4'>
         <TabManager />
         <Toolbar />

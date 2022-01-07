@@ -37,6 +37,8 @@
   ],
   "scripts": {
     "build": "vite build && node scripts/build.js",
+    "build-dev": "vite build && cross-env NODE_ENV=development node scripts/build.js",
+    "serve-dev": "sirv dist --cors --port 45245",
     "clean": "rimraf dist",
     "prepublishOnly": "pnpm build",
     "type-check": "tsc"
@@ -44,6 +46,8 @@
   "devDependencies": {
     "@preact/preset-vite": "2.1.7",
     "@trpc-playground/components": "workspace:0.0.0",
-    "@trpc-playground/types": "workspace:0.0.0"
+    "@trpc-playground/types": "workspace:0.0.0",
+    "cross-env": "7.0.3",
+    "sirv-cli": "2.0.1"
   }
 }

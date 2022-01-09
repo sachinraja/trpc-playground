@@ -7,7 +7,6 @@
       "dom.iterable",
       "esnext"
     ],
-    "incremental": true,
     "baseUrl": ".",
     "paths": {
       "@router": ["../router"],

@@ -1,7 +1,7 @@
 import preact from '@preact/preset-vite'
-import { defineConfig } from 'vite'
+import { UserConfig } from 'vite'
 
-export default defineConfig({
+const config: UserConfig = {
   build: {
     rollupOptions: {
       output: {
@@ -10,5 +10,9 @@ export default defineConfig({
       },
     },
   },
-  plugins: [preact()],
-})
+  plugins: [
+    preact(),
+  ],
+}
+
+export default config

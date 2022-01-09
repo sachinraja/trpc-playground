@@ -2,7 +2,7 @@ import { AnyRouter } from '@trpc/server'
 import { ZodAny } from 'zod'
 import { printNode, zodToTs } from 'zod-to-ts'
 
-export const resolveTypes = (router: AnyRouter) =>
+export const zodResolveTypes = (router: AnyRouter) =>
   Object.entries(router._def.queries).map(([name, query]) => {
     // @ts-expect-error query type is not defined
     const { node } = zodToTs(query.inputParser as ZodAny)

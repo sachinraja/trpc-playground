@@ -27,5 +27,29 @@ export const appRouter = trpc
       }
     },
   })
+  .query('subtract_nums', {
+    input: z
+      .object({
+        a: z.number(),
+        b: z.number(),
+      }),
+    resolve({ input }) {
+      return {
+        sum: input.a - input.b,
+      }
+    },
+  })
+  .query('add_nums', {
+    input: z
+      .object({
+        a: z.number(),
+        b: z.number(),
+      }),
+    resolve({ input }) {
+      return {
+        sum: input.a + input.b,
+      }
+    },
+  })
 
 export type AppRouter = typeof appRouter

@@ -2,19 +2,28 @@ import { PlaygroundRequestOperation } from '@trpc-playground/types'
 
 type BodyObject = Record<string, unknown>
 
+type MakePlaygroundRequestOptions = {
+  playgroundEndpoint: string
+  body?: BodyObject
+}
+
 export async function makePlaygroundRequest(
   operation: 'getTypes',
-  body?: BodyObject,
+  options: MakePlaygroundRequestOptions,
 ): Promise<string[]>
 
 export async function makePlaygroundRequest<Operation extends PlaygroundRequestOperation>(
   operation: Operation,
-  body?: BodyObject,
+  { playgroundEndpoint, body }: MakePlaygroundRequestOptions,
 ) {
   const requestBody = JSON.stringify({ operation, ...body })
 
-  const response = await fetch(window.location.href, {
+  const response = await fetch(playgroundEndpoint, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
     body: requestBody,
   })
 

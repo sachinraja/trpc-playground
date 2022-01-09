@@ -13,7 +13,7 @@ import { fileURLToPath } from 'node:url'
 const dependencies = {
   // Core TS libs
   typescript: {
-    version: '4.3.5',
+    version: '4.5.4',
     src: ['lib/*.d.ts'],
   },
   // Node lubs

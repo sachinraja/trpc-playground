@@ -1,12 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const withPreact = require('next-plugin-preact')
 const path = require('node:path')
 
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-})
-
-const packagesDirPath = path.resolve(__dirname, '..')
+const packagesDirPath = path.resolve(__dirname, '..', '..', 'packages')
 
 const createAliases = (packageNames) =>
   packageNames.reduce((acc, packageName) => {
@@ -15,11 +10,9 @@ const createAliases = (packageNames) =>
   }, {})
 
 /** @type {import('next').NextConfig} */
-module.exports = withBundleAnalyzer(withPreact({
-  reactStrictMode: true,
+module.exports = {
   experimental: {
     externalDir: true,
-    esmExternals: false,
   },
   webpack(config) {
     config.resolve.alias = {
@@ -36,4 +29,4 @@ module.exports = withBundleAnalyzer(withPreact({
 
     return config
   },
-}))
+}

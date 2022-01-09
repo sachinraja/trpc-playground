@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/nodemon.json",
+  "restartable": "rs",
+  "watch": ["server", "../router"],
+  "execMap": {
+    "ts": "node --loader esbuild-node-loader"
+  },
+  "ext": "ts,js,json"
+}

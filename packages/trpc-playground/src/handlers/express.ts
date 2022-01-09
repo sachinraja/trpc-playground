@@ -1,17 +1,12 @@
 import { TrpcPlaygroundConfig } from '@trpc-playground/types'
-import { NextApiHandler } from 'next'
+import { Handler } from 'express'
 import { getCommonHandlerReqData, handleRequest } from './common'
 
-export const nextHandler = (config: TrpcPlaygroundConfig): NextApiHandler => {
+export const expressHandler = (config: TrpcPlaygroundConfig): Handler => {
   const common = getCommonHandlerReqData(config)
 
   return async (req, res) => {
-    if (!req.method) return res.status(400).end()
-
-    const bodyObject = req.body ? JSON.parse(req.body) : {}
-
-    const response = await handleRequest({ method: req.method, bodyObject, common })
-
+    const response = await handleRequest({ method: req.method, bodyObject: req.body, common })
     if (response.headers) {
       for (const [key, value] of Object.entries(response.headers)) {
         res.setHeader(key, value)
@@ -25,7 +20,7 @@ export const nextHandler = (config: TrpcPlaygroundConfig): NextApiHandler => {
     if (response.body) {
       res.write(response.body)
     } else if (response.json) {
-      res.json(response.json)
+      return res.json(response.json)
     }
 
     res.end()

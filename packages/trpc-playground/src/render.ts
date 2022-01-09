@@ -5,7 +5,8 @@ export const renderPlaygroundPage = (config: TrpcPlaygroundConfig | ClientConfig
   // only send necessary config to client
   // this must be updated with the latest properties whenever ClientConfig is updated
   const clientConfig: ClientConfig = {
-    endpoint: config.endpoint,
+    trpcApiEndpoint: config.trpcApiEndpoint,
+    playgroundEndpoint: config.playgroundEndpoint,
     refreshTypesTimeout: config.refreshTypesTimeout,
   }
 

@@ -10,7 +10,8 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@server/*": ["server/*"]
+      "@router": ["../router"],
+      "@router/*": ["../router/*"]
     },
     "allowJs": true,
     "resolveJsonModule": true

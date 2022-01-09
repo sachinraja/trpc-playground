@@ -11,13 +11,13 @@ export const tabsAtom = atom<Tab[]>([
   currentTab,
   {
     id: 1,
-    name: 'Vitest',
-    doc: 'const run = () => expect(1).toBeNumber()',
+    name: 'another query',
+    doc: "await query('subtract_nums', { a: 2, b: 5 })\nexport {}",
   },
   {
     id: 2,
-    name: 'Console Log',
-    doc: "console.log('Hello world!')",
+    name: 'third query',
+    doc: "await query('add_nums', { a: 2, b: 5 })\nexport {}",
   },
 ])
 export const totalTabsCreatedAtom = atom(3)

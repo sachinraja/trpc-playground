@@ -1,6 +1,7 @@
 import { ClientConfig } from '@trpc-playground/types'
 import { render } from 'preact'
 import './global.css'
+
 // dprint-ignore
 import { Playground } from '@trpc-playground/components' 
 

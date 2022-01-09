@@ -6,7 +6,6 @@ import { Provider as JotaiProvider } from 'jotai'
 import { ComponentChildren } from 'preact'
 import { useMemo } from 'preact/hooks'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { resolveConfig } from '../config'
 import { createInitialValues } from './utils'
 
 // need to pass in AnyRouter to satisfy rollup-plugin-dts
@@ -22,17 +21,15 @@ export const trpcClientAtom = atom<TrpcClient>(null!)
 export const configAtom = atom<Required<ClientConfig>>(null!)
 
 export const PlaygroundProvider = ({ config, children }: PlaygroundProviderProps) => {
-  const resolvedConfig = useMemo(() => resolveConfig(config), [])
-
   const queryClient = useMemo(() => new QueryClient(), [])
   const trpcClient = useMemo(() =>
     trpc.createClient({
-      url: resolvedConfig.endpoint,
+      url: config.trpcApiEndpoint,
     }), [])
 
   const { get, set } = createInitialValues()
   set(trpcClientAtom, trpcClient)
-  set(configAtom, resolvedConfig)
+  set(configAtom, config)
 
   return (
     <div className='trpc-playground'>

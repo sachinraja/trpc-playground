@@ -34,7 +34,9 @@ export const Editor = () => {
   const refreshTypes = useCallback(async () => {
     if (!editorView) return
 
-    const types = await makePlaygroundRequest('getTypes')
+    const types = await makePlaygroundRequest('getTypes', {
+      playgroundEndpoint: config.playgroundEndpoint,
+    })
 
     editorView.dispatch(injectTypes({
       '/index.d.ts': types.join('\n'),
@@ -132,10 +134,7 @@ export const Editor = () => {
       />
       <button
         onClick={async () => {
-          if (!editorView) {
-            console.log('no editor view')
-            return
-          }
+          if (!editorView) return
 
           // if the code exited because a failed query
           let didQueryFail = false
@@ -149,9 +148,7 @@ export const Editor = () => {
               async query(path: string, args: never) {
                 try {
                   const response = await trpcClient.query(path, args)
-                  console.log('start query', path)
                   queryResponses.push(response)
-                  console.log('finish query', path)
                   return response
                 } catch (e) {
                   // add error response before throwing
@@ -165,8 +162,6 @@ export const Editor = () => {
             // if the query failed, the response object is already set
             if (!didQueryFail) return setResponseObjectValue(printObject(e))
           }
-
-          console.log('last', queryResponses)
 
           const responseObjectValue = `${queryResponses.map((response) => printObject(response)).join(',\n\n')}`
           setResponseObjectValue(responseObjectValue)

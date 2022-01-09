@@ -9,11 +9,16 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@router": ["../router"],
-      "@router/*": ["../router/*"]
+      "@router": [
+        "../router"
+      ],
+      "@router/*": [
+        "../router/*"
+      ]
     },
     "allowJs": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "incremental": true
   },
   "include": [
     "next-env.d.ts",

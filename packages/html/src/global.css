@@ -12,11 +12,6 @@
    height: 60vh;
 }
 
-.cm-scroller {
-   overflow: auto;
-}
-
-
 .scroll::-webkit-scrollbar {
    width: 12px;
    height: 4px;

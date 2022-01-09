@@ -1,33 +1,32 @@
-import { basicSetup } from '@codemirror/basic-setup'
-import { redo } from '@codemirror/history'
 import { javascript } from '@codemirror/lang-javascript'
 import { EditorState } from '@codemirror/state'
 import { oneDark } from '@codemirror/theme-one-dark'
-import { EditorView, keymap } from '@codemirror/view'
+import { EditorView } from '@codemirror/view'
+import { PlayIcon } from '@heroicons/react/solid'
 import * as queryExtension from '@trpc-playground/query-extension'
-import { injectTypes, setDiagnostics, tsTheme, typescript } from '@trpc-playground/typescript-extension'
+import { injectTypes, setDiagnostics } from '@trpc-playground/typescript-extension'
 import { atom, useAtom } from 'jotai'
-import inspect from 'object-inspect'
-import { useCallback, useEffect, useLayoutEffect, useMemo } from 'preact/hooks'
-import CodeMirror from 'rodemirror'
-import { transform } from 'sucrase-browser'
-import { baseTheme } from '../base-theme'
-import { makePlaygroundRequest } from '../playground-request'
-import { maskedEval } from '../utils/masked-eval'
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'preact/hooks'
+import { memo } from 'react'
+import CodeMirror, { CodeMirrorProps } from 'rodemirror'
+import { baseExtension, tsExtension } from '../editor/extensions'
+import { transformAndRunQueries } from '../editor/transform-and-run-queries'
+import { printObject } from '../utils/misc'
+import { makePlaygroundRequest } from '../utils/playground-request'
 import { configAtom, trpcClientAtom } from './provider'
 import { currentTabAtom, currentTabIndexAtom, previousTabIndexAtom, tabsAtom } from './tab-store'
 
-const printObject = (obj: unknown) => inspect(obj, { indent: 2 })
-const editorViewAtom = atom<EditorView | null>(null)
-const jsonValueAtom = atom(printObject({ foo: 'bar' }))
+const MemoizedCodeMirror = memo((props: CodeMirrorProps) => <CodeMirror {...props} />)
+
+const responseValueAtom = atom(printObject({ foo: 'bar' }))
 
 export const Editor = () => {
-  const [editorView, setEditorView] = useAtom(editorViewAtom)
+  const [editorView, setEditorView] = useState<EditorView | null>(null)
   const [, setTabs] = useAtom(tabsAtom)
   const [previousTabIndex] = useAtom(previousTabIndexAtom)
   const [currentTabIndex] = useAtom(currentTabIndexAtom)
   const [currentTab] = useAtom(currentTabAtom)
-  const [responseObjectValue, setResponseObjectValue] = useAtom(jsonValueAtom)
+  const [responseValue, setResponseValue] = useAtom(responseValueAtom)
   const [trpcClient] = useAtom(trpcClientAtom)
   const [config] = useAtom(configAtom)
 
@@ -44,16 +43,7 @@ export const Editor = () => {
   }, [editorView])
 
   const extensions = useMemo(() => [
-    basicSetup,
-    oneDark,
-    baseTheme,
-    tsTheme,
-    javascript({ typescript: true }),
-    keymap.of([{
-      run: redo,
-      key: 'Mod-Shift-z',
-      preventDefault: true,
-    }]),
+    tsExtension,
     queryExtension.state({
       async onExecute(query) {
         const firstArg = query.args[0]
@@ -65,20 +55,31 @@ export const Editor = () => {
         try {
           if (query.operation === 'query') {
             const response = await trpcClient.query(...args)
-            return setResponseObjectValue(printObject(response))
+            return setResponseValue(printObject(response))
           } else if (query.operation === 'mutate') {
             await trpcClient.mutation(...args)
           }
         } catch (e) {
-          return setResponseObjectValue(printObject(e))
+          return setResponseValue(printObject(e))
         }
       },
     }),
-    queryExtension.gutter(),
-    queryExtension.lineNumbers(),
-    typescript(),
+  ], [trpcClient, setResponseValue])
+
+  const responseEditorExtensions = useMemo(() => [
+    baseExtension,
+    javascript(),
+    EditorState.readOnly.of(true),
+    EditorView.theme({
+      '.cm-content': {
+        // bg-slate-800
+        backgroundColor: 'rgb(30 41 59 / var(--tw-bg-opacity)) !important',
+      },
+      '.cm-line': {
+        marginLeft: '30px',
+      },
+    }),
   ], [])
-  const jsonExtensions = useMemo(() => [javascript(), oneDark, EditorState.readOnly.of(true)], [])
 
   useLayoutEffect(() => {
     if (!editorView || (previousTabIndex === currentTabIndex)) return
@@ -105,6 +106,7 @@ export const Editor = () => {
 
   useEffect(() => {
     refreshTypes()
+
     // no need to refresh types anymore
     if (config.refreshTypesTimeout === null || !editorView) return
 
@@ -119,56 +121,42 @@ export const Editor = () => {
     }, refreshTypesTimeoutMs)
 
     return () => clearTimeout(refreshTypesTimeoutId)
-  }, [editorView])
+  }, [editorView, refreshTypes])
 
   return (
-    <div className='grid grid-cols-2 items-stretch z-30'>
-      <CodeMirror
-        extensions={extensions}
-        onEditorViewChange={(editorView) => setEditorView(editorView)}
-      />
-      <CodeMirror
-        value={responseObjectValue}
-        selection={{ head: 0, anchor: 0 }}
-        extensions={jsonExtensions}
-      />
+    <div className='relative'>
       <button
+        title='Run all queries'
         onClick={async () => {
           if (!editorView) return
-
-          // if the code exited because a failed query
-          let didQueryFail = false
-
-          const queryResponses: unknown[] = []
-          try {
-            // transform imports because export {} does not make sense in eval function
-            const transformed = transform(editorView?.state.doc.toString(), { transforms: ['typescript', 'imports'] })
-
-            await maskedEval(transformed.code, {
-              async query(path: string, args: never) {
-                try {
-                  const response = await trpcClient.query(path, args)
-                  queryResponses.push(response)
-                  return response
-                } catch (e) {
-                  // add error response before throwing
-                  queryResponses.push(e)
-                  didQueryFail = true
-                  throw e
-                }
-              },
-            })
-          } catch (e) {
-            // if the query failed, the response object is already set
-            if (!didQueryFail) return setResponseObjectValue(printObject(e))
-          }
-
-          const responseObjectValue = `${queryResponses.map((response) => printObject(response)).join(',\n\n')}`
-          setResponseObjectValue(responseObjectValue)
+          const responseObjectValue = await transformAndRunQueries({
+            code: editorView.state.doc.toString(),
+            trpcClient,
+          })
+          setResponseValue(responseObjectValue)
         }}
       >
-        Run All Queries
+        <PlayIcon
+          className='absolute left-0 right-0 mx-auto z-10 hover:text-primary transition-colors duration-150'
+          width={75}
+          height={75}
+        >
+        </PlayIcon>
       </button>
+
+      <div className='grid grid-cols-2 items-stretch'>
+        <MemoizedCodeMirror
+          extensions={extensions}
+          onEditorViewChange={(editorView) => setEditorView(editorView)}
+          elementProps={{ className: 'bg-[#282c34] border-4 border-slate-700' }}
+        />
+
+        <MemoizedCodeMirror
+          extensions={responseEditorExtensions}
+          value={responseValue}
+          selection={{ head: 0, anchor: 0 }}
+        />
+      </div>
     </div>
   )
 }

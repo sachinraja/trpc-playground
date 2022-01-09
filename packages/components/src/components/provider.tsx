@@ -6,6 +6,7 @@ import { Provider as JotaiProvider } from 'jotai'
 import { ComponentChildren } from 'preact'
 import { useMemo } from 'preact/hooks'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { TrpcClient } from '../types'
 import { createInitialValues } from './utils'
 
 // need to pass in AnyRouter to satisfy rollup-plugin-dts
@@ -16,7 +17,6 @@ type PlaygroundProviderProps = {
   children: ComponentChildren
 }
 
-type TrpcClient = ReturnType<typeof trpc.createClient>
 export const trpcClientAtom = atom<TrpcClient>(null!)
 export const configAtom = atom<Required<ClientConfig>>(null!)
 

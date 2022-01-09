@@ -84,11 +84,11 @@ importers:
       express: 4.17.2
       trpc-playground: link:../../packages/trpc-playground
     devDependencies:
-      '@preact/preset-vite': 2.1.5_preact@10.6.4+vite@2.7.10
+      '@preact/preset-vite': 2.1.5_vite@2.7.10
       '@trpc/server': 9.16.0
       '@types/cors': 2.8.12
       autoprefixer: 10.4.1_postcss@8.4.5
-      esbuild-node-loader: 0.6.3_typescript@4.5.4
+      esbuild-node-loader: 0.6.3
       nodemon: 2.0.15
       postcss: 8.4.5
       postcss-prefix-selector: 1.14.0_postcss@8.4.5
@@ -98,10 +98,19 @@ importers:
 
   packages/components:
     specifiers:
-      '@codemirror/basic-setup': 0.19.1
+      '@codemirror/autocomplete': 0.19.9
+      '@codemirror/closebrackets': 0.19.0
+      '@codemirror/commands': 0.19.6
+      '@codemirror/comment': 0.19.0
+      '@codemirror/gutter': 0.19.9
       '@codemirror/history': 0.19.1
       '@codemirror/lang-javascript': 0.19.3
       '@codemirror/lang-json': 0.19.1
+      '@codemirror/language': 0.19.7
+      '@codemirror/lint': 0.19.3
+      '@codemirror/matchbrackets': 0.19.3
+      '@codemirror/rectangular-selection': 0.19.1
+      '@codemirror/search': 0.19.5
       '@codemirror/state': 0.19.6
       '@codemirror/theme-one-dark': 0.19.1
       '@codemirror/view': 0.19.37
@@ -124,10 +133,19 @@ importers:
       sucrase-browser: 3.16.0
       tailwindcss: 3.0.8
     dependencies:
-      '@codemirror/basic-setup': 0.19.1
+      '@codemirror/autocomplete': 0.19.9
+      '@codemirror/closebrackets': 0.19.0
+      '@codemirror/commands': 0.19.6
+      '@codemirror/comment': 0.19.0
+      '@codemirror/gutter': 0.19.9
       '@codemirror/history': 0.19.1
       '@codemirror/lang-javascript': 0.19.3
       '@codemirror/lang-json': 0.19.1
+      '@codemirror/language': 0.19.7
+      '@codemirror/lint': 0.19.3
+      '@codemirror/matchbrackets': 0.19.3
+      '@codemirror/rectangular-selection': 0.19.1
+      '@codemirror/search': 0.19.5
       '@codemirror/state': 0.19.6
       '@codemirror/theme-one-dark': 0.19.1
       '@codemirror/view': 0.19.37
@@ -843,29 +861,6 @@ packages:
       '@lezer/common': 0.15.11
     dev: false
 
-  /@codemirror/basic-setup/0.19.1:
-    resolution:
-      {
-        integrity: sha512-gLjD7YgZU/we6BzS/ecCmD3viw83dsgv5ZUaSydYbYx9X4w4w9RqYnckcJ+0GDyHfNr5Jtfv2Z5ZtFQnBj0UDA==,
-      }
-    dependencies:
-      '@codemirror/autocomplete': 0.19.10
-      '@codemirror/closebrackets': 0.19.0
-      '@codemirror/commands': 0.19.6
-      '@codemirror/comment': 0.19.0
-      '@codemirror/fold': 0.19.2
-      '@codemirror/gutter': 0.19.9
-      '@codemirror/highlight': 0.19.7
-      '@codemirror/history': 0.19.1
-      '@codemirror/language': 0.19.7
-      '@codemirror/lint': 0.19.3
-      '@codemirror/matchbrackets': 0.19.3
-      '@codemirror/rectangular-selection': 0.19.1
-      '@codemirror/search': 0.19.5
-      '@codemirror/state': 0.19.6
-      '@codemirror/view': 0.19.37
-    dev: false
-
   /@codemirror/closebrackets/0.19.0:
     resolution:
       {
@@ -904,26 +899,13 @@ packages:
       '@codemirror/view': 0.19.37
     dev: false
 
-  /@codemirror/fold/0.19.2:
-    resolution:
-      {
-        integrity: sha512-FLi6RBhHPBnSbKZEu1S98z+VYSP5678cMdYVqhR58OWWTkEiLRVPeCTj8FhRKNL9B8Gx+lBQhGq3uwr3KtSs8w==,
-      }
-    dependencies:
-      '@codemirror/gutter': 0.19.9
-      '@codemirror/language': 0.19.7
-      '@codemirror/rangeset': 0.19.6
-      '@codemirror/state': 0.19.6
-      '@codemirror/view': 0.19.37
-    dev: false
-
   /@codemirror/gutter/0.19.9:
     resolution:
       {
         integrity: sha512-PFrtmilahin1g6uL27aG5tM/rqR9DZzZYZsIrCXA5Uc2OFTFqx4owuhoU9hqfYxHp5ovfvBwQ+txFzqS4vog6Q==,
       }
     dependencies:
-      '@codemirror/rangeset': 0.19.5
+      '@codemirror/rangeset': 0.19.6
       '@codemirror/state': 0.19.6
       '@codemirror/view': 0.19.37
     dev: false
@@ -958,7 +940,7 @@ packages:
         integrity: sha512-2NE5z98Nz9Rv4OS5UtgehCSnyQjac+P85+evzy1D/4wllp/EPaHIEEtSP1daBvrLy49SdI/9vES3ZJu6rSv4/w==,
       }
     dependencies:
-      '@codemirror/autocomplete': 0.19.9
+      '@codemirror/autocomplete': 0.19.10
       '@codemirror/highlight': 0.19.7
       '@codemirror/language': 0.19.7
       '@codemirror/lint': 0.19.3
@@ -1498,7 +1480,7 @@ packages:
       }
     dev: true
 
-  /@preact/preset-vite/2.1.5_preact@10.6.4+vite@2.7.10:
+  /@preact/preset-vite/2.1.5_vite@2.7.10:
     resolution:
       {
         integrity: sha512-G+Op0d940lVwOH93Tkhz4BTgE88VpQBFWHqnz8QjHpo6IwmfP3HHQJHrp9dEt5Di2f2HQ4bpmhDqBl7+bzir6g==,
@@ -1508,7 +1490,7 @@ packages:
       vite: 2.x
     dependencies:
       '@babel/plugin-transform-react-jsx': 7.16.7
-      '@prefresh/vite': 2.2.6_preact@10.6.4+vite@2.7.10
+      '@prefresh/vite': 2.2.6_vite@2.7.10
       babel-plugin-transform-hook-names: 1.0.2
       debug: 4.3.3
       kolorist: 1.5.1
@@ -1548,6 +1530,15 @@ packages:
       }
     dev: true
 
+  /@prefresh/core/1.3.2:
+    resolution:
+      {
+        integrity: sha512-Iv+uI698KDgWsrKpLvOgN3hmAMyvhVgn09mcnhZ98BUNdg/qrxE7tcUf5yFCImkgqED5/Dcn8G5hFy4IikEDvg==,
+      }
+    peerDependencies:
+      preact: ^10.0.0
+    dev: true
+
   /@prefresh/core/1.3.2_preact@10.6.4:
     resolution:
       {
@@ -1581,6 +1572,25 @@ packages:
       '@prefresh/utils': 1.1.1
       '@rollup/pluginutils': 4.1.2
       preact: 10.6.4
+      vite: 2.7.10
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
+  /@prefresh/vite/2.2.6_vite@2.7.10:
+    resolution:
+      {
+        integrity: sha512-Q5i15C27NanIPzimkvBuzImebCxeQS6p8OyyH2QpNKS/HGsm7WpnyCzgMkIsidnmMHY59qllKwF01TWpq9IeGA==,
+      }
+    peerDependencies:
+      preact: ^10.4.0
+      vite: '>=2.0.0-beta.3'
+    dependencies:
+      '@babel/core': 7.16.7
+      '@prefresh/babel-plugin': 0.4.1
+      '@prefresh/core': 1.3.2
+      '@prefresh/utils': 1.1.1
+      '@rollup/pluginutils': 4.1.2
       vite: 2.7.10
     transitivePeerDependencies:
       - supports-color
@@ -3760,7 +3770,7 @@ packages:
     dev: true
     optional: true
 
-  /esbuild-node-loader/0.6.3_typescript@4.5.4:
+  /esbuild-node-loader/0.6.3:
     resolution:
       {
         integrity: sha512-Bf6o8SiMMh5+r20jsjAThNOtzo3t8Ye4Qdzz+twWHnxu28SdkGUr5ahq8iX0qbd+I9ge8sLNX7oQoNW1YzHlqA==,
@@ -3769,7 +3779,6 @@ packages:
       typescript: ^4.0
     dependencies:
       esbuild: 0.13.15
-      typescript: 4.5.4
     dev: true
 
   /esbuild-openbsd-64/0.13.15:

@@ -4,10 +4,11 @@ export const baseTheme = EditorView.theme({
   '&': {
     fontSize: '14px',
     fontFamily: 'JetBrains Mono',
+    width: 'calc(100% - 30px)',
   },
-  '.cm-scroller': { overflow: 'auto' },
-  '.cm-content': {},
-  '.cm-gutters': { border: 'none' },
+})
+
+export const thisTsTheme = EditorView.theme({
   '.cm-foldMarker': {
     width: '12px',
     height: '12px',

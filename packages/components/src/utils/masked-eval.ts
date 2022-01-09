@@ -5,5 +5,5 @@ export const maskedEval = async (x: string, context: UnknownObject) => {
   const mask = { ...globalContext, ...context }
 
   const asyncFunc = (new Function(`return async() => { with(this) {${x}} }`)).call(mask)
-  console.log(await asyncFunc())
+  return asyncFunc()
 }

@@ -18,7 +18,7 @@ app.use(
   }),
 )
 
-app.all(
+app.use(
   playgroundEndpoint,
   expressHandler({ trpcApiEndpoint, playgroundEndpoint, router: appRouter }),
 )

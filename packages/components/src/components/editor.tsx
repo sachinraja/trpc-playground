@@ -32,13 +32,19 @@ export const Editor = () => {
   const refreshTypes = useCallback(async () => {
     if (!editorView) return
 
-    const types = await makePlaygroundRequest('getTypes', {
-      playgroundEndpoint: config.playgroundEndpoint,
-    })
+    try {
+      const types = await makePlaygroundRequest('getTypes', {
+        playgroundEndpoint: config.playgroundEndpoint,
+      })
 
-    editorView.dispatch(injectTypes({
-      '/index.d.ts': types.join('\n'),
-    }))
+      editorView.dispatch(injectTypes({
+        '/index.d.ts': types.join('\n'),
+      }))
+    } catch (e) {
+      // server might be restarting so ignore fetch errors
+      if (e instanceof TypeError && e.message === 'Failed to fetch') return
+      throw e
+    }
   }, [editorView])
 
   const extensions = useMemo(() => [

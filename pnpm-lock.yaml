@@ -118,6 +118,7 @@ importers:
       '@trpc-playground/query-extension': workspace:0.0.0
       '@trpc-playground/types': workspace:*
       '@trpc-playground/typescript-extension': workspace:0.0.0
+      '@trpc/client': 9.16.0
       '@trpc/react': 9.16.0
       '@trpc/server': 9.16.0
       '@types/object-inspect': 1.8.1
@@ -152,7 +153,8 @@ importers:
       '@heroicons/react': 1.0.5
       '@trpc-playground/query-extension': link:../query-extension
       '@trpc-playground/typescript-extension': link:../typescript-extension
-      '@trpc/react': 9.16.0_0d9ad078797cd91ba4597a01ca35d592
+      '@trpc/client': 9.16.0_@trpc+server@9.16.0
+      '@trpc/react': 9.16.0_9aae586cc7448561bbba38b1175fe472
       clsx: 1.1.1
       jotai: 1.5.0_react-query@3.34.7
       object-inspect: 1.12.0
@@ -1625,7 +1627,19 @@ packages:
       defer-to-connect: 1.1.3
     dev: true
 
-  /@trpc/react/9.16.0_0d9ad078797cd91ba4597a01ca35d592:
+  /@trpc/client/9.16.0_@trpc+server@9.16.0:
+    resolution:
+      {
+        integrity: sha512-IwH3xQ792IKq9Q3nLOCYzxMe2xZg+B1iyiX0ueBF7P2blO/3791DJjUFyzVT3bXPJj3rISoL1Ermd0mtPRxGpQ==,
+      }
+    peerDependencies:
+      '@trpc/server': 9.16.0
+    dependencies:
+      '@babel/runtime': 7.16.7
+      '@trpc/server': 9.16.0
+    dev: false
+
+  /@trpc/react/9.16.0_9aae586cc7448561bbba38b1175fe472:
     resolution:
       {
         integrity: sha512-gaF+631mXWaziUlDYNksiAhRV7VdjcA04a7by9ZhFVgTzsHXc5VMX57X1Uo2LdWUcW7zOfWiaYBpYs7fRbAv9w==,
@@ -1638,6 +1652,7 @@ packages:
       react-query: ^3.31.0
     dependencies:
       '@babel/runtime': 7.16.7
+      '@trpc/client': 9.16.0_@trpc+server@9.16.0
       '@trpc/server': 9.16.0
       react-query: 3.34.7
     dev: false

@@ -7,7 +7,7 @@
     "lint": "run-p lint:*",
     "lint:format": "dprint check",
     "lint:types": "pnpm -r type-check",
-    "build": "pnpm -r build --filter=\"!*-app\" --filter=\\!@trpc-playground/html",
+    "build": "pnpm -r build --filter=\"!*-app\"",
     "clean": "pnpm -r clean",
     "lint:js": "eslint .",
     "prepare": "husky install",

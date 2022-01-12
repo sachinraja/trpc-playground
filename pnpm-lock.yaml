@@ -123,12 +123,14 @@ importers:
       '@trpc/server': 9.16.0
       '@types/object-inspect': 1.8.1
       '@types/react': 17.0.38
+      '@types/react-input-autosize': 2.2.1
       autoprefixer: 10.4.1
       clsx: 1.1.1
       jotai: 1.5.0
       object-inspect: 1.12.0
       postcss: 8.4.5
       postcss-prefix-selector: 1.14.0
+      react-input-autosize: 3.0.0
       react-query: 3.34.7
       rodemirror: 1.6.6
       sucrase-browser: 3.16.0
@@ -158,6 +160,7 @@ importers:
       clsx: 1.1.1
       jotai: 1.5.0_react-query@3.34.7
       object-inspect: 1.12.0
+      react-input-autosize: 3.0.0
       react-query: 3.34.7
       rodemirror: 1.6.6_7bf11a59ae6b6032fe84fbf49fd468ed
       sucrase-browser: 3.16.0
@@ -166,6 +169,7 @@ importers:
       '@trpc/server': 9.16.0
       '@types/object-inspect': 1.8.1
       '@types/react': 17.0.38
+      '@types/react-input-autosize': 2.2.1
       autoprefixer: 10.4.1_postcss@8.4.5
       postcss: 8.4.5
       postcss-prefix-selector: 1.14.0_postcss@8.4.5
@@ -1826,6 +1830,15 @@ packages:
       {
         integrity: sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==,
       }
+    dev: true
+
+  /@types/react-input-autosize/2.2.1:
+    resolution:
+      {
+        integrity: sha512-RxzEjd4gbLAAdLQ92Q68/AC+TfsAKTc4evsArUH1aIShIMqQMIMjsxoSnwyjtbFTO/AGIW/RQI94XSdvOxCz/w==,
+      }
+    dependencies:
+      '@types/react': 17.0.38
     dev: true
 
   /@types/react/17.0.38:
@@ -6817,6 +6830,17 @@ packages:
     engines: { node: '>=0.4.0' }
     dev: true
 
+  /prop-types/15.8.1:
+    resolution:
+      {
+        integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==,
+      }
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      react-is: 16.13.1
+    dev: false
+
   /proxy-addr/2.0.7:
     resolution:
       {
@@ -6997,6 +7021,24 @@ packages:
       object-assign: 4.1.1
       react: 17.0.2
       scheduler: 0.20.2
+    dev: false
+
+  /react-input-autosize/3.0.0:
+    resolution:
+      {
+        integrity: sha512-nL9uS7jEs/zu8sqwFE5MAPx6pPkNAriACQ2rGLlqmKr2sPGtN7TXTyDdQt4lbNXVx7Uzadb40x8qotIuru6Rhg==,
+      }
+    peerDependencies:
+      react: ^16.3.0 || ^17.0.0
+    dependencies:
+      prop-types: 15.8.1
+    dev: false
+
+  /react-is/16.13.1:
+    resolution:
+      {
+        integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==,
+      }
     dev: false
 
   /react-is/17.0.2:

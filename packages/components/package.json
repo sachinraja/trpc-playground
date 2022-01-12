@@ -65,6 +65,7 @@
     "clsx": "1.1.1",
     "jotai": "1.5.0",
     "object-inspect": "1.12.0",
+    "react-input-autosize": "3.0.0",
     "react-query": "3.34.7",
     "rodemirror": "1.6.6",
     "sucrase-browser": "3.16.0"
@@ -77,6 +78,7 @@
     "@trpc/server": "9.16.0",
     "@types/object-inspect": "1.8.1",
     "@types/react": "17.0.38",
+    "@types/react-input-autosize": "2.2.1",
     "autoprefixer": "10.4.1",
     "postcss": "8.4.5",
     "postcss-prefix-selector": "1.14.0",

@@ -1,5 +1,5 @@
 import { atom } from 'jotai'
-import { Tab } from './tab-manager'
+import { Tab } from './types'
 
 const currentTab = {
   id: 0,

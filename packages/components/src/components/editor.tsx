@@ -13,7 +13,7 @@ import { transformAndRunQueries } from '../editor/transform-and-run-queries'
 import { printObject } from '../utils/misc'
 import { makePlaygroundRequest } from '../utils/playground-request'
 import { configAtom, trpcClientAtom } from './provider'
-import { currentTabAtom, currentTabIndexAtom, previousTabIndexAtom, tabsAtom } from './tab-store'
+import { currentTabAtom, currentTabIndexAtom, previousTabIndexAtom, tabsAtom } from './tab/store'
 
 const MemoizedCodeMirror = memo((props: CodeMirrorProps) => <CodeMirror {...props} />)
 

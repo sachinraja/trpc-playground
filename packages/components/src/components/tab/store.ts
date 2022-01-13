@@ -2,7 +2,7 @@ import { atom } from 'jotai'
 import { Tab } from './types'
 
 const currentTab = {
-  id: 0,
+  id: '0',
   name: 'basic query',
   doc: "await query('hello', { text: 'client' })\nexport {}",
 }
@@ -10,12 +10,12 @@ const currentTab = {
 export const tabsAtom = atom<Tab[]>([
   currentTab,
   {
-    id: 1,
+    id: '1',
     name: 'another query',
     doc: "await query('subtract_nums', { a: 2, b: 5 })\nexport {}",
   },
   {
-    id: 2,
+    id: '2',
     name: 'third query',
     doc: "await query('add_nums', { a: 2, b: 5 })\nexport {}",
   },

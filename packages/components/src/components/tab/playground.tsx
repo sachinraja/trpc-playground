@@ -1,3 +1,5 @@
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 import { XIcon } from '@heroicons/react/solid'
 import { atom, useAtom } from 'jotai'
 import { useMemo, useState } from 'preact/hooks'
@@ -18,9 +20,29 @@ export const PlaygroundTab = ({ index }: TabProps) => {
   const [isEditingTabName, setIsEditingTabName] = useState(false)
   const tabRef = useMemo(() => atom(tabs[index]), [tabs])
   const [tab] = useAtom(tabRef)
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id: tab.id })
+
+  const style = useMemo(() => ({
+    transform: CSS.Transform.toString(transform),
+    transition,
+  }), [transform, transition])
 
   return (
     <BaseTab
+      onClick={() => {
+        setPreviousTabIndex(currentTabIndex)
+        setCurrentTabIndex(index)
+      }}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
       className={currentTabIndex === index ? undefined : 'opacity-70'}
     >
       {isEditingTabName
@@ -28,7 +50,8 @@ export const PlaygroundTab = ({ index }: TabProps) => {
           <AutosizeInput
             name='form-field'
             value={tab.name}
-            inputClassName='bg-transparent border-0'
+            inputClassName='bg-transparent outline-0'
+            autoComplete='off'
             onChange={(e) => {
               setTabs((tabs) => {
                 const newTabs = [...tabs]
@@ -56,10 +79,6 @@ export const PlaygroundTab = ({ index }: TabProps) => {
         )
         : (
           <button
-            onClick={() => {
-              setPreviousTabIndex(currentTabIndex)
-              setCurrentTabIndex(index)
-            }}
             onDblClick={() => {
               console.log('double clicked')
               setIsEditingTabName(true)

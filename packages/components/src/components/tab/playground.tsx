@@ -1,8 +1,6 @@
-import { useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
 import { XIcon } from '@heroicons/react/solid'
 import { atom, useAtom } from 'jotai'
-import { useMemo, useState } from 'preact/hooks'
+import { useCallback, useMemo, useState } from 'preact/hooks'
 import AutosizeInput from 'react-input-autosize'
 import { BaseTab } from './base'
 import { currentTabIndexAtom, previousTabIndexAtom, tabsAtom, totalTabsCreatedAtom } from './store'
@@ -20,18 +18,19 @@ export const PlaygroundTab = ({ index }: TabProps) => {
   const [isEditingTabName, setIsEditingTabName] = useState(false)
   const tabRef = useMemo(() => atom(tabs[index]), [tabs])
   const [tab] = useAtom(tabRef)
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-  } = useSortable({ id: tab.id })
 
-  const style = useMemo(() => ({
-    transform: CSS.Transform.toString(transform),
-    transition,
-  }), [transform, transition])
+  const finishEditingTabName = useCallback(() => {
+    const trimmedTabName = tab.name.trim()
+    const tabName = trimmedTabName === '' ? 'New Tab' : trimmedTabName
+
+    setTabs((tabs) => {
+      const newTabs = [...tabs]
+      newTabs[index] = { ...tabs[index], name: tabName }
+      return newTabs
+    })
+
+    setIsEditingTabName(false)
+  }, [tab, setTabs, setIsEditingTabName])
 
   return (
     <BaseTab
@@ -39,10 +38,6 @@ export const PlaygroundTab = ({ index }: TabProps) => {
         setPreviousTabIndex(currentTabIndex)
         setCurrentTabIndex(index)
       }}
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
       className={currentTabIndex === index ? undefined : 'opacity-70'}
     >
       {isEditingTabName
@@ -61,18 +56,11 @@ export const PlaygroundTab = ({ index }: TabProps) => {
             }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                setIsEditingTabName(false)
+                finishEditingTabName()
               }
             }}
             onBlur={() => {
-              if (tabs[index].name === '') {
-                setTabs((tabs) => {
-                  const newTabs = [...tabs]
-                  newTabs[index] = { ...tabs[index], name: 'New Tab' }
-                  return newTabs
-                })
-              }
-              setIsEditingTabName(false)
+              finishEditingTabName()
             }}
             ref={(el) => el?.focus()}
           />

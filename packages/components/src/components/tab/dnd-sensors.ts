@@ -17,6 +17,7 @@ export class KeyboardSensor extends LibKeyboardSensor {
     {
       eventName: 'onKeyDown' as const,
       handler: ({ nativeEvent: event }: KeyboardEvent<Element>) => {
+        if (event.key === ' ') return false
         return shouldHandleEvent(event.target as HTMLElement)
       },
     },

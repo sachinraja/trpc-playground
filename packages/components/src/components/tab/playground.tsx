@@ -69,7 +69,6 @@ export const PlaygroundTab = ({ index }: TabProps) => {
         : (
           <button
             onDblClick={() => {
-              console.log('double clicked')
               setIsEditingTabName(true)
             }}
           >

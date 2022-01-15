@@ -43,16 +43,17 @@ for (const [dep, { version, src }] of Object.entries(dependencies)) {
 
   // Get a list of files in this dependency
   const files = await glob(
-    src.map(g => `./node_modules/${dep}/${g}`),
+    src.map(g => path.join(__dirname, '..', 'node_modules', dep, g)),
     { absolute: true },
   )
 
+  const metaFile = path.join(DEST_ROOT, dep, 'meta.js')
   // Generate artifact 1: Metadata
   fs.writeFileSync(
-    `${DEST_ROOT}/${dep}/meta.js`,
+    metaFile,
     `${DISCLAIMER}export const version = "${version}"`,
   )
-  const metaStream = fs.createWriteStream(`${DEST_ROOT}/${dep}/meta.js`)
+  const metaStream = fs.createWriteStream(metaFile)
   metaStream.write(DISCLAIMER)
   metaStream.write(`export const version = "${version}"\n\n`)
   metaStream.write('export const files = [')
@@ -64,12 +65,12 @@ for (const [dep, { version, src }] of Object.entries(dependencies)) {
   metaStream.end()
   // Generate typedefs so Vite can import it with types
   fs.writeFileSync(
-    `${DEST_ROOT}/${dep}/meta.d.ts`,
+    path.join(DEST_ROOT, dep, 'meta.d.ts'),
     `${DISCLAIMER}export const version: string;\nexport const files: string[];`,
   )
 
   // Generate artifact 2: A KV pair from file names to file content
-  const dataStream = fs.createWriteStream(`${DEST_ROOT}/${dep}/data.js`)
+  const dataStream = fs.createWriteStream(path.join(DEST_ROOT, dep, 'data.js'))
   dataStream.write(DISCLAIMER)
   dataStream.write(`export const version = "${version}"\n\n`)
   dataStream.write('export const files = {')
@@ -83,7 +84,7 @@ for (const [dep, { version, src }] of Object.entries(dependencies)) {
   dataStream.end()
   // Generate typedefs so Vite can import it with types
   fs.writeFileSync(
-    `${DEST_ROOT}/${dep}/data.d.ts`,
+    path.join(DEST_ROOT, dep, 'data.d.ts'),
     `${DISCLAIMER}export const version: string;\nexport const files: Record<string,string>;`,
   )
 }

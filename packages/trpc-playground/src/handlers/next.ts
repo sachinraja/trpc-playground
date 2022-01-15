@@ -10,7 +10,7 @@ export const nextHandler = (config: TrpcPlaygroundConfig): NextApiHandler => {
     const bodyObject = req.body ?? {}
 
     const response = await handleRequest({ method: req.method, bodyObject, common })
-    console.log(response)
+
     if (response.headers) {
       for (const [key, value] of Object.entries(response.headers)) {
         res.setHeader(key, value)

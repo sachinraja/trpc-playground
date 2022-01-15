@@ -38,12 +38,12 @@
     "clean": true
   },
   "dependencies": {
-    "@codemirror/gutter": "0.19.9",
-    "@codemirror/language": "0.19.7",
-    "@codemirror/rangeset": "0.19.5",
-    "@codemirror/state": "0.19.6",
-    "@codemirror/view": "0.19.37",
-    "relaxed-json": "1.0.3"
+    "@codemirror/gutter": "^0.19.9",
+    "@codemirror/language": "^0.19.7",
+    "@codemirror/rangeset": "^0.19.5",
+    "@codemirror/state": "^0.19.6",
+    "@codemirror/view": "^0.19.37",
+    "relaxed-json": "^1.0.3"
   },
   "devDependencies": {
     "@types/lodash": "4.14.178",

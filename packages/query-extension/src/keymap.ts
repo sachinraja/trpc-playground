@@ -40,7 +40,6 @@ export function keymap(): Extension {
       {
         key: 'Alt-q',
         run: ({ state }) => {
-          console.log('run')
           runQueryUnderCursor(state)
           return true
         },

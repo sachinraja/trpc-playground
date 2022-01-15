@@ -46,7 +46,6 @@ export const TabGroup = () => {
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragStart={({ active }) => {
-          console.log('hi')
           const activeTabIndex = tabs.findIndex((tab) => tab.id === active.id)
 
           setPreviousTabIndex(currentTabIndex)

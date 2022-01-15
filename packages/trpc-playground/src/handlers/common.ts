@@ -1,5 +1,5 @@
-import { ClientConfig, PlaygroundRequestOperation, TrpcPlaygroundConfig } from '@trpc-playground/types'
-import { renderPlaygroundPage } from '../render'
+import { renderPlaygroundPage } from '@trpc-playground/html'
+import { PlaygroundRequestOperation, TrpcPlaygroundConfig } from '@trpc-playground/types'
 import { resolveConfig } from '../resolve-config'
 
 type TrpcPlaygroundRequestHandlerArgs = {
@@ -13,17 +13,12 @@ type TrpcPlaygroundRequestHandlerArgs = {
 export const getCommonHandlerReqData = (config: TrpcPlaygroundConfig) => {
   const resolvedConfig = resolveConfig(config)
 
-  const clientConfig: ClientConfig = {
-    trpcApiEndpoint: resolvedConfig.trpcApiEndpoint,
-    playgroundEndpoint: resolvedConfig.playgroundEndpoint,
-    refreshTypesTimeout: resolvedConfig.refreshTypesTimeout,
-  }
-
-  const htmlPlaygroundPage = renderPlaygroundPage(resolvedConfig)
+  const htmlPlaygroundPage = renderPlaygroundPage({
+    clientConfig: resolvedConfig,
+  })
 
   return {
     config: resolvedConfig,
-    clientConfig,
     htmlPlaygroundPage,
   }
 }

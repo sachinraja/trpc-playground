@@ -1,1 +1,1 @@
-export * from '../src/handlers/next'
+export * from '../dist/handlers/next'

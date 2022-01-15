@@ -1,1 +1,1 @@
-export * from '../src/handlers/express'
+export * from '../dist/handlers/express'

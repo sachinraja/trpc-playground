@@ -1,14 +1,15 @@
 import { TrpcPlaygroundConfig } from '@trpc-playground/types'
+import mergeDeep from 'lodash/merge'
 import { zodResolveTypes } from '.'
-
 const defineConfig = <T extends Partial<TrpcPlaygroundConfig>>(config: T): T => config
 
 const defaultConfig = defineConfig({
-  refreshTypesTimeout: 10000,
   resolveTypes: zodResolveTypes,
+  polling: {
+    enable: true,
+    interval: 10000,
+  },
 })
 
-export const resolveConfig = (config: TrpcPlaygroundConfig): Required<TrpcPlaygroundConfig> => ({
-  ...defaultConfig,
-  ...config,
-})
+export const resolveConfig = (config: TrpcPlaygroundConfig): Required<TrpcPlaygroundConfig> =>
+  mergeDeep(defaultConfig, config)

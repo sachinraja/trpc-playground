@@ -113,9 +113,9 @@ export const Editor = () => {
     refreshTypes()
 
     // no need to refresh types anymore
-    if (config.refreshTypesTimeout === null || !editorView) return
+    if (!config.polling.enable || !editorView) return
 
-    const refreshTypesTimeoutMs = config.refreshTypesTimeout
+    const refreshTypesTimeoutMs = config.polling.interval
 
     let refreshTypesTimeoutId = setTimeout(async function recursiveRefreshTypes() {
       await refreshTypes()

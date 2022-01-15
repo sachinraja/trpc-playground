@@ -60,6 +60,7 @@
   "dependencies": {
     "@trpc-playground/html": "workspace:0.0.11",
     "@trpc-playground/types": "workspace:0.0.0",
+    "lodash": "^4.17.21",
     "zod-to-ts": "^0.2.0"
   },
   "devDependencies": {

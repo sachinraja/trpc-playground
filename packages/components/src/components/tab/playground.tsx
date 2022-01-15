@@ -1,4 +1,5 @@
 import { XIcon } from '@heroicons/react/solid'
+import clsx from 'clsx'
 import { atom, useAtom } from 'jotai'
 import { useCallback, useMemo, useState } from 'preact/hooks'
 import AutosizeInput from 'react-input-autosize'
@@ -38,7 +39,7 @@ export const PlaygroundTab = ({ index }: TabProps) => {
         setPreviousTabIndex(currentTabIndex)
         setCurrentTabIndex(index)
       }}
-      className={currentTabIndex === index ? undefined : 'opacity-70'}
+      className={clsx(currentTabIndex === index ? undefined : 'opacity-70', 'select-none')}
     >
       {isEditingTabName
         ? (

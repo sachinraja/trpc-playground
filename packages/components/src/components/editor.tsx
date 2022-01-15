@@ -131,6 +131,7 @@ export const Editor = () => {
   return (
     <div className='relative'>
       <button
+        className='absolute left-0 right-0 mx-auto z-10 focus:outline-none group'
         title='Run all queries'
         onClick={async () => {
           if (!editorView) return
@@ -142,7 +143,7 @@ export const Editor = () => {
         }}
       >
         <PlayIcon
-          className='absolute left-0 right-0 mx-auto z-10 hover:text-primary transition-colors duration-150'
+          className='hover:text-primary group-focus:stroke-primary transition-colors duration-150'
           width={75}
           height={75}
         >

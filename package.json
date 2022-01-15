@@ -6,10 +6,10 @@
     "format": "dprint fmt",
     "lint": "run-p lint:*",
     "lint:format": "dprint check",
-    "lint:types": "pnpm -r type-check",
-    "build": "pnpm -r build --filter=./packages",
-    "clean": "pnpm -r clean",
+    "lint:types": "turbo run type-check",
     "lint:js": "eslint .",
+    "build": "turbo run build --scope=\"@trpc-playground/**\" --no-deps",
+    "clean": "turbo run clean",
     "prepare": "husky install",
     "test": "vitest",
     "dev:vite-server": "pnpm dev:server --filter vite-app",
@@ -31,6 +31,7 @@
     "preact": "10.6.4",
     "rimraf": "3.0.2",
     "tsup": "5.11.11",
+    "turbo": "1.0.28",
     "typescript": "4.5.4",
     "vite": "2.7.12",
     "vitest": "0.1.16"
@@ -38,5 +39,33 @@
   "sideEffects": false,
   "nano-staged": {
     "*.{js,ts,md,json,yaml}": "dprint fmt"
+  },
+  "turbo": {
+    "baseBranch": "origin/main",
+    "pipeline": {
+      "clean": {
+        "outputs": []
+      },
+      "build": {
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": [
+          "dist/**"
+        ]
+      },
+      "type-check": {
+        "dependsOn": [
+          "^build"
+        ],
+        "outputs": []
+      },
+      "lint": {
+        "outputs": []
+      },
+      "release": {
+        "outputs": []
+      }
+    }
   }
 }

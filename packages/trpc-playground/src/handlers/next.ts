@@ -6,7 +6,11 @@ export const nextHandler = (config: TrpcPlaygroundConfig): NextApiHandler => {
   const common = getCommonHandlerReqData(config)
 
   return async (req, res) => {
-    if (!req.method) return res.status(400).end()
+    if (!req.method) {
+      res.status(400).end()
+      return
+    }
+
     const bodyObject = req.body ?? {}
 
     const response = await handleRequest({ method: req.method, bodyObject, common })

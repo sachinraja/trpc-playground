@@ -36,6 +36,6 @@
     "@trpc/server": "^9"
   },
   "devDependencies": {
-    "@trpc/server": "9.16.0"
+    "@trpc/server": "9.17.0"
   }
 }

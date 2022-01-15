@@ -40,9 +40,9 @@
   "dependencies": {
     "@codemirror/gutter": "^0.19.9",
     "@codemirror/language": "^0.19.7",
-    "@codemirror/rangeset": "^0.19.5",
+    "@codemirror/rangeset": "^0.19.6",
     "@codemirror/state": "^0.19.6",
-    "@codemirror/view": "^0.19.37",
+    "@codemirror/view": "^0.19.39",
     "relaxed-json": "^1.0.3"
   },
   "devDependencies": {

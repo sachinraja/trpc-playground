@@ -60,12 +60,12 @@
   "dependencies": {
     "@trpc-playground/html": "workspace:0.0.11",
     "@trpc-playground/types": "workspace:0.0.0",
-    "zod-to-ts": "^0.1.0"
+    "zod-to-ts": "^0.2.0"
   },
   "devDependencies": {
-    "@trpc/server": "9.16.0",
+    "@trpc/server": "9.17.0",
     "@types/express": "4.17.13",
-    "next": "12.0.7",
+    "next": "12.0.8",
     "zod": "3.11.6"
   }
 }

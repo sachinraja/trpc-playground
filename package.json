@@ -8,7 +8,7 @@
     "lint:format": "dprint check",
     "lint:types": "turbo run type-check",
     "lint:js": "eslint .",
-    "build": "turbo run build --scope=\"@trpc-playground/**\" --no-deps",
+    "build": "turbo run build --scope=\"@trpc-playground/**\" --scope=\"trpc-playground\" --no-deps",
     "clean": "turbo run clean",
     "prepare": "husky install",
     "test": "vitest",
@@ -58,12 +58,6 @@
         "dependsOn": [
           "^build"
         ],
-        "outputs": []
-      },
-      "lint": {
-        "outputs": []
-      },
-      "release": {
         "outputs": []
       }
     }

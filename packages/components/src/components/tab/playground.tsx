@@ -1,6 +1,6 @@
 import { XIcon } from '@heroicons/react/solid'
 import { atom, useAtom } from 'jotai'
-import { useMemo, useState } from 'preact/hooks'
+import { useCallback, useMemo, useState } from 'preact/hooks'
 import AutosizeInput from 'react-input-autosize'
 import { BaseTab } from './base'
 import { currentTabIndexAtom, previousTabIndexAtom, tabsAtom, totalTabsCreatedAtom } from './store'
@@ -19,8 +19,25 @@ export const PlaygroundTab = ({ index }: TabProps) => {
   const tabRef = useMemo(() => atom(tabs[index]), [tabs])
   const [tab] = useAtom(tabRef)
 
+  const finishEditingTabName = useCallback(() => {
+    const trimmedTabName = tab.name.trim()
+    const tabName = trimmedTabName === '' ? 'New Tab' : trimmedTabName
+
+    setTabs((tabs) => {
+      const newTabs = [...tabs]
+      newTabs[index] = { ...tabs[index], name: tabName }
+      return newTabs
+    })
+
+    setIsEditingTabName(false)
+  }, [tab, setTabs, setIsEditingTabName])
+
   return (
     <BaseTab
+      onClick={() => {
+        setPreviousTabIndex(currentTabIndex)
+        setCurrentTabIndex(index)
+      }}
       className={currentTabIndex === index ? undefined : 'opacity-70'}
     >
       {isEditingTabName
@@ -28,7 +45,8 @@ export const PlaygroundTab = ({ index }: TabProps) => {
           <AutosizeInput
             name='form-field'
             value={tab.name}
-            inputClassName='bg-transparent border-0'
+            inputClassName='bg-transparent outline-0'
+            autoComplete='off'
             onChange={(e) => {
               setTabs((tabs) => {
                 const newTabs = [...tabs]
@@ -38,28 +56,17 @@ export const PlaygroundTab = ({ index }: TabProps) => {
             }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                setIsEditingTabName(false)
+                finishEditingTabName()
               }
             }}
             onBlur={() => {
-              if (tabs[index].name === '') {
-                setTabs((tabs) => {
-                  const newTabs = [...tabs]
-                  newTabs[index] = { ...tabs[index], name: 'New Tab' }
-                  return newTabs
-                })
-              }
-              setIsEditingTabName(false)
+              finishEditingTabName()
             }}
             ref={(el) => el?.focus()}
           />
         )
         : (
           <button
-            onClick={() => {
-              setPreviousTabIndex(currentTabIndex)
-              setCurrentTabIndex(index)
-            }}
             onDblClick={() => {
               console.log('double clicked')
               setIsEditingTabName(true)

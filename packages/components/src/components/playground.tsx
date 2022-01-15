@@ -2,7 +2,7 @@ import { ClientConfig } from '@trpc-playground/types'
 import { ComponentChildren } from 'preact'
 import { Editor } from './editor'
 import { PlaygroundProvider } from './provider'
-import { TabManager } from './tab/manager'
+import { TabGroup } from './tab/group'
 import { Toolbar } from './toolbar'
 export type PlaygroundProps = {
   config: ClientConfig
@@ -18,7 +18,7 @@ export const Playground = ({ config, children }: PlaygroundProps) => {
       />
 
       <div className='text-white bg-slate-800 pt-4'>
-        <TabManager />
+        <TabGroup />
         <Toolbar />
         <Editor />
       </div>

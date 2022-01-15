@@ -1,5 +1,5 @@
 export type Tab = {
-  id: number
+  id: string
   name: string
   doc: string
 }

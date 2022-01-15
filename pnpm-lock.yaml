@@ -114,6 +114,9 @@ importers:
       '@codemirror/state': 0.19.6
       '@codemirror/theme-one-dark': 0.19.1
       '@codemirror/view': 0.19.37
+      '@dnd-kit/core': 5.0.1
+      '@dnd-kit/sortable': 6.0.0
+      '@dnd-kit/utilities': 3.1.0
       '@heroicons/react': 1.0.5
       '@trpc-playground/query-extension': workspace:0.0.0
       '@trpc-playground/types': workspace:*
@@ -152,6 +155,9 @@ importers:
       '@codemirror/state': 0.19.6
       '@codemirror/theme-one-dark': 0.19.1
       '@codemirror/view': 0.19.37
+      '@dnd-kit/core': 5.0.1
+      '@dnd-kit/sortable': 6.0.0_@dnd-kit+core@5.0.1
+      '@dnd-kit/utilities': 3.1.0
       '@heroicons/react': 1.0.5
       '@trpc-playground/query-extension': link:../query-extension
       '@trpc-playground/typescript-extension': link:../typescript-extension
@@ -1107,6 +1113,56 @@ packages:
       '@codemirror/text': 0.19.5
       style-mod: 4.0.0
       w3c-keyname: 2.2.4
+    dev: false
+
+  /@dnd-kit/accessibility/3.0.0:
+    resolution:
+      {
+        integrity: sha512-QwaQ1IJHQHMMuAGOOYHQSx7h7vMZPfO97aDts8t5N/MY7n2QTDSnW+kF7uRQ1tVBkr6vJ+BqHWG5dlgGvwVjow==,
+      }
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      tslib: 2.3.1
+    dev: false
+
+  /@dnd-kit/core/5.0.1:
+    resolution:
+      {
+        integrity: sha512-h02GyHb2KqbpqbELA9QW5WVLdnAQODgZs8Nv15PTg/VpEpQxEkLPn0QHqiMSSOOFBx0qJOowwYh6ggfL1ZIJPQ==,
+      }
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      '@dnd-kit/accessibility': 3.0.0
+      '@dnd-kit/utilities': 3.1.0
+      tslib: 2.3.1
+    dev: false
+
+  /@dnd-kit/sortable/6.0.0_@dnd-kit+core@5.0.1:
+    resolution:
+      {
+        integrity: sha512-Kf0HO/rbFpd7HxXGEvxXtxBgPI6+IQuxRXDdFz6XKLhylxuDMEomi1netrhS+253KrOZ68V+sjqOmfE2RreLeQ==,
+      }
+    peerDependencies:
+      '@dnd-kit/core': ^5.0.0
+      react: '>=16.8.0'
+    dependencies:
+      '@dnd-kit/core': 5.0.1
+      '@dnd-kit/utilities': 3.1.0
+      tslib: 2.3.1
+    dev: false
+
+  /@dnd-kit/utilities/3.1.0:
+    resolution:
+      {
+        integrity: sha512-2JBdIgjJ7xjMRpKagdMuYKWJdDoVVw9Wc6lfMrLjrq8t4QlMEjtsab5JVUlzWvHgANn7w3Y3VhalFfbp4dQrKg==,
+      }
+    peerDependencies:
+      react: '>=16.8.0'
+    dependencies:
+      tslib: 2.3.1
     dev: false
 
   /@eslint/eslintrc/1.0.5:

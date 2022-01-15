@@ -1,6 +1,3 @@
-/**
- * @see https://github.com/prisma/text-editors/blob/main/src/extensions/prisma-query/find-queries.ts
- */
 import { syntaxTree } from '@codemirror/language'
 import { RangeSet, RangeSetBuilder, RangeValue } from '@codemirror/rangeset'
 import { EditorState } from '@codemirror/state'

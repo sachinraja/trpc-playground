@@ -1,4 +1,5 @@
 export { gutter } from './gutter'
 export { keymap } from './keymap'
 export { lineNumbers } from './line-numbers'
+export { maskedEval } from './masked-eval'
 export { state } from './state'

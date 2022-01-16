@@ -3,7 +3,7 @@ import { EditorSelection, Extension } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 import { isCursorInRange } from './find-cursor'
 import { Query } from './find-queries'
-import { OnExecuteFacet, queryStateField } from './state'
+import { OnErrorFacet, OnExecuteFacet, queryStateField } from './state'
 
 const SVG_NAMESPACE = 'http://www.w3.org/2000/svg'
 
@@ -134,14 +134,17 @@ export function lineNumbers(): Extension {
           }
 
           const onExecute = view.state.facet(OnExecuteFacet)
+          const onError = view.state.facet(OnErrorFacet)
           if (!onExecute) {
             return false
           }
 
           let query: Query | null = null
+          let initArgs: Promise<void>
           view.state
             .field(queryStateField)
             .between(line.from, line.to, (from, to, q) => {
+              initArgs = q.init()
               query = q.query
               return false
             })
@@ -150,7 +153,10 @@ export function lineNumbers(): Extension {
             return false
           }
 
-          onExecute(query)
+          initArgs!.then(() => onExecute(query!)).catch((e) => {
+            if (onError) return onError(e)
+            throw e
+          })
           return true
         },
       },

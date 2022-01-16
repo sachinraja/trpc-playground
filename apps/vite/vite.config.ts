@@ -22,6 +22,7 @@ export default defineConfig({
         'components',
         'query-extension',
         'typescript-extension',
+        'utils',
       ]),
       'trpc-playground': path.resolve(packagesDirPath, 'trpc-playground', 'src'),
       // should point to the source css file so that it changes when the component files change

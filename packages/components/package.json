@@ -61,6 +61,7 @@
     "@heroicons/react": "^1.0.5",
     "@trpc-playground/query-extension": "workspace:0.0.0",
     "@trpc-playground/typescript-extension": "workspace:0.0.0",
+    "@trpc-playground/utils": "workspace:0.0.0",
     "@trpc/client": "^9.17.0",
     "@trpc/react": "^9.17.0",
     "clsx": "^1.1.1",
@@ -68,18 +69,17 @@
     "object-inspect": "^1.12.0",
     "react-input-autosize": "^3.0.0",
     "react-query": "^3.34.8",
-    "rodemirror": "^1.6.6",
-    "sucrase-browser": "^3.16.0"
+    "rodemirror": "^1.6.6"
   },
   "peerDependencies": {
     "preact": "^10"
   },
   "devDependencies": {
-    "ts-essentials": "9.1.2",
     "@trpc-playground/types": "workspace:*",
     "@trpc/server": "9.17.0",
     "@types/object-inspect": "1.8.1",
     "@types/react": "17.0.38",
-    "@types/react-input-autosize": "2.2.1"
+    "@types/react-input-autosize": "2.2.1",
+    "ts-essentials": "9.1.2"
   }
 }

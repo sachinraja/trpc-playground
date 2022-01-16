@@ -1,6 +1,4 @@
-type UnknownObject = Record<string, unknown>
-
-export const maskedEval = async (x: string, context: UnknownObject) => {
+export const maskedEval = async (x: string, context: Record<string, unknown>) => {
   const globalContext = { exports: {} }
   const mask = { ...globalContext, ...context }
 

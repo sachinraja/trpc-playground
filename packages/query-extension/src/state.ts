@@ -17,6 +17,14 @@ export const OnExecuteFacet = Facet.define<OnExecute, OnExecute>({
   },
 })
 
+export type OnError = (error: Error) => void
+export const OnErrorFacet = Facet.define<OnError, OnError>({
+  combine: input => {
+    // If multiple `onExecute` callbacks are registered, chain them (call them one after another)
+    return over(input)
+  },
+})
+
 /**
  * Facet to allow configuring query enter callback
  */
@@ -64,11 +72,13 @@ export const queryStateField = StateField.define<
  */
 export function state(config: {
   onExecute?: OnExecute
+  onError?: OnError
   onEnterQuery?: OnEnterQuery
   onLeaveQuery?: OnLeaveQuery
 }): Extension {
   return [
     OnExecuteFacet.of(config.onExecute || noop),
+    OnErrorFacet.of(config.onError || noop),
     OnEnterQueryFacet.of(config.onEnterQuery || noop),
     OnLeaveQueryFacet.of(config.onLeaveQuery || noop),
     queryStateField,

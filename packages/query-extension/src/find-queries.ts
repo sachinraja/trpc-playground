@@ -1,15 +1,17 @@
 import { syntaxTree } from '@codemirror/language'
 import { RangeSet, RangeSetBuilder, RangeValue } from '@codemirror/rangeset'
 import { EditorState } from '@codemirror/state'
-import RJSON from 'relaxed-json'
+import { transformTs } from '@trpc-playground/utils'
+import { maskedEval } from './masked-eval'
 
 export type Query = {
   operation: string
-  args: (string | Record<string, unknown>)[]
+  args: unknown[]
 }
 
 export class QueryRangeValue extends RangeValue {
   public query: Query
+  public rawArgs?: string[]
 
   constructor({ operation, args }: Omit<Query, 'args'> & { args?: string[] }) {
     super()
@@ -18,20 +20,21 @@ export class QueryRangeValue extends RangeValue {
       operation,
       args: [],
     }
+    this.rawArgs = args
+  }
 
-    if (args) {
-      this.query.args = args.map(arg => {
-        try {
-          return RJSON.parse(arg)
-        } catch (_) {
-          return arg.trim()
-        }
-      })
+  async init() {
+    if (this.rawArgs) {
+      this.query.args = await Promise.all(this.rawArgs.map(async (arg) => {
+        const argsWithReturn = `return ${arg}`
+        const transformedCode = transformTs(argsWithReturn)
+        return maskedEval(transformedCode, {})
+      }))
     }
   }
 }
 
-const queryFunctions = ['query', 'mutate']
+const queryFunctions = ['query', 'mutation']
 export const findQueries = (state: EditorState): RangeSet<QueryRangeValue> => {
   const syntax = syntaxTree(state)
   const queries = new RangeSetBuilder<QueryRangeValue>()

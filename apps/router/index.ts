@@ -1,6 +1,8 @@
 import * as trpc from '@trpc/server'
 import { z } from 'zod'
 
+const users = ['user1', 'user2', 'user3']
+
 export const appRouter = trpc
   .router()
   .query('hello', {
@@ -49,6 +51,12 @@ export const appRouter = trpc
       return {
         sum: input.a + input.b,
       }
+    },
+  })
+  .mutation('delete_last_user', {
+    resolve() {
+      users.splice(users.length - 1, 1)
+      return users
     },
   })
 

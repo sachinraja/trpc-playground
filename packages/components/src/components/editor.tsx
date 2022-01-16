@@ -2,15 +2,15 @@ import { javascript } from '@codemirror/lang-javascript'
 import { EditorState } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 import { PlayIcon } from '@heroicons/react/solid'
-import * as queryExtension from '@trpc-playground/query-extension'
+import { state as queryExtensionState } from '@trpc-playground/query-extension'
 import { injectTypes, setDiagnostics } from '@trpc-playground/typescript-extension'
+import { printObject } from '@trpc-playground/utils'
 import { atom, useAtom } from 'jotai'
 import { memo } from 'preact/compat'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'preact/hooks'
 import CodeMirror, { CodeMirrorProps } from 'rodemirror'
 import { baseExtension, tsExtension } from '../editor/extensions'
 import { transformAndRunQueries } from '../editor/transform-and-run-queries'
-import { printObject } from '../utils/misc'
 import { makePlaygroundRequest } from '../utils/playground-request'
 import { configAtom, trpcClientAtom } from './provider'
 import { currentTabAtom, previousTabAtom, previousTabIdAtom, tabsAtom, updateCurrentTabIdAtom } from './tab/store'
@@ -50,24 +50,27 @@ export const Editor = () => {
 
   const extensions = useMemo(() => [
     tsExtension,
-    queryExtension.state({
+    queryExtensionState({
       async onExecute(query) {
         const firstArg = query.args[0]
         if (typeof firstArg !== 'string') return
 
         // force type to satisfy trpc args because it cannot infer types from router
         const args = [firstArg, query.args[1]] as unknown as [string, undefined]
-
         try {
           if (query.operation === 'query') {
             const response = await trpcClient.query(...args)
             return setResponseValue(printObject(response))
-          } else if (query.operation === 'mutate') {
-            await trpcClient.mutation(...args)
+          } else if (query.operation === 'mutation') {
+            const response = await trpcClient.mutation(...args)
+            return setResponseValue(printObject(response))
           }
         } catch (e) {
           return setResponseValue(printObject(e))
         }
+      },
+      onError(error) {
+        setResponseValue(printObject(error))
       },
     }),
   ], [trpcClient, setResponseValue])

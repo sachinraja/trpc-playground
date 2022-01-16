@@ -1,6 +1,6 @@
 import { renderPlaygroundPage } from '@trpc-playground/html'
 import { PlaygroundRequestOperation, TrpcPlaygroundConfig } from '@trpc-playground/types'
-import { resolveConfig } from '../resolve-config'
+import { resolveConfig } from '../config'
 
 type TrpcPlaygroundRequestHandlerArgs = {
   method: string
@@ -14,6 +14,7 @@ export const getCommonHandlerReqData = (config: TrpcPlaygroundConfig) => {
   const resolvedConfig = resolveConfig(config)
 
   const htmlPlaygroundPage = renderPlaygroundPage({
+    ...resolvedConfig.renderOptions,
     clientConfig: resolvedConfig,
   })
 

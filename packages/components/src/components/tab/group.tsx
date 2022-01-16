@@ -7,15 +7,15 @@ import { BaseTab } from './base'
 import { MouseSensor } from './dnd-sensors'
 import { Draggable } from './draggable'
 import { PlaygroundTab } from './playground'
-import { currentTabAtom, currentTabIndexAtom, previousTabIndexAtom, tabsAtom, totalTabsCreatedAtom } from './store'
+import { currentTabAtom, currentTabIndexAtom, tabsAtom, totalTabsCreatedAtom, updateCurrentTabIdAtom } from './store'
 import { Tab } from './types'
 import { createNewDefaultTab } from './utils'
 
 export const TabGroup = () => {
   const [tabs, setTabs] = useAtom(tabsAtom)
-  const [, setPreviousTabIndex] = useAtom(previousTabIndexAtom)
   const [currentTab] = useAtom(currentTabAtom)
-  const [currentTabIndex, setCurrentTabIndex] = useAtom(currentTabIndexAtom)
+  const [currentTabIndex] = useAtom(currentTabIndexAtom)
+  const [, updateCurrentTabId] = useAtom(updateCurrentTabIdAtom)
   const [totalTabsCreated, setTotalTabsCreated] = useAtom(totalTabsCreatedAtom)
 
   const sensors = useSensors(
@@ -34,11 +34,10 @@ export const TabGroup = () => {
       const newIndex = tabs.findIndex((tab) => tab.id === over.id)
       const newTabs = arrayMove(tabs, activeTabIndex, newIndex)
 
-      setPreviousTabIndex(newIndex)
-      setCurrentTabIndex(newIndex)
+      updateCurrentTabId(active.id)
       return newTabs
     })
-  }, [tabs, setTabs, currentTab, setPreviousTabIndex, setCurrentTabIndex])
+  }, [tabs, currentTab])
 
   return (
     <div className='flex flex-shrink-0 space-x-2 overflow-x-scroll scroll mx-2'>
@@ -46,10 +45,7 @@ export const TabGroup = () => {
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragStart={({ active }) => {
-          const activeTabIndex = tabs.findIndex((tab) => tab.id === active.id)
-
-          setPreviousTabIndex(currentTabIndex)
-          setCurrentTabIndex(activeTabIndex)
+          updateCurrentTabId(active.id)
         }}
         onDragEnd={handleDragEnd}
       >
@@ -67,10 +63,12 @@ export const TabGroup = () => {
         </SortableContext>
 
         <DragOverlay>
-          <PlaygroundTab
-            key={currentTab.id}
-            index={currentTabIndex}
-          />
+          {currentTab && (
+            <PlaygroundTab
+              key={currentTab.id}
+              index={currentTabIndex}
+            />
+          )}
         </DragOverlay>
       </DndContext>
 
@@ -78,11 +76,11 @@ export const TabGroup = () => {
         <button
           title='Create new tab'
           onClick={() => {
-            const newTabs: Tab[] = [...tabs, createNewDefaultTab(totalTabsCreated)]
+            const newTab = createNewDefaultTab(totalTabsCreated)
+            const newTabs: Tab[] = [...tabs, newTab]
             setTabs(newTabs)
             setTotalTabsCreated((totalTabsCreated) => totalTabsCreated + 1)
-            setPreviousTabIndex(currentTabIndex)
-            setCurrentTabIndex(newTabs.length - 1)
+            updateCurrentTabId(newTab.id)
           }}
         >
           <PlusIcon width={20} height={20} />

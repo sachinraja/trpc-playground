@@ -1,11 +1,12 @@
-import { ClientConfig } from '@trpc-playground/types'
+import { ClientConfig, RenderOptions } from '@trpc-playground/types'
 
-export type RenderPlaygroundPageArgs = {
-  version?: number
-  cdnUrl?: string
+export type RenderPlaygroundPageOptions = {
   clientConfig: ClientConfig
+} & {
+  version?: RenderOptions['version']
+  cdnUrl: NonNullable<RenderOptions['cdnUrl']>
 }
 
-declare function renderPlaygroundPage(args: RenderPlaygroundPageArgs): string
+declare function renderPlaygroundPage(args: RenderPlaygroundPageOptions): string
 
 export { renderPlaygroundPage }

@@ -43,11 +43,11 @@
     "@codemirror/rangeset": "^0.19.6",
     "@codemirror/state": "^0.19.6",
     "@codemirror/view": "^0.19.39",
+    "lodash": "^4.17.21",
     "relaxed-json": "^1.0.3"
   },
   "devDependencies": {
     "@types/lodash": "4.14.178",
-    "@types/relaxed-json": "1.0.1",
-    "lodash": "4.17.21"
+    "@types/relaxed-json": "1.0.1"
   }
 }

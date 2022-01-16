@@ -20,7 +20,14 @@ app.use(
 
 app.use(
   playgroundEndpoint,
-  expressHandler({ trpcApiEndpoint, playgroundEndpoint, router: appRouter }),
+  expressHandler({
+    trpcApiEndpoint,
+    playgroundEndpoint,
+    router: appRouter,
+    renderOptions: {
+      cdnUrl: 'http://localhost:45245',
+    },
+  }),
 )
 
 app.listen(3000, () => {

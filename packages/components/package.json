@@ -32,12 +32,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "run-p build:*",
-    "build:js": "tsup",
-    "build:types": "tsc -p tsconfig.build.json",
+    "build": "tsup",
     "clean": "rimraf dist",
     "prepublishOnly": "pnpm build",
-    "watch": "tsup --watch --no-dts",
     "type-check": "tsc"
   },
   "dependencies": {
@@ -78,11 +75,11 @@
     "preact": "^10"
   },
   "devDependencies": {
+    "ts-essentials": "9.1.2",
     "@trpc-playground/types": "workspace:*",
     "@trpc/server": "9.17.0",
     "@types/object-inspect": "1.8.1",
     "@types/react": "17.0.38",
-    "@types/react-input-autosize": "2.2.1",
-    "ts-essentials": "9.1.2"
+    "@types/react-input-autosize": "2.2.1"
   }
 }

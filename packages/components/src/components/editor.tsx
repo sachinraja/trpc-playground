@@ -13,7 +13,7 @@ import { transformAndRunQueries } from '../editor/transform-and-run-queries'
 import { printObject } from '../utils/misc'
 import { makePlaygroundRequest } from '../utils/playground-request'
 import { configAtom, trpcClientAtom } from './provider'
-import { currentTabAtom, currentTabIndexAtom, previousTabIndexAtom, tabsAtom } from './tab/store'
+import { currentTabAtom, previousTabAtom, previousTabIdAtom, tabsAtom, updateCurrentTabIdAtom } from './tab/store'
 
 const MemoizedCodeMirror = memo((props: CodeMirrorProps) => <CodeMirror {...props} />)
 
@@ -22,8 +22,9 @@ const responseValueAtom = atom(printObject({ foo: 'bar' }))
 export const Editor = () => {
   const [editorView, setEditorView] = useState<EditorView | null>(null)
   const [, setTabs] = useAtom(tabsAtom)
-  const [previousTabIndex] = useAtom(previousTabIndexAtom)
-  const [currentTabIndex] = useAtom(currentTabIndexAtom)
+  const [previousTab] = useAtom(previousTabAtom)
+  const [previousTabId] = useAtom(previousTabIdAtom)
+  const [currentTabId] = useAtom(updateCurrentTabIdAtom)
   const [currentTab] = useAtom(currentTabAtom)
   const [responseValue, setResponseValue] = useAtom(responseValueAtom)
   const [trpcClient] = useAtom(trpcClientAtom)
@@ -87,18 +88,19 @@ export const Editor = () => {
   ], [])
 
   useLayoutEffect(() => {
-    if (!editorView || (previousTabIndex === currentTabIndex)) return
+    if (!editorView || !previousTab || (previousTabId === currentTabId)) return
 
     setTabs((tabs) => {
       const newTabs = [...tabs]
+      const previousTabIndex = newTabs.findIndex((tab) => tab.id === previousTabId)
       newTabs[previousTabIndex] = { ...newTabs[previousTabIndex], doc: editorView.state.doc.toString() }
 
       return newTabs
     })
-  }, [editorView, previousTabIndex, currentTabIndex, currentTab, setTabs])
+  }, [editorView, previousTabId, currentTabId, currentTab, setTabs])
 
   useEffect(() => {
-    if (!editorView) return
+    if (!editorView || !currentTab) return
 
     editorView.dispatch({
       changes: {

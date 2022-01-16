@@ -5,7 +5,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ClientConfig } from '@trpc-playground/types'
 import { filterXSS } from 'xss'
-import { RenderPlaygroundPageArgs } from '..'
+import { RenderPlaygroundPageOptions } from '..'
+
 const CONFIG_ID = 'playground-config'
 
 const filter = (val: string) =>
@@ -22,9 +23,7 @@ const renderConfig = (config: ClientConfig) => {
   })
 }
 
-const renderPlaygroundPage = ({ version, cdnUrl, clientConfig }: RenderPlaygroundPageArgs) => {
-  const resolvedCdnUrl = cdnUrl ?? '//cdn.jsdelivr.net/npm'
-
+const renderPlaygroundPage = ({ version, cdnUrl, clientConfig }: RenderPlaygroundPageOptions) => {
   // only send necessary config to client
   // this must be updated with the latest properties whenever ClientConfig is updated
   const resolvedConfig: ClientConfig = {
@@ -34,7 +33,7 @@ const renderPlaygroundPage = ({ version, cdnUrl, clientConfig }: RenderPlaygroun
   }
 
   const buildCdnUrl = (packageName: string, suffix: string) =>
-    filter(`${resolvedCdnUrl}/${packageName}${version ? `@${version}` : ''}/${suffix}` || '')
+    filter(`${cdnUrl}/${packageName}${version ? `@${version}` : ''}/${suffix}` || '')
 
   return (`<html lang="en">
   <head>
@@ -45,6 +44,11 @@ const renderPlaygroundPage = ({ version, cdnUrl, clientConfig }: RenderPlaygroun
     {links}
   </head>
   <body>
+    <style>
+      #${CONFIG_ID} {
+        display: none
+      }
+    </style>
     ${renderConfig(resolvedConfig)}
     <div id="app"></div>
     

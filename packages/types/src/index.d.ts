@@ -25,15 +25,33 @@ export type ClientConfig = {
   }
 }
 
+export type RenderOptions = {
+  /**
+   * The version of @trpc-playground/html to use.
+   * @default latest
+   */
+  version?: number
+  /**
+   * The cdn to import the @trpc-playground/html scripts from.
+   * @default //cdn.jsdelivr.net/npm
+   */
+  cdnUrl?: string
+}
+
 export type ServerConfig = {
   /**
-   * the trpc router that the playground server handler uses to generate types
+   * The trpc router that the playground server handler uses to generate types.
    */
   router: AnyRouter
   /**
    * Resolves the typescript types for the router and returns an array of types to inject. Uses [`zod-to-ts`](https://github.com/sachinraja/zod-to-ts) by default.
    */
   resolveTypes?: (router: AnyRouter) => string[] | Promise<string[]>
+
+  /**
+   * Options for rendering the HTML playground page.
+   */
+  renderOptions?: RenderOptions
 }
 
 export type TrpcPlaygroundConfig = ClientConfig & ServerConfig

@@ -6,7 +6,9 @@ export function App() {
       config={{
         trpcApiEndpoint: 'http://localhost:3000/api/trpc',
         playgroundEndpoint: 'http://localhost:3000/api/trpc-playground',
-        refreshTypesTimeout: 4000,
+        polling: {
+          interval: 4000,
+        },
       }}
     />
   )

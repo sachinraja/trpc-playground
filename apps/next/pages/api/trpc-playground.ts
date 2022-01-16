@@ -5,5 +5,7 @@ export default nextHandler({
   router: appRouter,
   trpcApiEndpoint: '/api/trpc',
   playgroundEndpoint: '/api/trpc-playground',
-  refreshTypesTimeout: 1000,
+  polling: {
+    interval: 1000,
+  },
 })

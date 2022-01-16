@@ -4,7 +4,7 @@ import { atom, useAtom } from 'jotai'
 import { useCallback, useMemo, useState } from 'preact/hooks'
 import AutosizeInput from 'react-input-autosize'
 import { BaseTab } from './base'
-import { currentTabIndexAtom, previousTabIndexAtom, tabsAtom, totalTabsCreatedAtom } from './store'
+import { tabsAtom, totalTabsCreatedAtom, updateCurrentTabIdAtom } from './store'
 import { createNewDefaultTab } from './utils'
 
 type TabProps = {
@@ -13,8 +13,7 @@ type TabProps = {
 
 export const PlaygroundTab = ({ index }: TabProps) => {
   const [tabs, setTabs] = useAtom(tabsAtom)
-  const [, setPreviousTabIndex] = useAtom(previousTabIndexAtom)
-  const [currentTabIndex, setCurrentTabIndex] = useAtom(currentTabIndexAtom)
+  const [currentTabId, updateCurrentTabId] = useAtom(updateCurrentTabIdAtom)
   const [totalTabsCreated, setTotalTabsCreated] = useAtom(totalTabsCreatedAtom)
   const [isEditingTabName, setIsEditingTabName] = useState(false)
   const tabRef = useMemo(() => atom(tabs[index]), [tabs])
@@ -33,13 +32,15 @@ export const PlaygroundTab = ({ index }: TabProps) => {
     setIsEditingTabName(false)
   }, [tab, setTabs, setIsEditingTabName])
 
+  const className = useMemo(() =>
+    clsx(
+      tab.id === currentTabId ? undefined : 'opacity-70',
+      'select-none',
+    ), [tab, currentTabId])
+
   return (
     <BaseTab
-      onClick={() => {
-        setPreviousTabIndex(currentTabIndex)
-        setCurrentTabIndex(index)
-      }}
-      className={clsx(currentTabIndex === index ? undefined : 'opacity-70', 'select-none')}
+      className={className}
     >
       {isEditingTabName
         ? (
@@ -68,6 +69,9 @@ export const PlaygroundTab = ({ index }: TabProps) => {
         )
         : (
           <button
+            onClick={() => {
+              updateCurrentTabId(tab.id)
+            }}
             onDblClick={() => {
               setIsEditingTabName(true)
             }}
@@ -80,27 +84,21 @@ export const PlaygroundTab = ({ index }: TabProps) => {
         title='Close tab'
         className='ml-4'
         onClick={() => {
-          setTabs((tabs) => {
-            const newTabs = [...tabs]
-            newTabs.splice(index, 1)
-            if (newTabs.length === 0) {
-              newTabs.push(createNewDefaultTab(totalTabsCreated))
-              setTotalTabsCreated((totalTabsCreated) => totalTabsCreated + 1)
-            }
+          const newTabs = [...tabs]
+          newTabs.splice(index, 1)
+          if (newTabs.length === 0) {
+            newTabs.push(createNewDefaultTab(totalTabsCreated))
+            setTotalTabsCreated((totalTabsCreated) => totalTabsCreated + 1)
+          }
 
-            let newPreviousTabIndex = currentTabIndex
-            let newIndex = currentTabIndex
-            const lastNewTabsIndex = newTabs.length - 1
-            if (newIndex > lastNewTabsIndex) {
-              newPreviousTabIndex = lastNewTabsIndex
-              newIndex = lastNewTabsIndex
-            }
+          // if current tab was closed, this should be -1 (index not found)
+          const newCurrentTabIndex = newTabs.findIndex((tab) => tab.id === currentTabId)
 
-            setPreviousTabIndex(newPreviousTabIndex)
-            setCurrentTabIndex(newIndex)
+          if (newCurrentTabIndex === -1) {
+            updateCurrentTabId(newTabs[newTabs.length - 1].id)
+          }
 
-            return newTabs
-          })
+          setTabs(newTabs)
         }}
       >
         <XIcon className='text-slate-800' width={20} height={20} />

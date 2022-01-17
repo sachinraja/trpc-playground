@@ -41,6 +41,10 @@ export const PlaygroundTab = ({ index }: TabProps) => {
   return (
     <BaseTab
       className={className}
+      onClick={() => {
+        console.log('running')
+        updateCurrentTabId(tab.id)
+      }}
     >
       {isEditingTabName
         ? (
@@ -69,9 +73,6 @@ export const PlaygroundTab = ({ index }: TabProps) => {
         )
         : (
           <button
-            onClick={() => {
-              updateCurrentTabId(tab.id)
-            }}
             onDblClick={() => {
               setIsEditingTabName(true)
             }}
@@ -83,7 +84,10 @@ export const PlaygroundTab = ({ index }: TabProps) => {
       <button
         title='Close tab'
         className='ml-4'
-        onClick={() => {
+        onClick={(e) => {
+          // will trigger tab onClick and set this to current tab otherwise
+          e.stopPropagation()
+
           const newTabs = [...tabs]
           newTabs.splice(index, 1)
           if (newTabs.length === 0) {
@@ -95,7 +99,7 @@ export const PlaygroundTab = ({ index }: TabProps) => {
           const newCurrentTabIndex = newTabs.findIndex((tab) => tab.id === currentTabId)
 
           if (newCurrentTabIndex === -1) {
-            updateCurrentTabId(newTabs[newTabs.length - 1].id)
+            updateCurrentTabId(newTabs[0].id)
           }
 
           setTabs(newTabs)

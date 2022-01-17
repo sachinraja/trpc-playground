@@ -54,6 +54,7 @@ class RunQueryMarker extends GutterMarker {
   }
 
   toDOM() {
+    const runButton = document.createElement('button')
     // Feathericons: play-circle
     const svg = document.createElementNS(SVG_NAMESPACE, 'svg')
     svg.setAttribute('xmlns', SVG_NAMESPACE)
@@ -81,13 +82,14 @@ class RunQueryMarker extends GutterMarker {
     path.setAttribute('fill', 'white')
     svg.appendChild(path)
 
-    svg.classList.add('cm-gutterElement')
-    svg.classList.add('cm-queryRunButton')
+    runButton.appendChild(svg)
+    runButton.classList.add('cm-gutterElement')
+    runButton.classList.add('cm-queryRunButton')
     if (this.active) {
-      svg.classList.add('active')
+      runButton.classList.add('active')
     }
 
-    return svg
+    return runButton
   }
 }
 
@@ -119,9 +121,13 @@ export function lineNumbers(): Extension {
       },
       domEventHandlers: {
         click: (view, line, event) => {
-          const targetParentElement = (event.target as HTMLDivElement)
-            .parentNode as HTMLDivElement
-          if (targetParentElement?.classList?.contains('cm-lineNumbers')) {
+          console.log(event.target)
+          const targetElement = event.target as HTMLDivElement
+          const targetParentElement = targetElement.parentNode as HTMLDivElement
+          if (
+            !targetElement?.classList?.contains('cm-queryRunButton')
+            && targetParentElement?.classList?.contains('cm-lineNumbers')
+          ) {
             // Clicking on a line number should not execute the query
             return false
           }

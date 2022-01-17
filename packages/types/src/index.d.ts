@@ -5,16 +5,19 @@ export type ClientConfig = {
    * the endpoint url that the trpc client makes requests to
    */
   trpcApiEndpoint: string
+
   /**
    * the endpoint url for the playground, provides data such as the router types
    */
   playgroundEndpoint: string
+
   polling?: {
     /**
      * whether to poll for new types or not
      * @default true
      */
     enable?: boolean
+
     /**
      * How often the playground client polls the server for new types in milliseconds.
      * If this is `null`, the client will not poll for new types, which is useful in production
@@ -22,6 +25,13 @@ export type ClientConfig = {
      * @default 10000
      */
     interval?: number
+  }
+
+  request?: {
+    /**
+     * Headers sent on every tRPC Playground request.
+     */
+    globalHeaders?: Record<string, string>
   }
 }
 
@@ -57,3 +67,5 @@ export type ServerConfig = {
 export type TrpcPlaygroundConfig = ClientConfig & ServerConfig
 
 export type PlaygroundRequestOperation = 'getTypes'
+
+export type Awaited<T> = T extends PromiseLike<infer U> ? U : T

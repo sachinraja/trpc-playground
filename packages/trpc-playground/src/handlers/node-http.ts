@@ -1,11 +1,11 @@
 import http from 'http'
-import { getCommonHandlerReqData, handleRequest } from './common'
+import { CommonHandlerReqData, handleRequest } from './common'
 import { HTTPRequest, NodeHTTPRequest } from './utils/types'
 
 type NodeHttpHandlerArgs = {
   req: NodeHTTPRequest
   res: http.ServerResponse
-  common: ReturnType<typeof getCommonHandlerReqData>
+  common: CommonHandlerReqData
 }
 
 export const nodeHttpHandler = async ({ req, res, common }: NodeHttpHandlerArgs) => {

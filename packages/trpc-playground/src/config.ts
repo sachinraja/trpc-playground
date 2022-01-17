@@ -13,6 +13,9 @@ const defaultConfig = defineConfig({
   renderOptions: {
     cdnUrl: '//cdn.jsdelivr.net/npm',
   },
+  request: {
+    globalHeaders: {},
+  },
 })
 
 export const resolveConfig = (config: TrpcPlaygroundConfig) => mergeDeep({}, defaultConfig, config)

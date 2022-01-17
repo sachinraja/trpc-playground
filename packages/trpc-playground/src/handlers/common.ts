@@ -1,16 +1,12 @@
 import { renderPlaygroundPage } from '@trpc-playground/html'
-import { TrpcPlaygroundConfig } from '@trpc-playground/types'
+import { Awaited, TrpcPlaygroundConfig } from '@trpc-playground/types'
 import { resolveConfig } from '../config'
 import { getPostBody } from './utils/get-post-body'
 import { HTTPBody, HTTPRequest, NodeHTTPRequest } from './utils/types'
 
-type TrpcPlaygroundRequestHandlerArgs = {
-  rawReq: NodeHTTPRequest
-  req: HTTPRequest
-  common: ReturnType<typeof getCommonHandlerReqData>
-}
+export type CommonHandlerReqData = Awaited<ReturnType<typeof getCommonHandlerReqData>>
 
-export const getCommonHandlerReqData = (config: TrpcPlaygroundConfig) => {
+export const getCommonHandlerReqData = async (config: TrpcPlaygroundConfig) => {
   const resolvedConfig = resolveConfig(config)
 
   const htmlPlaygroundPage = renderPlaygroundPage({
@@ -18,14 +14,21 @@ export const getCommonHandlerReqData = (config: TrpcPlaygroundConfig) => {
     clientConfig: resolvedConfig,
   })
 
+  const types = await resolvedConfig.resolveTypes(config.router)
   return {
     config: resolvedConfig,
     htmlPlaygroundPage,
+    stringifiedTypes: JSON.stringify(types),
   }
 }
 
+type TrpcPlaygroundRequestHandlerArgs = {
+  rawReq: NodeHTTPRequest
+  req: HTTPRequest
+  common: CommonHandlerReqData
+}
 export const handleRequest = async ({ rawReq, req, common }: TrpcPlaygroundRequestHandlerArgs) => {
-  const { config, htmlPlaygroundPage } = common
+  const { stringifiedTypes, htmlPlaygroundPage } = common
 
   switch (req.method) {
     // can be used for lambda warmup
@@ -51,14 +54,11 @@ export const handleRequest = async ({ rawReq, req, common }: TrpcPlaygroundReque
       const bodyObject: HTTPBody = typeof bodyData === 'string' ? JSON.parse(bodyData) : req.body
 
       if (bodyObject.operation === 'getTypes') {
-        const types = await config.resolveTypes(config.router)
-        const body = JSON.stringify(types)
-
         return {
           headers: {
             'Content-Type': 'application/json',
           },
-          body,
+          body: stringifiedTypes,
         }
       } else {
         // not a valid operation, 400 Bad Request

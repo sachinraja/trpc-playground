@@ -30,6 +30,7 @@ const renderPlaygroundPage = ({ version, cdnUrl, clientConfig }: RenderPlaygroun
     trpcApiEndpoint: clientConfig.trpcApiEndpoint,
     playgroundEndpoint: clientConfig.playgroundEndpoint,
     polling: clientConfig.polling,
+    request: clientConfig.request,
   }
 
   const buildCdnUrl = (packageName: string, suffix: string) =>

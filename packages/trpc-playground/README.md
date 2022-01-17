@@ -89,3 +89,29 @@ runApp()
 ## Settings
 
 For all configuration options, see [the API docs](https://paka.dev/npm/@trpc-playground/types#module-index-export-TrpcPlaygroundConfig).
+
+## Writing Queries
+
+In the playground, writing queries is meant to mimic the experience of writing queries in a tRPC client as closely as possible. You can even write TS and your code will be transformed to JS before it is run.
+
+For `trpc.query(path, inputArgs)` or `trpc.useQuery([path, inputArgs])`:
+
+```ts
+await query(path, inputArgs)
+
+// example
+await query('getUser', { id: 4 })
+```
+
+For `trpc.mutation(path, inputArgs)` or `trpc.useMutation([path, inputArgs])`:
+
+```ts
+await mutation(path, inputArgs)
+
+// example
+await mutation('createUser', { name: 'Bob' })
+```
+
+## Types
+
+tRPC Playground resolves the types for your queries based on the `input` schema in your router. The default resolver is [`zod-to-ts`](https://github.com/sachinraja/zod-to-ts), which should work out of the box for the most part. However, there are [a few special cases that it may not handle correctly](https://github.com/sachinraja/zod-to-ts#special-cases) such as `z.lazy()` and `z.nativeEnum()`, so read those docs for more information on how to handle these cases if you have any issues with them.

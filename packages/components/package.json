@@ -69,7 +69,8 @@
     "object-inspect": "^1.12.0",
     "react-input-autosize": "^3.0.0",
     "react-query": "^3.34.8",
-    "rodemirror": "^1.6.6"
+    "rodemirror": "^1.6.6",
+    "ts-essentials": "^9.1.2"
   },
   "peerDependencies": {
     "preact": "^10"
@@ -79,7 +80,6 @@
     "@trpc/server": "9.17.0",
     "@types/object-inspect": "1.8.1",
     "@types/react": "17.0.38",
-    "@types/react-input-autosize": "2.2.1",
-    "ts-essentials": "9.1.2"
+    "@types/react-input-autosize": "2.2.1"
   }
 }

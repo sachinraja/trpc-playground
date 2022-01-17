@@ -22,7 +22,7 @@
     "build:types": "node scripts/build-types.js",
     "clean": "rimraf dist src/types",
     "prepublishOnly": "pnpm build",
-    "prepare": "pnpm build-types",
+    "prepare": "pnpm build:types",
     "type-check": "tsc"
   },
   "sideEffects": false,

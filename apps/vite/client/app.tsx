@@ -10,6 +10,9 @@ export function App() {
           enable: true,
           interval: 4000,
         },
+        request: {
+          globalHeaders: {},
+        },
       }}
     />
   )

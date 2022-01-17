@@ -1,6 +1,6 @@
 import * as trpcExpress from '@trpc/server/adapters/express'
 import cors from 'cors'
-import express from 'express'
+import express, { Handler } from 'express'
 import { expressHandler } from '../../../packages/trpc-playground/src/handlers/express'
 import { appRouter } from '../../router'
 
@@ -10,11 +10,14 @@ const runApp = async () => {
   const trpcApiEndpoint = '/api/trpc'
   const playgroundEndpoint = '/api/trpc-playground'
 
+  const trpcMiddleware = trpcExpress.createExpressMiddleware({
+    router: appRouter,
+  })
   app.use(
     trpcApiEndpoint,
-    trpcExpress.createExpressMiddleware({
-      router: appRouter,
-    }),
+    (req, res, next) => {
+      trpcMiddleware(req, res, next)
+    },
   )
 
   app.use(

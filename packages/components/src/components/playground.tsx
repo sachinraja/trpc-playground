@@ -1,11 +1,11 @@
-import { ClientConfig } from '@trpc-playground/types'
 import { ComponentChildren } from 'preact'
+import { DeepRequiredClientConfig } from '../types'
 import { Editor } from './editor'
 import { PlaygroundProvider } from './provider'
 import { TabGroup } from './tab/group'
 import { Toolbar } from './toolbar'
 export type PlaygroundProps = {
-  config: ClientConfig
+  config: DeepRequiredClientConfig
   children?: ComponentChildren
 }
 

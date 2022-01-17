@@ -1,4 +1,3 @@
-import { ClientConfig } from '@trpc-playground/types'
 import { createReactQueryHooks } from '@trpc/react'
 import { AnyRouter } from '@trpc/server'
 import { atom } from 'jotai'
@@ -6,26 +5,29 @@ import { Provider as JotaiProvider } from 'jotai'
 import { ComponentChildren } from 'preact'
 import { useMemo } from 'preact/hooks'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { DeepRequired } from 'ts-essentials'
-import { TrpcClient } from '../types'
+import { DeepRequiredClientConfig, TrpcClient } from '../types'
 import { createInitialValues } from './utils'
 
 // need to pass in AnyRouter to satisfy rollup-plugin-dts
 export const trpc = createReactQueryHooks<AnyRouter>()
 
 type PlaygroundProviderProps = {
-  config: ClientConfig
+  config: DeepRequiredClientConfig
   children: ComponentChildren
 }
 
 export const trpcClientAtom = atom<TrpcClient>(null!)
-export const configAtom = atom<DeepRequired<ClientConfig>>(null!)
+export const configAtom = atom<DeepRequiredClientConfig>(null!)
 
 export const PlaygroundProvider = ({ config, children }: PlaygroundProviderProps) => {
   const queryClient = useMemo(() => new QueryClient(), [])
+  console.log(config)
   const trpcClient = useMemo(() =>
     trpc.createClient({
       url: config.trpcApiEndpoint,
+      headers() {
+        return config.request.globalHeaders
+      },
     }), [])
 
   const { get, set } = createInitialValues()

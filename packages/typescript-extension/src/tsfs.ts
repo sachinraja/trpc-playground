@@ -26,9 +26,7 @@ export class TSFS {
     // First, we fetch metadata about the library
 
     // Rollup needs us to use static strings for dynamic imports
-    const meta = libName === 'typescript'
-      ? await import('./types/typescript/meta.js')
-      : await import('./types/@types/node/meta.js')
+    const meta = await import('./types/typescript/meta.js')
 
     // The metadata tells us the version of the library, and gives us a list of file names in the library.
     // If our cache already has this version of the library:
@@ -57,9 +55,7 @@ export class TSFS {
       await localforage.clear()
 
       // Rollup needs us to use static strings for dynamic imports
-      const data = libName === 'typescript'
-        ? await import('./types/typescript/data.js')
-        : await import('./types/@types/node/data.js')
+      const data = await import('./types/typescript/data.js')
 
       // Add new things to DB
       const files = Object.entries(data.files)
@@ -85,10 +81,6 @@ export class TSFS {
       this.forFileInLib('typescript', (name, content) => {
         // TS Core libs need to be available at the root path `/` (TSServer requires this)
         this.fs.set('/' + name, content)
-      }),
-      this.forFileInLib('@types/node', (name, content) => {
-        // Additional libs need to be faked so they look like they're coming from node_modules (TSServer requires this)
-        this.fs.set('/node_modules/@types/node/' + name, content)
       }),
     ])
   }

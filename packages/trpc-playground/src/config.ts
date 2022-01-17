@@ -15,4 +15,4 @@ const defaultConfig = defineConfig({
   },
 })
 
-export const resolveConfig = (config: TrpcPlaygroundConfig) => mergeDeep(defaultConfig, config)
+export const resolveConfig = (config: TrpcPlaygroundConfig) => mergeDeep({}, defaultConfig, config)

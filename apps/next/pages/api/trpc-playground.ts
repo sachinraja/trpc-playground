@@ -6,6 +6,9 @@ export default nextHandler({
   trpcApiEndpoint: '/api/trpc',
   playgroundEndpoint: '/api/trpc-playground',
   polling: {
-    interval: 1000,
+    interval: 4000,
+  },
+  renderOptions: {
+    cdnUrl: 'http://localhost:45245',
   },
 })

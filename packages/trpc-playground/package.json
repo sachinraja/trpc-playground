@@ -2,7 +2,7 @@
   "name": "trpc-playground",
   "type": "module",
   "version": "0.0.0",
-  "description": "playground for tRPC",
+  "description": "playground for running tRPC queries in the browser",
   "repository": {
     "directory": "packages/trpc-playground",
     "type": "git",

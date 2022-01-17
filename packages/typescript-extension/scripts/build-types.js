@@ -16,11 +16,11 @@ const dependencies = {
     version: '4.5.4',
     src: ['lib/*.d.ts'],
   },
-  // Node lubs
-  '@types/node': {
-    version: '14', // Because this is the version of Node on Vercel
-    src: ['*.d.ts'],
-  },
+  // Node libs
+  // '@types/node': {
+  //   version: '14', // Because this is the version of Node on Vercel
+  //   src: ['*.d.ts'],
+  // },
 }
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))

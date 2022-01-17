@@ -17,11 +17,12 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "run-p build:*",
+    "build:js": "tsup",
+    "build:types": "node scripts/build-types.js",
     "clean": "rimraf dist src/types",
     "prepublishOnly": "pnpm build",
     "prepare": "pnpm build-types",
-    "build-types": "node scripts/build-types.js",
     "type-check": "tsc"
   },
   "sideEffects": false,

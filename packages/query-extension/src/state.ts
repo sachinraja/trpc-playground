@@ -17,10 +17,13 @@ export const OnExecuteFacet = Facet.define<OnExecute, OnExecute>({
   },
 })
 
+/**
+ * Facet to handle errors
+ */
 export type OnError = (error: Error) => void
 export const OnErrorFacet = Facet.define<OnError, OnError>({
   combine: input => {
-    // If multiple `onExecute` callbacks are registered, chain them (call them one after another)
+    // If multiple `onError` callbacks are registered, chain them (call them one after another)
     return over(input)
   },
 })

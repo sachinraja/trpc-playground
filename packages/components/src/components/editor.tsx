@@ -41,11 +41,9 @@ export const Editor = () => {
       editorView.dispatch(injectTypes({
         '/index.d.ts': types.join('\n'),
       }))
-    } catch (e) {
       // server might be restarting so ignore fetch errors
-      if (e instanceof TypeError && e.message === 'Failed to fetch') return
-      throw e
-    }
+      // eslint-disable-next-line no-empty
+    } catch (_) {}
   }, [editorView])
 
   const extensions = useMemo(() => [

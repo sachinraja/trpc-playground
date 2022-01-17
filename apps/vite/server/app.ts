@@ -6,7 +6,6 @@ import { appRouter } from '../../router'
 
 const app = express()
 app.use(cors())
-app.use(express.json())
 
 const trpcApiEndpoint = '/api/trpc'
 const playgroundEndpoint = '/api/trpc-playground'

@@ -177,7 +177,7 @@ importers:
       '@types/object-inspect': 1.8.1
       '@types/react': 17.0.38
       '@types/react-input-autosize': 2.2.1
-      ts-essentials: 9.1.2
+      ts-essentials: 9.1.2_typescript@4.5.4
 
   packages/html:
     specifiers:
@@ -222,8 +222,6 @@ importers:
       '@codemirror/state': ^0.19.6
       '@codemirror/view': ^0.19.39
       '@trpc-playground/utils': workspace:0.0.0
-      '@trpc/client': 9.17.0
-      '@trpc/server': 9.17.0
       '@types/lodash': 4.14.178
       lodash: ^4.17.21
     dependencies:
@@ -235,8 +233,6 @@ importers:
       '@trpc-playground/utils': link:../utils
       lodash: 4.17.21
     devDependencies:
-      '@trpc/client': 9.17.0_@trpc+server@9.17.0
-      '@trpc/server': 9.17.0
       '@types/lodash': 4.14.178
 
   packages/trpc-playground:
@@ -1556,6 +1552,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.16.7
       '@trpc/server': 9.17.0
+    dev: false
 
   /@trpc/react/9.17.0_a0ea8240078b3c414e5da4055f1432e1:
     resolution:
@@ -7233,13 +7230,15 @@ packages:
     engines: { node: '>=8' }
     dev: true
 
-  /ts-essentials/9.1.2:
+  /ts-essentials/9.1.2_typescript@4.5.4:
     resolution:
       {
         integrity: sha512-EaSmXsAhEiirrTY1Oaa7TSpei9dzuCuFPmjKRJRPamERYtfaGS8/KpOSbjergLz/Y76/aZlV9i/krgzsuWEBbg==,
       }
     peerDependencies:
       typescript: '>=4.1.0'
+    dependencies:
+      typescript: 4.5.4
     dev: true
 
   /ts-interface-checker/0.1.13:

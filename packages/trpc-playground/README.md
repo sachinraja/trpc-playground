@@ -14,8 +14,10 @@ npm install trpc-playground
 
 tRPC Playground provides handlers that serve the playground HTML page and handle playground-related requests such as getting types from the router.
 
+<h3>Next.js</h3>
+
 <details>
-<summary><h3 style="display: inline-block;">Next.js</h3></summary>
+<summary></summary>
 
 [Example](https://github.com/sachinraja/trpc-playground/tree/main/apps/next)
 
@@ -42,8 +44,10 @@ export default handler
 
 </details>
 
+<h3>Express</h3>
+
 <details>
-<summary><h3 style="display: inline-block;">Express</h3></summary>
+<summary></summary>
 
 [Example](https://github.com/sachinraja/trpc-playground/tree/main/apps/express)
 

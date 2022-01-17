@@ -3,7 +3,7 @@
  */
 // some variables used after injection
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { ClientConfig } from '@trpc-playground/types'
+import { ClientConfig, DeepRequiredClientConfig } from '@trpc-playground/types'
 import { filterXSS } from 'xss'
 import { RenderPlaygroundPageOptions } from '..'
 
@@ -26,7 +26,7 @@ const renderConfig = (config: ClientConfig) => {
 const renderPlaygroundPage = ({ version, cdnUrl, clientConfig }: RenderPlaygroundPageOptions) => {
   // only send necessary config to client
   // this must be updated with the latest properties whenever ClientConfig is updated
-  const resolvedConfig: ClientConfig = {
+  const resolvedConfig: DeepRequiredClientConfig = {
     trpcApiEndpoint: clientConfig.trpcApiEndpoint,
     playgroundEndpoint: clientConfig.playgroundEndpoint,
     polling: clientConfig.polling,

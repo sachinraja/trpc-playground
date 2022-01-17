@@ -1,6 +1,6 @@
 import * as trpcExpress from '@trpc/server/adapters/express'
 import cors from 'cors'
-import express, { Handler } from 'express'
+import express from 'express'
 import { expressHandler } from '../../../packages/trpc-playground/src/handlers/express'
 import { appRouter } from '../../router'
 

@@ -17,9 +17,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "run-p build:*",
-    "build:js": "tsup",
+    "build": "run-s build:*",
     "build:types": "node scripts/build-types.js",
+    "build:js": "tsup",
     "clean": "rimraf dist src/types",
     "prepublishOnly": "pnpm build",
     "prepare": "pnpm build:types",

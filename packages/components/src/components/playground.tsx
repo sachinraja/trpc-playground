@@ -1,5 +1,5 @@
+import { DeepRequiredClientConfig } from '@trpc-playground/types'
 import { ComponentChildren } from 'preact'
-import { DeepRequiredClientConfig } from '../types'
 import { Editor } from './editor'
 import { PlaygroundProvider } from './provider'
 import { TabGroup } from './tab/group'

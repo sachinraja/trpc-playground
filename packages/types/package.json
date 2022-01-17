@@ -35,6 +35,9 @@
   "peerDependencies": {
     "@trpc/server": "^9"
   },
+  "dependencies": {
+    "ts-essentials": "^9.1.2"
+  },
   "devDependencies": {
     "@trpc/server": "9.17.0"
   }

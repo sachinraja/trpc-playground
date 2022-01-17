@@ -1,7 +1,7 @@
-import { ClientConfig, RenderOptions } from '@trpc-playground/types'
+import { DeepRequiredClientConfig, RenderOptions } from '@trpc-playground/types'
 
 export type RenderPlaygroundPageOptions = {
-  clientConfig: ClientConfig
+  clientConfig: DeepRequiredClientConfig
 } & {
   version?: RenderOptions['version']
   cdnUrl: NonNullable<RenderOptions['cdnUrl']>

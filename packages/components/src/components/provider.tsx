@@ -1,3 +1,4 @@
+import { DeepRequiredClientConfig } from '@trpc-playground/types'
 import { createReactQueryHooks } from '@trpc/react'
 import { AnyRouter } from '@trpc/server'
 import { atom } from 'jotai'
@@ -5,7 +6,7 @@ import { Provider as JotaiProvider } from 'jotai'
 import { ComponentChildren } from 'preact'
 import { useMemo } from 'preact/hooks'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { DeepRequiredClientConfig, TrpcClient } from '../types'
+import { TrpcClient } from '../types'
 import { createInitialValues } from './utils'
 
 // need to pass in AnyRouter to satisfy rollup-plugin-dts

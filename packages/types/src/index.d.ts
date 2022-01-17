@@ -1,4 +1,5 @@
 import { AnyRouter } from '@trpc/server'
+import { DeepRequired } from 'ts-essentials'
 
 export type ClientConfig = {
   /**
@@ -69,3 +70,5 @@ export type TrpcPlaygroundConfig = ClientConfig & ServerConfig
 export type PlaygroundRequestOperation = 'getTypes'
 
 export type Awaited<T> = T extends PromiseLike<infer U> ? U : T
+
+export type DeepRequiredClientConfig = DeepRequired<ClientConfig>

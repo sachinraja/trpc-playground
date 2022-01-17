@@ -69,8 +69,7 @@
     "object-inspect": "^1.12.0",
     "react-input-autosize": "^3.0.0",
     "react-query": "^3.34.8",
-    "rodemirror": "^1.6.6",
-    "ts-essentials": "^9.1.2"
+    "rodemirror": "^1.6.6"
   },
   "peerDependencies": {
     "preact": "^10"

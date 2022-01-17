@@ -1,0 +1,20 @@
+{
+  "name": "express-app",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon",
+    "build": "esbuild src/server.ts",
+    "type-check": "tsc"
+  },
+  "dependencies": {
+    "@trpc/server": "9.17.0",
+    "express": "4.17.2",
+    "trpc-playground": "workspace:0.0.0"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.13",
+    "esbuild": "0.14.11",
+    "esbuild-node-loader": "0.6.3",
+    "nodemon": "2.0.15"
+  }
+}

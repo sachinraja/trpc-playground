@@ -22,7 +22,7 @@ export const configAtom = atom<DeepRequiredClientConfig>(null!)
 
 export const PlaygroundProvider = ({ config, children }: PlaygroundProviderProps) => {
   const queryClient = useMemo(() => new QueryClient(), [])
-  console.log(config)
+
   const trpcClient = useMemo(() =>
     trpc.createClient({
       url: config.trpcApiEndpoint,

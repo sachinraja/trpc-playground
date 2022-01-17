@@ -39,6 +39,25 @@ importers:
       vite: 2.7.12
       vitest: 0.1.16
 
+  apps/express:
+    specifiers:
+      '@trpc/server': 9.17.0
+      '@types/express': 4.17.13
+      esbuild: 0.14.11
+      esbuild-node-loader: 0.6.3
+      express: 4.17.2
+      nodemon: 2.0.15
+      trpc-playground: workspace:0.0.0
+    dependencies:
+      '@trpc/server': 9.17.0
+      express: 4.17.2
+      trpc-playground: link:../../packages/trpc-playground
+    devDependencies:
+      '@types/express': 4.17.13
+      esbuild: 0.14.11
+      esbuild-node-loader: 0.6.3_typescript@4.5.4
+      nodemon: 2.0.15
+
   apps/next:
     specifiers:
       '@trpc/server': 9.17.0

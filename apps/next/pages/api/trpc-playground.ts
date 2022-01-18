@@ -9,6 +9,7 @@ const setupHandler = nextHandler({
   polling: {
     interval: 4000,
   },
+  // this option is for development, it should be removed on users' configs
   renderOptions: {
     cdnUrl: 'http://localhost:45245',
   },

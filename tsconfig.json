@@ -15,6 +15,6 @@
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment"
   },
-  "include": ["test"],
+  "include": ["test", "scripts"],
   "exclude": ["node_modules", "dist"]
 }

@@ -9,7 +9,7 @@
     "lint:types": "turbo run type-check",
     "lint:js": "eslint .",
     "build": "turbo run build --scope=\"@trpc-playground/**\" --scope=\"trpc-playground\" --no-deps",
-    "clean": "turbo run clean",
+    "clean": "pnpm -r clean",
     "prepare": "husky install",
     "test": "vitest",
     "dev:vite-server": "pnpm dev:server --filter vite-app",
@@ -43,9 +43,6 @@
   "turbo": {
     "baseBranch": "origin/main",
     "pipeline": {
-      "clean": {
-        "outputs": []
-      },
       "build": {
         "dependsOn": [
           "^build"

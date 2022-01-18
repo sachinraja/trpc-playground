@@ -17,6 +17,7 @@ const getDefaultConfig = () =>
     request: {
       globalHeaders: {},
     },
+    server: {},
   })
 
 export const resolveConfig = (config: TrpcPlaygroundConfig) => mergeDeep({}, getDefaultConfig(), config)

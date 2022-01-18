@@ -63,6 +63,13 @@ export type ServerConfig = {
    * Options for rendering the HTML playground page.
    */
   renderOptions?: RenderOptions
+
+  server?: {
+    /**
+     * The maximum body length to accept in playground requests.
+     */
+    maxBodySize?: number
+  }
 }
 
 export type TrpcPlaygroundConfig = ClientConfig & ServerConfig

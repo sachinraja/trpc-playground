@@ -1,13 +1,9 @@
 import { defineConfig } from 'tsup'
+import { tsupDefaultConfig } from '../../scripts/tsup-config'
 
 const config = defineConfig({
+  ...tsupDefaultConfig,
   entry: ['src/index.ts', 'src/handlers/*'],
-  format: ['cjs', 'esm'],
-  dts: {
-    resolve: true,
-  },
-  splitting: true,
-  clean: true,
 })
 
 export default config

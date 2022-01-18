@@ -23,20 +23,6 @@
     "prepublishOnly": "pnpm build"
   },
   "sideEffects": false,
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "format": [
-      "esm",
-      "cjs"
-    ],
-    "dts": {
-      "resolve": true
-    },
-    "splitting": true,
-    "clean": true
-  },
   "dependencies": {
     "@codemirror/gutter": "^0.19.9",
     "@codemirror/language": "^0.19.7",

@@ -1,5 +1,6 @@
 import path from 'node:path'
 import { defineConfig } from 'tsup'
+import { tsupBundledConfig } from '../../scripts/tsup-config'
 
 const preactCompatPlugin = {
   name: 'preact-compat',
@@ -14,12 +15,10 @@ const preactCompatPlugin = {
 }
 
 const config = defineConfig({
+  ...tsupBundledConfig,
+  dts: true,
   entry: ['src/index.ts'],
   inject: ['preact-inject.js'],
-  format: ['cjs', 'esm'],
-  dts: true,
-  splitting: true,
-  clean: true,
   esbuildPlugins: [preactCompatPlugin],
 })
 

@@ -44,18 +44,5 @@
   },
   "devDependencies": {
     "@types/object-inspect": "1.8.1"
-  },
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "format": [
-      "esm",
-      "cjs"
-    ],
-    "dts": {
-      "resolve": true
-    },
-    "clean": true
   }
 }

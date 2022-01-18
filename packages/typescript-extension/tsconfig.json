@@ -3,5 +3,5 @@
   "compilerOptions": {
     "module": "es2020"
   },
-  "include": ["src"]
+  "include": ["src", "tsup.config.ts"]
 }

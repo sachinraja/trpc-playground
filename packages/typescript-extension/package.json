@@ -26,20 +26,6 @@
     "type-check": "tsc"
   },
   "sideEffects": false,
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "target": "node14",
-    "format": [
-      "esm",
-      "cjs"
-    ],
-    "dts": {
-      "resolve": true
-    },
-    "clean": true
-  },
   "dependencies": {
     "@codemirror/autocomplete": "^0.19.12",
     "@codemirror/lang-javascript": "^0.19.6",

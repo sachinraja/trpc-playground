@@ -28,7 +28,7 @@ type TrpcPlaygroundRequestHandlerArgs = {
   common: CommonHandlerReqData
 }
 export const handleRequest = async ({ rawReq, req, common }: TrpcPlaygroundRequestHandlerArgs) => {
-  const { stringifiedTypes, htmlPlaygroundPage } = common
+  const { stringifiedTypes, htmlPlaygroundPage, config } = common
 
   switch (req.method) {
     // can be used for lambda warmup
@@ -48,10 +48,13 @@ export const handleRequest = async ({ rawReq, req, common }: TrpcPlaygroundReque
     }
 
     case 'POST': {
-      const { data: bodyData } = await getPostBody({ req: rawReq })
+      const bodyResult = await getPostBody({ req: rawReq, maxBodySize: config.server.maxBodySize })
+      if (bodyResult.ok === false) return { status: 413 }
+
+      const body = bodyResult.data
 
       // req.body may already have been parsed by a json handler
-      const bodyObject: HTTPBody = typeof bodyData === 'string' ? JSON.parse(bodyData) : req.body
+      const bodyObject: HTTPBody = typeof body === 'string' ? JSON.parse(body) : body
 
       if (bodyObject.operation === 'getTypes') {
         return {

@@ -10,7 +10,7 @@ import { memo } from 'preact/compat'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'preact/hooks'
 import CodeMirror, { CodeMirrorProps } from 'rodemirror'
 import { baseExtension, tsExtension } from '../editor/extensions'
-import { transformAndRunQueries } from '../editor/transform-and-run-queries'
+import { batchEval, serialEval, transformAndRunQueries } from '../editor/transform-and-run-queries'
 import { makePlaygroundRequest } from '../utils/playground-request'
 import { configAtom, trpcClientAtom } from './provider'
 import { currentTabAtom, previousTabAtom, previousTabIdAtom, tabsAtom, updateCurrentTabIdAtom } from './tab/store'
@@ -29,6 +29,7 @@ export const Editor = () => {
   const [responseValue, setResponseValue] = useAtom(responseValueAtom)
   const [trpcClient] = useAtom(trpcClientAtom)
   const [config] = useAtom(configAtom)
+  const evalFunction = useMemo(() => config.request.batching ? batchEval : serialEval, [config.request.batching])
 
   const refreshTypes = useCallback(async () => {
     if (!editorView) return
@@ -138,10 +139,13 @@ export const Editor = () => {
         title='Run all queries'
         onClick={async () => {
           if (!editorView) return
+
           const responseObjectValue = await transformAndRunQueries({
             code: editorView.state.doc.toString(),
             trpcClient,
+            evalFunction,
           })
+
           setResponseValue(responseObjectValue)
         }}
       >

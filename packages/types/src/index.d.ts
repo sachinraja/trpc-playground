@@ -33,6 +33,12 @@ export type ClientConfig = {
      * Headers sent on every tRPC Playground request.
      */
     globalHeaders?: Record<string, string>
+
+    /**
+     * Batch the playground requests that are sent when the `Run all queries` button is clicked.
+     * @default true
+     */
+    batching?: boolean
   }
 }
 

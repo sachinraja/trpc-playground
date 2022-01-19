@@ -16,6 +16,7 @@ const getDefaultConfig = () =>
     },
     request: {
       globalHeaders: {},
+      batching: true,
     },
     server: {},
   })

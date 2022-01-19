@@ -42,7 +42,6 @@ export const PlaygroundTab = ({ index }: TabProps) => {
     <BaseTab
       className={className}
       onClick={() => {
-        console.log('running')
         updateCurrentTabId(tab.id)
       }}
     >

@@ -112,6 +112,24 @@ await mutation(path, inputArgs)
 await mutation('createUser', { name: 'Bob' })
 ```
 
+When using the `Run all queries` button in the center of the editor, you can write any code and it will just work:
+
+```ts
+const name: string = 'John'
+
+await query('getGreeting', { name })
+await query('getFarewell', { name })
+```
+
+Note that this will not work when a query is run individually.
+
+When `request.batching` is set to `false` in your config (it is set to `true` by default), the queries will be run one at a time so you can use the return value of one query and pass it to the next:
+
+```ts
+const { sum } = await query('addNums', { a: 1, b: 2 })
+await query('subtractNums', { a: sum, b: -7 })
+```
+
 ## Types
 
 tRPC Playground resolves the types for your queries based on the `input` schema in your router. The default resolver is [`zod-to-ts`](https://github.com/sachinraja/zod-to-ts), which should work out of the box for the most part. However, there are [a few special cases that it may not handle correctly](https://github.com/sachinraja/zod-to-ts#special-cases) such as `z.lazy()` and `z.nativeEnum()`, so read those docs for more information on how to handle these cases if you have any issues with them.

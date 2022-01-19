@@ -2,17 +2,70 @@ import { maskedEval } from '@trpc-playground/query-extension'
 import { printObject, transformTs } from '@trpc-playground/utils'
 import { TrpcClient } from '../types'
 
-type TransformAndRunQueryArgs = { code: string; trpcClient: TrpcClient }
-export const transformAndRunQueries = async ({ code, trpcClient }: TransformAndRunQueryArgs) => {
+type EvalArgs = {
+  code: string
+  trpcClient: TrpcClient
+}
+
+type EvalFunction = (args: EvalArgs) => Promise<string>
+
+type TransformAndRunQueryArgs = {
+  code: string
+  trpcClient: TrpcClient
+  evalFunction: EvalFunction
+}
+
+export const transformAndRunQueries = async ({ code, trpcClient, evalFunction }: TransformAndRunQueryArgs) => {
+  let transformedCode: string
+  try {
+    transformedCode = transformTs(code)
+  } catch (e) {
+    return printObject(e)
+  }
+
+  return evalFunction({ code: transformedCode, trpcClient })
+}
+
+export const batchEval = async ({ code, trpcClient }: EvalArgs) => {
+  try {
+    // transform imports because export {} does not make sense in eval function
+    const queries: ReturnType<TrpcClient['query']>[] = []
+    const mutations: ReturnType<TrpcClient['mutation']>[] = []
+
+    await maskedEval(code, {
+      async query(path: string, args: never) {
+        queries.push(trpcClient.query(path, args))
+      },
+      async mutation(path: string, args: never) {
+        mutations.push(trpcClient.mutation(path, args))
+      },
+    })
+
+    const allSettledResponse = await Promise.allSettled([
+      ...queries,
+      ...mutations,
+    ])
+
+    const queryResponses = allSettledResponse.map((response) =>
+      response.status === 'fulfilled' ? response.value : response.reason
+    )
+
+    return joinQueryResponses(queryResponses)
+  } catch (e) {
+    return printObject(e)
+  }
+}
+
+export const serialEval = async ({ code, trpcClient }: EvalArgs) => {
   // if the code exited because a failed query
   let didQueryFail = false
 
   const queryResponses: unknown[] = []
+
   try {
     // transform imports because export {} does not make sense in eval function
-    const transformedCode = transformTs(code)
 
-    await maskedEval(transformedCode, {
+    await maskedEval(code, {
       async query(path: string, args: never) {
         try {
           const response = await trpcClient.query(path, args)
@@ -42,6 +95,9 @@ export const transformAndRunQueries = async ({ code, trpcClient }: TransformAndR
     if (!didQueryFail) return printObject(e)
   }
 
-  const responseObjectValue = `${queryResponses.map((response) => printObject(response)).join(',\n\n')}`
+  const responseObjectValue = joinQueryResponses(queryResponses)
   return responseObjectValue
 }
+
+const joinQueryResponses = (queryResponses: unknown[]) =>
+  `${queryResponses.map((response) => printObject(response)).join(',\n\n')}`

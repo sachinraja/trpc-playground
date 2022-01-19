@@ -121,7 +121,6 @@ export function lineNumbers(): Extension {
       },
       domEventHandlers: {
         click: (view, line, event) => {
-          console.log(event.target)
           const targetElement = event.target as HTMLDivElement
           const targetParentElement = targetElement.parentNode as HTMLDivElement
           if (

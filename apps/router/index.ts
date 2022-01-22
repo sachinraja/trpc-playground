@@ -59,5 +59,10 @@ export const appRouter = trpc
       return users
     },
   })
+  .query('no-args', {
+    resolve() {
+      return 5
+    },
+  })
 
 export type AppRouter = typeof appRouter

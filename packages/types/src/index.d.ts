@@ -32,7 +32,7 @@ export type ClientConfig = {
     /**
      * Headers sent on every tRPC Playground request.
      */
-    globalHeaders?: Record<string, string>
+    globalHeaders?: Record<string, string | undefined>
 
     /**
      * Batch the playground requests that are sent when the `Run all queries` button is clicked.
@@ -44,10 +44,10 @@ export type ClientConfig = {
 
 export type RenderOptions = {
   /**
-   * The version of @trpc-playground/html to use.
+   * The version of @trpc-playground/html to use. Specify as `null` to omit `version` from `cdnUrl`.
    * @default latest
    */
-  version?: number
+  version?: string | null
   /**
    * The cdn to import the @trpc-playground/html scripts from.
    * @default //cdn.jsdelivr.net/npm

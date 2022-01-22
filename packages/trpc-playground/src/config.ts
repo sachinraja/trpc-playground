@@ -1,5 +1,6 @@
 import { TrpcPlaygroundConfig } from '@trpc-playground/types'
 import mergeDeep from 'lodash/merge'
+import { version } from '../../html/package.json'
 import { zodResolveTypes } from '.'
 
 const defineConfig = <T extends Partial<TrpcPlaygroundConfig>>(config: T): T => config
@@ -13,6 +14,7 @@ const getDefaultConfig = () =>
     },
     renderOptions: {
       cdnUrl: '//cdn.jsdelivr.net/npm',
+      version,
     },
     request: {
       globalHeaders: {},
@@ -21,4 +23,18 @@ const getDefaultConfig = () =>
     server: {},
   })
 
-export const resolveConfig = (config: TrpcPlaygroundConfig) => mergeDeep({}, getDefaultConfig(), config)
+export const resolveConfig = (config: TrpcPlaygroundConfig) => {
+  const resolvedConfig = mergeDeep({}, getDefaultConfig(), config)
+  // fix for version being null
+  const resolvedVersion = config?.renderOptions?.version === null
+    ? null
+    : resolvedConfig.renderOptions.version
+
+  return {
+    ...resolvedConfig,
+    renderOptions: {
+      ...resolvedConfig.renderOptions,
+      version: resolvedVersion,
+    },
+  }
+}

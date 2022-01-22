@@ -9,16 +9,6 @@ const currentTab = {
 
 export const tabsAtom = atom<Tab[]>([
   currentTab,
-  {
-    id: '1',
-    name: 'subtract_nums',
-    doc: "await query('subtract_nums', { a: 2, b: 5 })\nexport {}",
-  },
-  {
-    id: '2',
-    name: 'add_nums',
-    doc: "await query('add_nums', { a: 2, b: 5 })\nexport {}",
-  },
 ])
 export const totalTabsCreatedAtom = atom(3)
 export const previousTabIdAtom = atom('0')

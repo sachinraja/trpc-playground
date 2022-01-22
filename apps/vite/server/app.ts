@@ -30,6 +30,7 @@ const runApp = async () => {
       router: appRouter,
       renderOptions: {
         cdnUrl: 'http://localhost:45245',
+        version: null,
       },
     }),
   )

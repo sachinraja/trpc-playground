@@ -12,6 +12,7 @@ const setupHandler = nextHandler({
   // this option is for development, it should be removed on users' configs
   renderOptions: {
     cdnUrl: 'http://localhost:45245',
+    version: null,
   },
 })
 

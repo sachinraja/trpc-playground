@@ -15,7 +15,8 @@
     "dev:vite-server": "pnpm dev:server --filter vite-app",
     "dev:vite-client": "pnpm dev:client --filter vite-app",
     "dev:serve-html": "pnpm serve-dev --filter @trpc-playground/html",
-    "dev": "run-p dev:*"
+    "dev": "run-p dev:*",
+    "release": "pnpm build && changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "2.19.0",

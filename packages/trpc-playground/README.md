@@ -121,9 +121,9 @@ await query('getGreeting', { name })
 await query('getFarewell', { name })
 ```
 
-Note that this will not work when a query is run individually.
+Queries can be run individually by pressing on the button to the left of them or by pressing `Alt + Q` when your cursor in the editor is on the query. Note that any variables you pass to the query will not be defined when running queries individually.
 
-When `request.batching` is set to `false` in your config (it is set to `true` by default), the queries will be run one at a time so you can use the return value of one query and pass it to the next:
+If `request.batching` is `false` in your config (it is `true` by default), the queries will be run one at a time so you can use the return value of one query and pass it to the next:
 
 ```ts
 const { sum } = await query('addNums', { a: 1, b: 2 })

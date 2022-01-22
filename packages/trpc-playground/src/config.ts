@@ -9,7 +9,7 @@ const getDefaultConfig = () =>
     resolveTypes: zodResolveTypes,
     polling: {
       enable: true,
-      interval: 10000,
+      interval: 4000,
     },
     renderOptions: {
       cdnUrl: '//cdn.jsdelivr.net/npm',

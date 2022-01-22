@@ -135,7 +135,7 @@ export const Editor = () => {
   return (
     <div className='relative'>
       <button
-        className='absolute left-0 right-0 mx-auto z-10 focus:outline-none group'
+        className='absolute left-0 right-0 mx-auto w-[75px] z-10 focus:outline-none group'
         title='Run all queries'
         onClick={async () => {
           if (!editorView) return

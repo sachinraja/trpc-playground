@@ -20,7 +20,7 @@ const stringScripts = scripts.map((script) => {
   const src = script.getAttribute('src')
   if (src) {
     // remove leading slash
-    script.setAttribute('src', `\${buildCdnUrl('@trpc-playground/html', '${src.slice(1)}')}`)
+    script.setAttribute('src', `\${buildCdnUrl('@trpc-playground/html', 'dist/${src.slice(1)}')}`)
   }
 
   return script.toString()
@@ -31,7 +31,7 @@ const stringLinks = links.map((link) => {
   link.remove()
   const href = link.getAttribute('href')
   if (href) {
-    link.setAttribute('href', `\${buildCdnUrl('@trpc-playground/html', '${href.slice(1)}')}`)
+    link.setAttribute('href', `\${buildCdnUrl('@trpc-playground/html', 'dist/${href.slice(1)}')}`)
   }
 
   return link.toString()

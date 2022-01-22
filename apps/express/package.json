@@ -9,7 +9,7 @@
   "dependencies": {
     "@trpc/server": "9.17.0",
     "express": "4.17.2",
-    "trpc-playground": "workspace:0.1.0"
+    "trpc-playground": "workspace:0.1.1"
   },
   "devDependencies": {
     "@types/express": "4.17.13",

@@ -1,7 +1,7 @@
 {
   "name": "@trpc-playground/utils",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "utilities for tRPC playground",
   "repository": {
     "directory": "packages/utils",

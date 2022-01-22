@@ -1,7 +1,7 @@
 {
   "name": "@trpc-playground/components",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "core components for trpc-playground",
   "repository": {
     "directory": "packages/components",
@@ -59,9 +59,9 @@
     "@dnd-kit/sortable": "^6.0.0",
     "@dnd-kit/utilities": "^3.1.0",
     "@heroicons/react": "^1.0.5",
-    "@trpc-playground/query-extension": "workspace:0.0.0",
-    "@trpc-playground/typescript-extension": "workspace:0.0.0",
-    "@trpc-playground/utils": "workspace:0.0.0",
+    "@trpc-playground/query-extension": "workspace:0.1.0",
+    "@trpc-playground/typescript-extension": "workspace:0.1.0",
+    "@trpc-playground/utils": "workspace:0.1.0",
     "@trpc/client": "^9.17.0",
     "@trpc/react": "^9.17.0",
     "clsx": "^1.1.1",

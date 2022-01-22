@@ -1,5 +1,11 @@
 # trpc-playground
 
+## 0.1.2
+
+### Patch Changes
+
+- 80169fd: fix types for procedures without `input`
+
 ## 0.1.1
 
 ### Patch Changes

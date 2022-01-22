@@ -111,7 +111,7 @@ export const Editor = () => {
         insert: currentTab.doc,
       },
     })
-  }, [editorView, currentTab])
+  }, [editorView, currentTabId])
 
   useEffect(() => {
     refreshTypes()

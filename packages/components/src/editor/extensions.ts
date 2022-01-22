@@ -43,7 +43,6 @@ export const tsExtension: Extension = [
   thisTsTheme,
   tsTheme,
   javascript({ typescript: true }),
-  baseKeymap(),
   queryExtension.gutter(),
   queryExtension.lineNumbers(),
   queryExtension.keymap(),

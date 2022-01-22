@@ -1,6 +1,6 @@
 {
   "name": "@trpc-playground/query-extension",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "description": "parse query syntax for trpc-playground",
   "license": "Apache-2.0",
@@ -29,7 +29,7 @@
     "@codemirror/rangeset": "^0.19.6",
     "@codemirror/state": "^0.19.6",
     "@codemirror/view": "^0.19.39",
-    "@trpc-playground/utils": "workspace:0.0.0",
+    "@trpc-playground/utils": "workspace:0.1.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {

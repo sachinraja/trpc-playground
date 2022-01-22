@@ -4,6 +4,12 @@
 
 ### Patch Changes
 
+- trpc-playground@0.1.4
+
+## null
+
+### Patch Changes
+
 - Updated dependencies [50bba50]
   - trpc-playground@0.1.3
 

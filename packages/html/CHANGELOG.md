@@ -1,5 +1,11 @@
 # @trpc-playground/html
 
+## 0.1.4
+
+### Patch Changes
+
+- 2b46455: fix doc resetting after tab name is changed
+
 ## 0.1.1
 
 ### Patch Changes

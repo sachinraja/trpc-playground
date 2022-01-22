@@ -1,5 +1,12 @@
 # trpc-playground
 
+## 0.1.4
+
+### Patch Changes
+
+- Updated dependencies [2b46455]
+  - @trpc-playground/html@0.1.4
+
 ## 0.1.3
 
 ### Patch Changes

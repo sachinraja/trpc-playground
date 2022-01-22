@@ -1,0 +1,33 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Create release PR
+        uses: changesets/action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

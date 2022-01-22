@@ -2,6 +2,9 @@
   "name": "@trpc-playground/types",
   "type": "module",
   "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "types for trpc-playground",
   "repository": {
     "directory": "packages/types",

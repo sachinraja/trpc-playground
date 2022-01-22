@@ -2,6 +2,9 @@
   "name": "@trpc-playground/components",
   "type": "module",
   "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "core components for trpc-playground",
   "repository": {
     "directory": "packages/components",

@@ -1,6 +1,9 @@
 {
   "name": "@trpc-playground/typescript-extension",
   "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "description": "tsserver support for codemirror",
   "license": "Apache-2.0",

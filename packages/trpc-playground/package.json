@@ -2,6 +2,9 @@
   "name": "trpc-playground",
   "type": "module",
   "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "playground for running tRPC queries in the browser",
   "repository": {
     "directory": "packages/trpc-playground",

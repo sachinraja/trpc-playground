@@ -1,5 +1,11 @@
 # trpc-playground
 
+## 0.1.3
+
+### Patch Changes
+
+- 50bba50: remove `console.log`
+
 ## 0.1.2
 
 ### Patch Changes

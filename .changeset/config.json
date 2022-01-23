@@ -1,9 +1,9 @@
 {
   "$schema": "https://unpkg.com/@changesets/config@1.6.3/schema.json",
-  "changelog": "@changesets/cli/changelog",
+  "changelog": ["@changesets/changelog-github", { "repo": "sachinraja/trpc-playground" }],
   "commit": false,
   "linked": [["@trpc-playground/html", "trpc-playground"]],
-  "access": "restricted",
+  "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": []

@@ -2,7 +2,7 @@
 
 Playground for running tRPC queries in the browser. Backed by CodeMirror and the TypeScript language server to provide you with the same fully-typed experience.
 
-https://user-images.githubusercontent.com/58836760/149615216-a2b2725d-abcc-4c59-9c51-e5b9718bf269.mp4
+https://user-images.githubusercontent.com/58836760/150659582-ff844a0f-e1b8-4cb4-8d89-0d53a8669db5.mp4
 
 ## Installation
 

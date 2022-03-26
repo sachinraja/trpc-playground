@@ -6,7 +6,7 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "@trpc/server": "9.17.0",
-    "zod": "3.11.6"
+    "@trpc/server": "9.20.3",
+    "zod": "3.14.2"
   }
 }

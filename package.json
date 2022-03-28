@@ -40,24 +40,5 @@
   "sideEffects": false,
   "nano-staged": {
     "*.{js,ts,md,json,yaml}": "dprint fmt"
-  },
-  "turbo": {
-    "baseBranch": "origin/main",
-    "pipeline": {
-      "build": {
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": [
-          "dist/**"
-        ]
-      },
-      "type-check": {
-        "dependsOn": [
-          "^build"
-        ],
-        "outputs": []
-      }
-    }
   }
 }

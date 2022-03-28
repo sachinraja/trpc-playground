@@ -72,7 +72,8 @@
     "object-inspect": "^1.12.0",
     "react-input-autosize": "^3.0.0",
     "react-query": "^3.34.18",
-    "rodemirror": "^1.6.6"
+    "rodemirror": "^1.6.6",
+    "superjson": "^1.8.1"
   },
   "peerDependencies": {
     "preact": "^10"

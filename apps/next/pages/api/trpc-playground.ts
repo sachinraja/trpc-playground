@@ -14,6 +14,9 @@ const setupHandler = nextHandler({
     cdnUrl: 'http://localhost:45245',
     version: null,
   },
+  request: {
+    superjson: true,
+  },
 })
 
 const handler: NextApiHandler = async (req, res) => {

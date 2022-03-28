@@ -19,8 +19,11 @@ const getDefaultConfig = () =>
     request: {
       globalHeaders: {},
       batching: true,
+      superjson: false,
     },
-    server: {},
+    server: {
+      serveHtml: true,
+    },
   })
 
 export const resolveConfig = (config: TrpcPlaygroundConfig) => {

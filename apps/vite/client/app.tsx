@@ -13,6 +13,7 @@ export function App() {
         request: {
           globalHeaders: {},
           batching: true,
+          superjson: true,
         },
       }}
     />

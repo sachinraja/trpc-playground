@@ -6,6 +6,7 @@ import { Provider as JotaiProvider } from 'jotai'
 import { ComponentChildren } from 'preact'
 import { useMemo } from 'preact/hooks'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import superjson from 'superjson'
 import { TrpcClient } from '../types'
 import { createInitialValues } from './utils'
 
@@ -23,12 +24,14 @@ export const configAtom = atom<DeepRequiredClientConfig>(null!)
 export const PlaygroundProvider = ({ config, children }: PlaygroundProviderProps) => {
   const queryClient = useMemo(() => new QueryClient(), [])
 
+  const transformer = config.request.superjson ? superjson : undefined
   const trpcClient = useMemo(() =>
     trpc.createClient({
       url: config.trpcApiEndpoint,
       headers() {
         return config.request.globalHeaders
       },
+      transformer,
     }), [])
 
   const { get, set } = createInitialValues()

@@ -30,6 +30,10 @@ const setupHandler = nextHandler({
   // tRPC api path, pages/api/trpc/[trpc].ts in this case
   trpcApiEndpoint: '/api/trpc',
   playgroundEndpoint: '/api/trpc-playground',
+  // uncomment this if you're using superjson
+  // request: {
+  //   superjson: true,
+  // },
 })
 
 const handler: NextApiHandler = async (req, res) => {
@@ -73,6 +77,10 @@ const runApp = async () => {
       trpcApiEndpoint,
       playgroundEndpoint,
       router: appRouter,
+      // uncomment this if you're using superjson
+      // request: {
+      //   superjson: true,
+      // },
     }),
   )
 
@@ -88,7 +96,7 @@ runApp()
 
 ## Settings
 
-For all configuration options, see [the API docs](https://paka.dev/npm/@trpc-playground/types#module-index-export-TrpcPlaygroundConfig).
+For all configuration options, see [the API docs](https://paka.dev/npm/@trpc-playground/types/v/0.1.0#49dd2aa76519f8e8).
 
 ## Writing Queries
 

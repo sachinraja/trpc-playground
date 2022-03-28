@@ -1,4 +1,5 @@
 import * as trpc from '@trpc/server'
+import superjson from 'superjson'
 import { z } from 'zod'
 
 const users = ['user1', 'user2', 'user3']
@@ -63,6 +64,12 @@ export const appRouter = trpc
     resolve() {
       return 5
     },
-  })
+  }).query('date', {
+    input: z.date(),
+    async resolve({ input }) {
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      return { serverTime: new Date(), requestTime: input }
+    },
+  }).transformer(superjson)
 
 export type AppRouter = typeof appRouter

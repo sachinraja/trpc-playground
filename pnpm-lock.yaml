@@ -78,9 +78,11 @@ importers:
   apps/router:
     specifiers:
       '@trpc/server': 9.20.3
+      superjson: ^1.8.1
       zod: 3.14.2
     dependencies:
       '@trpc/server': 9.20.3
+      superjson: 1.8.1
       zod: 3.14.2
 
   apps/vite:
@@ -159,6 +161,7 @@ importers:
       react-input-autosize: ^3.0.0
       react-query: ^3.34.18
       rodemirror: ^1.6.6
+      superjson: ^1.8.1
     dependencies:
       '@codemirror/autocomplete': 0.19.15
       '@codemirror/closebrackets': 0.19.1
@@ -192,6 +195,7 @@ importers:
       react-input-autosize: 3.0.0
       react-query: 3.34.18
       rodemirror: 1.6.6_86b77acf4fdb86cf72e552a0a101f09b
+      superjson: 1.8.1
     devDependencies:
       '@trpc-playground/types': link:../types
       '@trpc/server': 9.20.3
@@ -3687,6 +3691,10 @@ packages:
       p-locate: 5.0.0
     dev: true
 
+  /lodash.clonedeep/4.5.0:
+    resolution: {integrity: sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=}
+    dev: false
+
   /lodash.merge/4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
     dev: true
@@ -5044,6 +5052,16 @@ packages:
       pirates: 4.0.5
       ts-interface-checker: 0.1.13
     dev: true
+
+  /superjson/1.8.1:
+    resolution: {integrity: sha512-RaBKdbsYj29Ky+XcdE11pJAyKXPrqiCV269koH2WAlpeHh/9qnK0ET84GiVWvnutiufyDolK/vS2jtdFYr341w==}
+    engines: {node: '>=10'}
+    dependencies:
+      debug: 4.3.4
+      lodash.clonedeep: 4.5.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
 
   /supports-color/5.5.0:
     resolution: {integrity: sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow==}

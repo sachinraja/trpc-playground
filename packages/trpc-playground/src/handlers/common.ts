@@ -9,10 +9,14 @@ export type CommonHandlerReqData = Awaited<ReturnType<typeof getCommonHandlerReq
 export const getCommonHandlerReqData = async (config: TrpcPlaygroundConfig) => {
   const resolvedConfig = resolveConfig(config)
 
-  const htmlPlaygroundPage = renderPlaygroundPage({
-    ...resolvedConfig.renderOptions,
-    clientConfig: resolvedConfig,
-  })
+  let htmlPlaygroundPage: string | undefined = undefined
+
+  if (resolvedConfig.server?.serveHtml) {
+    htmlPlaygroundPage = renderPlaygroundPage({
+      ...resolvedConfig.renderOptions,
+      clientConfig: resolvedConfig,
+    })
+  }
 
   const types = await resolvedConfig.resolveTypes(config.router)
 
@@ -31,43 +35,41 @@ type TrpcPlaygroundRequestHandlerArgs = {
 export const handleRequest = async ({ rawReq, req, common }: TrpcPlaygroundRequestHandlerArgs) => {
   const { stringifiedTypes, htmlPlaygroundPage, config } = common
 
-  switch (req.method) {
+  if (req.method === 'HEAD') {
     // can be used for lambda warmup
-    case 'HEAD': {
-      return {
-        status: 204,
-      }
+    return {
+      status: 204,
     }
+  }
 
-    case 'GET': {
+  if (req.method === 'GET' && common.config.server.serveHtml) {
+    return {
+      headers: {
+        'Content-Type': 'text/html',
+      },
+      body: htmlPlaygroundPage,
+    }
+  }
+
+  if (req.method === 'POST') {
+    const bodyResult = await getPostBody({ req: rawReq, maxBodySize: config.server.maxBodySize })
+    if (bodyResult.ok === false) return { status: 413 }
+
+    const body = bodyResult.data
+
+    // req.body may already have been parsed by a json handler
+    const bodyObject: HTTPBody = typeof body === 'string' ? JSON.parse(body) : body
+
+    if (bodyObject.operation === 'getTypes') {
       return {
         headers: {
-          'Content-Type': 'text/html',
+          'Content-Type': 'application/json',
         },
-        body: htmlPlaygroundPage,
+        body: stringifiedTypes,
       }
-    }
-
-    case 'POST': {
-      const bodyResult = await getPostBody({ req: rawReq, maxBodySize: config.server.maxBodySize })
-      if (bodyResult.ok === false) return { status: 413 }
-
-      const body = bodyResult.data
-
-      // req.body may already have been parsed by a json handler
-      const bodyObject: HTTPBody = typeof body === 'string' ? JSON.parse(body) : body
-
-      if (bodyObject.operation === 'getTypes') {
-        return {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: stringifiedTypes,
-        }
-      } else {
-        // not a valid operation, 400 Bad Request
-        return { status: 400 }
-      }
+    } else {
+      // not a valid operation, 400 Bad Request
+      return { status: 400 }
     }
   }
 

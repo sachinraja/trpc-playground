@@ -27,6 +27,8 @@ export const getPostBody = ({ req, maxBodySize }: GetPostBodyArgs) => {
       if (typeof maxBodySize === 'number' && body.length > maxBodySize) {
         resolve({
           ok: false,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore https://github.com/trpc/trpc/issues/1588
           error: new TRPCError({ code: 'PAYLOAD_TOO_LARGE' }),
         })
         req.socket.destroy()

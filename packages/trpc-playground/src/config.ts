@@ -1,5 +1,5 @@
 import { TrpcPlaygroundConfig } from '@trpc-playground/types'
-import mergeDeep from 'lodash/merge'
+import lodash from 'lodash'
 import { version } from '../../html/package.json'
 import { zodResolveTypes } from '.'
 
@@ -27,7 +27,7 @@ const getDefaultConfig = () =>
   })
 
 export const resolveConfig = (config: TrpcPlaygroundConfig) => {
-  const resolvedConfig = mergeDeep({}, getDefaultConfig(), config)
+  const resolvedConfig = lodash.merge({}, getDefaultConfig(), config)
   // fix for version being null
   const resolvedVersion = config?.renderOptions?.version === null
     ? null

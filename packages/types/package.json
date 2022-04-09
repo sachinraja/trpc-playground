@@ -42,6 +42,6 @@
     "ts-essentials": "^9.1.2"
   },
   "devDependencies": {
-    "@trpc/server": "9.20.3"
+    "@trpc/server": "9.22.0"
   }
 }

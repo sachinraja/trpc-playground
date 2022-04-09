@@ -47,10 +47,11 @@
     "type-check": "tsc"
   },
   "dependencies": {
+    "vite": "^2.9.1",
     "xss": "^1.0.11"
   },
   "devDependencies": {
-    "@preact/preset-vite": "2.1.7",
+    "@preact/preset-vite": "2.2.0",
     "@trpc-playground/components": "workspace:0.1.2",
     "@trpc-playground/types": "workspace:0.1.1",
     "@types/cors": "2.8.12",

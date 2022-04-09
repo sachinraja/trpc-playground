@@ -1,5 +1,11 @@
 # trpc-playground
 
+## 0.1.6
+
+### Patch Changes
+
+- [`78948da`](https://github.com/sachinraja/trpc-playground/commit/78948daca6df5ad0df71900f3874e739481d0287) Thanks [@sachinraja](https://github.com/sachinraja)! - fix lodash import
+
 ## 0.1.5
 
 ### Patch Changes

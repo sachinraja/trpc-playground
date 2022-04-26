@@ -44,7 +44,7 @@ export const Editor = () => {
       }))
       // server might be restarting so ignore fetch errors
       // eslint-disable-next-line no-empty
-    } catch (_) {}
+    } catch (_) { }
   }, [editorView])
 
   const extensions = useMemo(() => [
@@ -81,7 +81,8 @@ export const Editor = () => {
     EditorView.theme({
       '.cm-content': {
         // bg-slate-800
-        backgroundColor: 'rgb(30 41 59 / var(--tw-bg-opacity)) !important',
+        backgroundColor: "var(--primary-color)"
+        // backgroundColor: 'rgb(30 41 59 / var(--tw-bg-opacity)) !important',
       },
       '.cm-line': {
         marginLeft: '30px',
@@ -133,7 +134,12 @@ export const Editor = () => {
   }, [editorView, refreshTypes])
 
   return (
-    <div className='relative'>
+    <div className='relative flex-1'>
+      <div
+        className='absolute left-0 right-0 mx-auto w-[4px] z-10 h-full bg-secondary'
+      >
+
+      </div>
       <button
         className='absolute left-0 right-0 mx-auto w-[75px] z-10 focus:outline-none group'
         title='Run all queries'
@@ -150,24 +156,25 @@ export const Editor = () => {
         }}
       >
         <PlayIcon
-          className='hover:text-primary group-focus:stroke-primary transition-colors duration-150'
+          className='text-neutral-400 hover:text-neutral-100 group-focus:text-green-600 transition-colors duration-150'
           width={75}
           height={75}
         >
         </PlayIcon>
       </button>
 
-      <div className='grid grid-cols-2 items-stretch'>
+      <div className='grid grid-cols-2 items-stretch h-full'>
         <MemoizedCodeMirror
           extensions={extensions}
           onEditorViewChange={(editorView) => setEditorView(editorView)}
-          elementProps={{ className: 'bg-[#282c34] border-4 border-slate-700' }}
+          elementProps={{ className: 'bg-primary' }}
         />
 
         <MemoizedCodeMirror
           extensions={responseEditorExtensions}
           value={responseValue}
-          selection={{ head: 0, anchor: 0 }}
+          selection={{ head: 0, anchor: 0, }}
+          elementProps={{ className: "bg-primary" }}
         />
       </div>
     </div>

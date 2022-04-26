@@ -40,7 +40,7 @@ export const TabGroup = () => {
   }, [tabs, currentTab])
 
   return (
-    <div className='flex flex-shrink-0 space-x-2 overflow-x-scroll scroll mx-2'>
+    <div className='flex mt-2 flex-shrink-0 space-x-2 overflow-hidden scroll mx-2 h-8 items-center'>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -72,20 +72,20 @@ export const TabGroup = () => {
         </DragOverlay>
       </DndContext>
 
-      <BaseTab>
-        <button
-          title='Create new tab'
-          onClick={() => {
-            const newTab = createNewDefaultTab(totalTabsCreated)
-            const newTabs: Tab[] = [...tabs, newTab]
-            setTabs(newTabs)
-            setTotalTabsCreated((totalTabsCreated) => totalTabsCreated + 1)
-            updateCurrentTabId(newTab.id)
-          }}
-        >
-          <PlusIcon width={20} height={20} />
-        </button>
-      </BaseTab>
+      {/* <BaseTab> */}
+      <button
+        title='Create new tab'
+        onClick={() => {
+          const newTab = createNewDefaultTab(totalTabsCreated)
+          const newTabs: Tab[] = [...tabs, newTab]
+          setTabs(newTabs)
+          setTotalTabsCreated((totalTabsCreated) => totalTabsCreated + 1)
+          updateCurrentTabId(newTab.id)
+        }}
+      >
+        <PlusIcon width={20} height={20} className="text-neutral-200" />
+      </button>
+      {/* </BaseTab> */}
     </div>
   )
 }

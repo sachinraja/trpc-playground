@@ -19,12 +19,13 @@ export const thisTsTheme = EditorView.theme({
     },
   },
   '.cm-foldPlaceholder': { background: 'transparent', border: 'none' },
-
+  '.cm-content': {
+    backgroundColor: 'var(--primary-color)',
+  },
   '.cm-tooltip': {
     maxWidth: '800px',
     zIndex: '999',
   },
-
   '.cm-diagnostic, .cm-quickinfo-tooltip': {
     fontFamily: 'JetBrains Mono',
   },

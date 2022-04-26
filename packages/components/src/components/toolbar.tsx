@@ -3,9 +3,10 @@ import { configAtom } from './provider'
 
 export const Toolbar = () => {
   const [config] = useAtom(configAtom)
+
   return (
-    <div className='p-4 text-center'>
-      <p className='p-2 bg-blue-500 inline-block rounded-sm font-bold'>{config.trpcApiEndpoint}</p>
+    <div className='flex px-1 py-1 bg-primary shadow-md'>
+      <p className='p-2 inline-block  font-bold'>{config.trpcApiEndpoint}</p>
     </div>
   )
 }

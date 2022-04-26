@@ -76,13 +76,13 @@ export const PlaygroundTab = ({ index }: TabProps) => {
               setIsEditingTabName(true)
             }}
           >
-            <p>{tab.name}</p>
+            <p className="font-semibold text-m mb-1 text-neutral-200">{tab.name}</p>
           </button>
         )}
 
       <button
         title='Close tab'
-        className='ml-4'
+        className='ml-2'
         onClick={(e) => {
           // will trigger tab onClick and set this to current tab otherwise
           e.stopPropagation()
@@ -104,7 +104,7 @@ export const PlaygroundTab = ({ index }: TabProps) => {
           setTabs(newTabs)
         }}
       >
-        <XIcon className='text-slate-800' width={20} height={20} />
+        <XIcon className='text-neutral-500' width={18} height={18} />
       </button>
     </BaseTab>
   )

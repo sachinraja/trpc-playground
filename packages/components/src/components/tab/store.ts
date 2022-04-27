@@ -30,3 +30,5 @@ export const previousTabAtom = atom((get) => {
 export const currentTabIndexAtom = atom((get) => {
   return get(tabsAtom).findIndex((tab) => tab.id === get(currentTabIdAtom))
 })
+
+export const queryBuilderOpened = atom<boolean>(false)

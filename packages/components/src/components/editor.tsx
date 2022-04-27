@@ -13,6 +13,7 @@ import { baseExtension, tsExtension } from '../editor/extensions'
 import { batchEval, serialEval, transformAndRunQueries } from '../editor/transform-and-run-queries'
 import { makePlaygroundRequest } from '../utils/playground-request'
 import { configAtom, trpcClientAtom } from './provider'
+import { QueryBuilder } from './QueryBuilder'
 import { currentTabAtom, previousTabAtom, previousTabIdAtom, tabsAtom, updateCurrentTabIdAtom } from './tab/store'
 
 const MemoizedCodeMirror = memo((props: CodeMirrorProps) => <CodeMirror {...props} />)
@@ -134,11 +135,10 @@ export const Editor = () => {
   }, [editorView, refreshTypes])
 
   return (
-    <div className='relative flex-1'>
+    <div className='relative h-full overflow-y-auto'>
       <div
-        className='absolute left-0 right-0 mx-auto w-[4px] z-10 h-full bg-secondary'
+        className='absolute left-0 right-0 mx-auto w-[4px] z-10 h-full bg-secondary '
       >
-
       </div>
       <button
         className='absolute left-0 right-0 mx-auto w-[75px] z-10 focus:outline-none group'
@@ -164,17 +164,20 @@ export const Editor = () => {
       </button>
 
       <div className='grid grid-cols-2 items-stretch h-full'>
-        <MemoizedCodeMirror
-          extensions={extensions}
-          onEditorViewChange={(editorView) => setEditorView(editorView)}
-          elementProps={{ className: 'bg-primary' }}
-        />
+        <div className="flex flex-col h-full">
+          <MemoizedCodeMirror
+            extensions={extensions}
+            onEditorViewChange={(editorView) => setEditorView(editorView)}
+            elementProps={{ className: 'bg-primary flex-1' }}
+          />
+          <QueryBuilder />
+        </div>
 
         <MemoizedCodeMirror
           extensions={responseEditorExtensions}
           value={responseValue}
           selection={{ head: 0, anchor: 0, }}
-          elementProps={{ className: "bg-primary" }}
+          elementProps={{ className: "bg-primary h-" }}
         />
       </div>
     </div>

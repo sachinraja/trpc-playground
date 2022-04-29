@@ -7,10 +7,16 @@ type MakePlaygroundRequestOptions = {
   body?: BodyObject
 }
 
+export type GetTypesResponse = {
+  types: string[]
+  queries: string[]
+  mutations: string[]
+}
+
 export async function makePlaygroundRequest(
   operation: 'getTypes',
   options: MakePlaygroundRequestOptions,
-): Promise<string[]>
+): Promise<GetTypesResponse>
 
 export async function makePlaygroundRequest<Operation extends PlaygroundRequestOperation>(
   operation: Operation,
@@ -27,5 +33,5 @@ export async function makePlaygroundRequest<Operation extends PlaygroundRequestO
     body: requestBody,
   })
 
-  return response.json()
+  return response.json() as Promise<GetTypesResponse>
 }

@@ -1,3 +1,4 @@
+import { ResolveTypesReturn } from '@trpc-playground/types'
 import { AnyRouter } from '@trpc/server'
 import { ZodAny } from 'zod'
 import { printNode, zodToTs } from 'zod-to-ts'
@@ -28,10 +29,28 @@ const joinQueries = (functionName: string, queries: Record<string, { inputParser
   return `declare function ${functionName}<QueryName extends ${joinedQueryNames}>(${args.join(',')}): void`
 }
 
-export const zodResolveTypes = (router: AnyRouter) => [
-  joinQueries('query', router._def.queries),
-  joinQueries('mutation', router._def.mutations),
-]
+const getTypesFromRouter = (router: AnyRouter) => {
+  let queries = Object.entries(router._def.queries).map(([name, query]) => {
+    return name
+  })
+
+  let mutations = Object.entries(router._def.mutations).map(([name, query]) => {
+    return name
+  })
+
+  return {
+    mutations,
+    queries,
+  }
+}
+
+export const zodResolveTypes = (router: AnyRouter): ResolveTypesReturn => ({
+  raw: [
+    joinQueries('query', router._def.queries),
+    joinQueries('mutation', router._def.mutations),
+  ],
+  ...getTypesFromRouter(router),
+})
 
 const foo = <T extends string | number>(
   first: T,

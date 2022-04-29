@@ -18,12 +18,13 @@ export const getCommonHandlerReqData = async (config: TrpcPlaygroundConfig) => {
     })
   }
 
-  const types = await resolvedConfig.resolveTypes(config.router)
+  const types = await resolvedConfig.resolveTypes!(config.router)
+  console.log(types)
 
   return {
     config: resolvedConfig,
     htmlPlaygroundPage,
-    stringifiedTypes: JSON.stringify(types),
+    types,
   }
 }
 
@@ -33,7 +34,7 @@ type TrpcPlaygroundRequestHandlerArgs = {
   common: CommonHandlerReqData
 }
 export const handleRequest = async ({ rawReq, req, common }: TrpcPlaygroundRequestHandlerArgs) => {
-  const { stringifiedTypes, htmlPlaygroundPage, config } = common
+  const { types, htmlPlaygroundPage, config } = common
 
   if (req.method === 'HEAD') {
     // can be used for lambda warmup
@@ -57,7 +58,6 @@ export const handleRequest = async ({ rawReq, req, common }: TrpcPlaygroundReque
 
     const body = bodyResult.data
 
-    // req.body may already have been parsed by a json handler
     const bodyObject: HTTPBody = typeof body === 'string' ? JSON.parse(body) : body
 
     if (bodyObject.operation === 'getTypes') {
@@ -65,7 +65,7 @@ export const handleRequest = async ({ rawReq, req, common }: TrpcPlaygroundReque
         headers: {
           'Content-Type': 'application/json',
         },
-        body: stringifiedTypes,
+        body: JSON.stringify({ ...types, types: types.raw }),
       }
     } else {
       // not a valid operation, 400 Bad Request

@@ -55,6 +55,12 @@ export type RenderOptions = {
   cdnUrl?: string
 }
 
+type ResolveTypesReturn = {
+  raw: string[]
+  queries: string[]
+  mutations: string[]
+}
+
 export type ServerConfig = {
   /**
    * The trpc router that the playground server handler uses to generate types.
@@ -63,7 +69,7 @@ export type ServerConfig = {
   /**
    * Resolves the typescript types for the router and returns an array of types to inject. Uses [`zod-to-ts`](https://github.com/sachinraja/zod-to-ts) by default.
    */
-  resolveTypes?: (router: AnyRouter) => string[] | Promise<string[]>
+  resolveTypes?: (router: AnyRouter) => ResolveTypesReturn | Promise<ResolveTypesReturn>
   /**
    * Options for rendering the HTML playground page.
    */

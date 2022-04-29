@@ -11,7 +11,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'prea
 import CodeMirror, { CodeMirrorProps } from 'rodemirror'
 import { baseExtension, tsExtension } from '../editor/extensions'
 import { batchEval, serialEval, transformAndRunQueries } from '../editor/transform-and-run-queries'
-import { makePlaygroundRequest } from '../utils/playground-request'
+import { GetTypesResponse, makePlaygroundRequest } from '../utils/playground-request'
 import { configAtom, trpcClientAtom } from './provider'
 import { QueryBuilder } from './QueryBuilder'
 import { currentTabAtom, previousTabAtom, previousTabIdAtom, tabsAtom, updateCurrentTabIdAtom } from './tab/store'
@@ -22,6 +22,7 @@ const responseValueAtom = atom(printObject({ foo: 'bar' }))
 
 export const Editor = () => {
   const [editorView, setEditorView] = useState<EditorView | null>(null)
+  const [types, setTypes] = useState<GetTypesResponse | null>(null)
   const [, setTabs] = useAtom(tabsAtom)
   const [previousTab] = useAtom(previousTabAtom)
   const [previousTabId] = useAtom(previousTabIdAtom)
@@ -36,16 +37,17 @@ export const Editor = () => {
     if (!editorView) return
 
     try {
-      const types = await makePlaygroundRequest('getTypes', {
+      const res = await makePlaygroundRequest('getTypes', {
         playgroundEndpoint: config.playgroundEndpoint,
       })
+      setTypes(res)
 
       editorView.dispatch(injectTypes({
-        '/index.d.ts': types.join('\n'),
+        '/index.d.ts': res.types.join('\n'),
       }))
       // server might be restarting so ignore fetch errors
       // eslint-disable-next-line no-empty
-    } catch (_) { }
+    } catch (error) { }
   }, [editorView])
 
   const extensions = useMemo(() => [
@@ -170,7 +172,7 @@ export const Editor = () => {
             onEditorViewChange={(editorView) => setEditorView(editorView)}
             elementProps={{ className: 'bg-primary flex-1' }}
           />
-          <QueryBuilder />
+          <QueryBuilder types={types} />
         </div>
 
         <MemoizedCodeMirror

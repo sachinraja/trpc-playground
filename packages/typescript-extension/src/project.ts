@@ -54,6 +54,7 @@ export class TypescriptProject {
 
   public async injectTypes(types: FileMap) {
     const ts = await this.env()
+    console.log(types)
     for (const [name, content] of Object.entries(types)) {
       if (!content.trim()) {
         continue

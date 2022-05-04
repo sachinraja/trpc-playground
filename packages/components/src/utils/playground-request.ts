@@ -6,10 +6,19 @@ type MakePlaygroundRequestOptions = {
   playgroundEndpoint: string
   body?: BodyObject
 }
+export type Property = {
+  name: string
+  type: string[]
+}
+
+export type InputType = {
+  rootTypes: string[]
+  properties: Property[]
+} | null
 
 export type GetTypesResponse = {
-  types: string[]
-  queries: { [key: string]: string[] }
+  raw: string[]
+  queries: { [key: string]: InputType }
   mutations: string[]
 }
 

@@ -64,6 +64,7 @@
     "@trpc-playground/html": "workspace:0.1.5",
     "@trpc-playground/types": "workspace:0.1.1",
     "lodash": "^4.17.21",
+    "zod-to-json-schema": "^3.14.1",
     "zod-to-ts": "^0.2.2"
   },
   "devDependencies": {

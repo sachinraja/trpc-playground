@@ -55,9 +55,19 @@ export type RenderOptions = {
   cdnUrl?: string
 }
 
-type ResolveTypesReturn = {
+export type Property = {
+  name: string
+  type: string[]
+}
+
+export type InputType = {
+  rootTypes: string[]
+  properties: Property[]
+} | null
+
+export type ResolveTypesReturn = {
   raw: string[]
-  queries: string[]
+  queries: { [key: string]: InputType }
   mutations: string[]
 }
 

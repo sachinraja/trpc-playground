@@ -1,8 +1,8 @@
-import React from 'react'
-import { useAtom } from 'jotai'
-import { queryBuilderOpened } from './tab/store';
-import { ChevronUpIcon } from '@heroicons/react/solid'
+import { ChevronUpIcon } from '@heroicons/react/solid';
+import { useAtom } from 'jotai';
+import React from 'react';
 import { GetTypesResponse } from '../utils/playground-request';
+import { queryBuilderOpened } from './tab/store';
 
 interface QueryBuilderProps {
 	types: GetTypesResponse | null
@@ -10,6 +10,7 @@ interface QueryBuilderProps {
 
 export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
 	const [queryBuilderOpen, setQueryBuilderOpened] = useAtom(queryBuilderOpened)
+	console.log(types);
 
 	return (
 		<div className={`flex flex-col overflow-hidden max-h-60`}>
@@ -27,7 +28,7 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
 				<div className="flex-1 bg-primary w-full">
 					{types &&
 						<div>
-							<p>Queries: {types.queries.join(", ")}</p>
+							{/* <p>Queries: {types.queries.map((x) => )}</p> */}
 							<p>Mutations: {types.mutations.join(", ")}</p>
 						</div>
 					}

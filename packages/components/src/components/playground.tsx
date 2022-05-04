@@ -10,7 +10,6 @@ export type PlaygroundProps = {
 }
 
 export const Playground = ({ config, children }: PlaygroundProps) => {
-  console.log(config);
   return (
     <PlaygroundProvider config={config}>
       <link

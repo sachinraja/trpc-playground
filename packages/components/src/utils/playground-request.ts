@@ -9,7 +9,7 @@ type MakePlaygroundRequestOptions = {
 
 export type GetTypesResponse = {
   types: string[]
-  queries: string[]
+  queries: { [key: string]: string[] }
   mutations: string[]
 }
 

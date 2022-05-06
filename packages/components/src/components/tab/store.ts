@@ -1,4 +1,5 @@
 import { atom } from 'jotai'
+import { GetTypesResponse } from '../../utils/playground-request'
 import { Tab } from './types'
 
 const currentTab = {

@@ -8,6 +8,7 @@ import { useMemo } from 'preact/hooks'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import superjson from 'superjson'
 import { TrpcClient } from '../types'
+import { GetTypesResponse } from '../utils/playground-request'
 import { createInitialValues } from './utils'
 
 // need to pass in AnyRouter to satisfy rollup-plugin-dts
@@ -20,6 +21,7 @@ type PlaygroundProviderProps = {
 
 export const trpcClientAtom = atom<TrpcClient>(null!)
 export const configAtom = atom<DeepRequiredClientConfig>(null!)
+export const typesAtom = atom<GetTypesResponse | null>(null)
 
 export const PlaygroundProvider = ({ config, children }: PlaygroundProviderProps) => {
   const queryClient = useMemo(() => new QueryClient(), [])
@@ -37,6 +39,7 @@ export const PlaygroundProvider = ({ config, children }: PlaygroundProviderProps
   const { get, set } = createInitialValues()
   set(trpcClientAtom, trpcClient)
   set(configAtom, config)
+  set(typesAtom, null)
 
   return (
     <div className='trpc-playground'>

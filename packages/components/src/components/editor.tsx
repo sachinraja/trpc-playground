@@ -11,9 +11,9 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'prea
 import CodeMirror, { CodeMirrorProps } from 'rodemirror'
 import { baseExtension, tsExtension } from '../editor/extensions'
 import { batchEval, serialEval, transformAndRunQueries } from '../editor/transform-and-run-queries'
-import { GetTypesResponse, makePlaygroundRequest } from '../utils/playground-request'
-import { configAtom, trpcClientAtom } from './provider'
-import { QueryBuilder } from './QueryBuilder'
+import { makePlaygroundRequest } from '../utils/playground-request'
+import { configAtom, trpcClientAtom, typesAtom } from './provider'
+import { QueryBuilder } from './queryBuilder'
 import { currentTabAtom, previousTabAtom, previousTabIdAtom, tabsAtom, updateCurrentTabIdAtom } from './tab/store'
 
 const MemoizedCodeMirror = memo((props: CodeMirrorProps) => <CodeMirror {...props} />)
@@ -22,7 +22,7 @@ const responseValueAtom = atom(printObject({ foo: 'bar' }))
 
 export const Editor = () => {
   const [editorView, setEditorView] = useState<EditorView | null>(null)
-  const [types, setTypes] = useState<GetTypesResponse | null>(null)
+  const [types, setTypes] = useAtom(typesAtom)
   const [, setTabs] = useAtom(tabsAtom)
   const [previousTab] = useAtom(previousTabAtom)
   const [previousTabId] = useAtom(previousTabIdAtom)
@@ -43,7 +43,7 @@ export const Editor = () => {
       setTypes(res)
 
       editorView.dispatch(injectTypes({
-        '/index.d.ts': res.types.join('\n'),
+        '/index.d.ts': res.raw.join('\n'),
       }))
       // server might be restarting so ignore fetch errors
       // eslint-disable-next-line no-empty

@@ -9,7 +9,7 @@ export const appRouter = trpc
   .query('hello', {
     input: z
       .object({
-        text: z.string(),
+        text: z.boolean().optional(),
       })
       .nullish(),
     resolve({ input }) {
@@ -55,6 +55,9 @@ export const appRouter = trpc
     },
   })
   .mutation('delete_last_user', {
+    input: z.object({
+      a: z.number(),
+    }),
     resolve() {
       users.splice(users.length - 1, 1)
       return users

@@ -16,7 +16,7 @@ export const Playground = ({ config, children }: PlaygroundProps) => {
         href='https://fonts.googleapis.com/css?family=JetBrains+Mono'
         rel='stylesheet'
       />
-      <div className='text-white bg-secondary h-screen flex flex-col	'>
+      <div className='text-white bg-secondary h-screen flex flex-col'>
         <Toolbar />
         <TabGroup />
         <Editor />

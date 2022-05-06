@@ -19,7 +19,7 @@ export type InputType = {
 export type GetTypesResponse = {
   raw: string[]
   queries: { [key: string]: InputType }
-  mutations: string[]
+  mutations: { [key: string]: InputType }
 }
 
 export async function makePlaygroundRequest(

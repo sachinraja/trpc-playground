@@ -30,16 +30,23 @@ const joinQueries = (functionName: string, queries: Record<string, { inputParser
   return `declare function ${functionName}<QueryName extends ${joinedQueryNames}>(${args.join(',')}): void`
 }
 
-const getTypesFromRouter = (router: AnyRouter): { queries: { [key: string]: InputType }; mutations: string[] } => {
+interface GetTypesFromRouterReturn {
+  queries: { [key: string]: InputType }
+  mutations: { [key: string]: InputType }
+}
+
+const getTypesFromRouter = (router: AnyRouter): GetTypesFromRouterReturn => {
   let queries = Object.entries(router._def.queries).reduce((prev, [name, query]) => {
     prev[name] = getInputs(name, query as any)
 
     return prev
   }, {} as { [key: string]: InputType })
 
-  let mutations = Object.entries(router._def.mutations).map(([name, query]) => {
-    return name
-  })
+  let mutations = Object.entries(router._def.mutations).reduce((prev, [name, mutation]) => {
+    prev[name] = getInputs(name, mutation as any)
+
+    return prev
+  }, {} as { [key: string]: InputType })
 
   return {
     mutations,

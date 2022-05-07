@@ -148,7 +148,7 @@ importers:
       '@dnd-kit/utilities': ^3.1.0
       '@heroicons/react': ^1.0.6
       '@trpc-playground/query-extension': workspace:0.1.0
-      '@trpc-playground/types': workspace:*
+      '@trpc-playground/types': workspace:0.1.1
       '@trpc-playground/typescript-extension': workspace:0.1.0
       '@trpc-playground/utils': workspace:0.1.0
       '@trpc/client': ^9.22.0
@@ -160,6 +160,7 @@ importers:
       clsx: ^1.1.1
       jotai: ^1.6.3
       object-inspect: ^1.12.0
+      re-resizable: ^6.9.9
       react-input-autosize: ^3.0.0
       react-query: ^3.34.19
       rodemirror: ^1.6.7
@@ -194,6 +195,7 @@ importers:
       clsx: 1.1.1
       jotai: 1.6.3_react-query@3.34.19
       object-inspect: 1.12.0
+      re-resizable: 6.9.9
       react-input-autosize: 3.0.0
       react-query: 3.34.19
       rodemirror: 1.6.7_5ed24226b110e78e7ca6df9cc5cca7a1
@@ -273,11 +275,13 @@ importers:
       lodash: ^4.17.21
       next: 12.1.4
       zod: 3.14.4
+      zod-to-json-schema: ^3.14.1
       zod-to-ts: ^0.2.2
     dependencies:
       '@trpc-playground/html': link:../html
       '@trpc-playground/types': link:../types
       lodash: 4.17.21
+      zod-to-json-schema: 3.14.1_zod@3.14.4
       zod-to-ts: 0.2.2_typescript@4.6.3+zod@3.14.4
     devDependencies:
       '@trpc/server': 9.22.0
@@ -4759,6 +4763,13 @@ packages:
       strip-json-comments: 2.0.1
     dev: true
 
+  /re-resizable/6.9.9:
+    resolution: {integrity: sha512-l+MBlKZffv/SicxDySKEEh42hR6m5bAHfNu3Tvxks2c4Ah+ldnWjfnVRwxo/nxF27SsUsxDS0raAzFuJNKABXA==}
+    peerDependencies:
+      react: ^16.13.1 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.13.1 || ^17.0.0 || ^18.0.0
+    dev: false
+
   /react-dom/18.0.0_react@18.0.0:
     resolution: {integrity: sha512-XqX7uzmFo0pUceWFCt7Gff6IyIMzFUn7QMZrbrQfGxtaxXZIcGQzoNpRLE3fQLnS4XzLLPMZX2T9TRcSrasicw==}
     peerDependencies:
@@ -5958,6 +5969,14 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  /zod-to-json-schema/3.14.1_zod@3.14.4:
+    resolution: {integrity: sha512-B4SGEt5AX2C+0WpZ97aFXjNkao+lPT/MwvJliweojlj5E5hF+q5sjA4wgL4BBlQG4ISl0b+Q9bL3hD/gJoAdkg==}
+    peerDependencies:
+      zod: ^3.14.4
+    dependencies:
+      zod: 3.14.4
+    dev: false
 
   /zod-to-ts/0.2.2_typescript@4.6.3+zod@3.14.4:
     resolution: {integrity: sha512-ardXRu0EIDcS8pP0+1jL5a4ZtPIfxhmWHjwYH7Mol38/D3OUqgo+QjK648+R6T7N0RkfSNOSI1AkddKILetLKQ==}

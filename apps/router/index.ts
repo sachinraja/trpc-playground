@@ -9,7 +9,7 @@ export const appRouter = trpc
   .query('hello', {
     input: z
       .object({
-        text: z.boolean().optional(),
+        text: z.string().optional(),
       })
       .nullish(),
     resolve({ input }) {

@@ -9,7 +9,7 @@ export const appRouter = trpc
   .query('hello', {
     input: z
       .object({
-        text: z.boolean().optional(),
+        text: z.string().optional(),
       })
       .nullish(),
     resolve({ input }) {
@@ -42,11 +42,23 @@ export const appRouter = trpc
       }
     },
   })
+  .query('nums', {
+    input: z.object({
+      a: z.number(),
+    }),
+    resolve({ input }) {
+      return {
+        sum: input.reduce((prev, curr) => prev + curr, 0),
+      }
+    },
+  })
   .query('add_nums', {
     input: z
       .object({
         a: z.number(),
         b: z.number(),
+        nums: z.array(z.number()),
+        nums1: z.object({}),
       }),
     resolve({ input }) {
       return {

@@ -58,17 +58,20 @@ export type RenderOptions = {
 export type Property = {
   name: string
   type: string[]
+  array: boolean
 }
 
 export type InputType = {
   rootTypes: string[]
   properties: Property[]
+  array: boolean
+  arrayTypes: string[]
 } | null
 
 export type ResolveTypesReturn = {
   raw: string[]
   queries: { [key: string]: InputType }
-  mutations: string[]
+  mutations: { [key: string]: InputType }
 }
 
 export type ServerConfig = {

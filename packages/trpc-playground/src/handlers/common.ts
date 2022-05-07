@@ -19,7 +19,7 @@ export const getCommonHandlerReqData = async (config: TrpcPlaygroundConfig) => {
   }
 
   const types = await resolvedConfig.resolveTypes!(config.router)
-  console.log(types)
+  console.log(types.queries.nums)
 
   return {
     config: resolvedConfig,

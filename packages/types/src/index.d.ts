@@ -59,6 +59,7 @@ export type Property = {
   name: string
   type: string[]
   array: boolean
+  nestedProps: Property[]
 }
 
 export type InputType = {

@@ -168,6 +168,7 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
     output += `('${state.operationName}'${inputs})`
     return output;
   }
+  console.log(types);
 
   return (
     <Resizable
@@ -248,8 +249,9 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
                       <span className="text-zinc-500">No inputs</span>
                     }
                     {state.inputsType == null &&
-                      getOperationInput(types, state.operationTypeInObject, state.operationName)?.properties.map(({ name, type }, idx) => {
+                      getOperationInput(types, state.operationTypeInObject, state.operationName)?.properties.map(({ name, type, ...rest }, idx) => {
                         if (type.length === 1 && !state.inputs[name]) dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName: name, type: type[0] } })
+                        console.log(name, type, rest);
 
                         return <div key={idx} className="flex items-center my-1">
                           <p>{name}:</p>

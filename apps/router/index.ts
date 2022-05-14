@@ -43,9 +43,10 @@ export const appRouter = trpc
     },
   })
   .query('nums', {
-    input: z.object({
-      a: z.number(),
-    }),
+    // input: z.object({
+    //   a: z.number(),
+    // }),
+    input: z.array(z.number()),
     resolve({ input }) {
       return {
         sum: input.reduce((prev, curr) => prev + curr, 0),
@@ -57,8 +58,13 @@ export const appRouter = trpc
       .object({
         a: z.number(),
         b: z.number(),
-        nums: z.array(z.number()),
-        nums1: z.object({}),
+        nums: z.array(z.object({
+          a: z.string(),
+        })),
+        nums1: z.object({
+          test: z.boolean().optional(),
+          test2: z.string(),
+        }).optional(),
       }),
     resolve({ input }) {
       return {

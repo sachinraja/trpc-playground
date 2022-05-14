@@ -19,30 +19,39 @@ const getInputsFromObject = (object: any): Property[] => {
   let inputs: Property[] = []
 
   Object.entries(object.properties).forEach(([name, props]: [string, any]) => {
-    console.log(name, props)
-    let inputTypes: Set<string> = new Set()
+    let input: Property = {
+      array: false,
+      name,
+      type: [],
+      nestedProps: [],
+    }
 
     if ('type' in props) {
       if (props.type === 'object') {
-        console.log('nested object')
+        const objInputs = getInputsFromObject(props)
+        input.type = ['object']
+        input.nestedProps = objInputs
       } else if (props.type === 'array') {
-        console.log('array on object')
+        input.array = true
+
+        const nestedArrayType = getTypesFromArray(props.items)
+        if (nestedArrayType) {
+          input.type = ['array', ...nestedArrayType.arrayTypes]
+          input.nestedProps = nestedArrayType.properties
+          nestedArrayType.rootTypes
+        }
       } else {
-        if (Array.isArray(props.type)) props.type.forEach((type: string) => inputTypes.add(type))
-        else inputTypes.add(props.type)
+        if (Array.isArray(props.type)) props.type.forEach((type: string) => input.type.push(type))
+        else input.type.push(props.type)
       }
     }
-    if (!object.required?.includes(name)) inputTypes.add('undefined')
+    if (!object.required?.includes(name)) input.type.push('undefined')
 
     if ('anyOf' in props) {
-      inputTypes = getTypesFromAnyOf(props.anyOf, inputTypes)
+      input.type = Array.from(getTypesFromAnyOf(props.anyOf, new Set(input.type)))
     }
 
-    inputs.push({
-      name,
-      type: Array.from(inputTypes),
-      array: false,
-    })
+    inputs.push(input)
   })
 
   return inputs
@@ -72,8 +81,6 @@ export const getInputs = (name: string, query: any): InputType => {
   } else if ('anyOf' in def) {
     queryInput = getTypesFromAnyOfObject(def.anyOf, queryInput)
   }
-
-  // console.log(queryInput)
 
   return queryInput
 }

@@ -4,7 +4,6 @@ import { Action, ActionKind } from "."
 interface InputProps {
 	dispatch: (action: Action) => void,
 	inputName: string
-
 }
 
 interface TypeInputsProps extends InputProps {

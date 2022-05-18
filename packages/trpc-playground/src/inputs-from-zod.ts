@@ -21,6 +21,7 @@ const getInputsFromObject = (object: any): Property[] => {
   Object.entries(object.properties).forEach(([name, props]: [string, any]) => {
     let input: Property = {
       array: false,
+      arrayTypes: [],
       name,
       type: [],
       nestedProps: [],
@@ -36,7 +37,8 @@ const getInputsFromObject = (object: any): Property[] => {
 
         const nestedArrayType = getTypesFromArray(props.items)
         if (nestedArrayType) {
-          input.type = ['array', ...nestedArrayType.arrayTypes]
+          input.type = ['array', ...nestedArrayType.rootTypes]
+          input.arrayTypes = nestedArrayType.arrayTypes
           input.nestedProps = nestedArrayType.properties
           nestedArrayType.rootTypes
         }

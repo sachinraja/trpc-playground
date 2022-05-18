@@ -46,7 +46,7 @@ export const appRouter = trpc
     // input: z.object({
     //   a: z.number(),
     // }),
-    input: z.array(z.number()),
+    input: z.array(z.string()),
     resolve({ input }) {
       return {
         sum: input.reduce((prev, curr) => prev + curr, 0),
@@ -65,6 +65,7 @@ export const appRouter = trpc
           test: z.boolean().optional(),
           test2: z.string(),
         }).optional(),
+        nums2: z.array(z.string().nullable()),
       }),
     resolve({ input }) {
       return {

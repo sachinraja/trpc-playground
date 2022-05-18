@@ -60,6 +60,7 @@ export type Property = {
   type: string[]
   array: boolean
   nestedProps: Property[]
+  arrayTypes: string[]
 }
 
 export type InputType = {

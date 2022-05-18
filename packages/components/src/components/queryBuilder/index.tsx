@@ -7,6 +7,8 @@ import { GetTypesResponse, InputType } from '../../utils/playground-request';
 import { queryBuilderOpened } from '../tab/store';
 import TypeInputs from "./inputs";
 import { Ref } from 'preact/src';
+import { ArrayInput } from './arrayInputs';
+import { ObjectInputs } from './objectInputs';
 
 interface QueryBuilderProps {
   types: GetTypesResponse | null
@@ -14,7 +16,7 @@ interface QueryBuilderProps {
 
 let operations = ["Query", "Mutation", "Subscription"] as const
 
-interface QueryBuilderState {
+export interface QueryBuilderState {
   operationType: string | null,
   operationName: string | null,
   operationTypeInObject: string | null,
@@ -60,7 +62,7 @@ type SetInputsTypeAction = {
 
 type SetInputTypeAction = {
   ActionKind: ActionKind.SetInputType,
-  payload: { type: any, inputName: string }
+  payload: { type: any, inputName: string, defaultValue?: any }
 }
 
 export type Action =
@@ -105,11 +107,14 @@ const reducer = (oldState: QueryBuilderState, action: Action): QueryBuilderState
       break
     }
     case ActionKind.SetInputType: {
-      state.inputs[action.payload.inputName] = { value: -1, type: action.payload.type }
+      state.inputs[action.payload.inputName] = { value: action.payload.defaultValue || -1, type: action.payload.type }
+
       break
     }
     case ActionKind.SetValue: {
-      state.inputs[action.payload.inputName] && (state.inputs[action.payload.inputName].value = action.payload.value)
+      if (state.inputs[action.payload.inputName]) {
+        state.inputs[action.payload.inputName].value = action.payload.value
+      }
       break
     }
     case ActionKind.SetInputsType: {
@@ -134,26 +139,39 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
   }, [state])
 
   const generate = (): string | null => {
-    if (state.operationType === null || state.operationName === null) return null
+    if (state.operationType === null || state.operationName === null || state.operationTypeInObject === null || !types) return null
+    let input = (types as any)[state.operationTypeInObject]?.[state.operationName]
+
     let inputs: string = "",
       output: string = "await ";
     if (state.inputsType === "null") inputs += ", null"
     else if (state.inputsType === null) {
-      let inputsObject: string[] = []
 
-      for (let [name, { type, value }] of Object.entries(state.inputs)) {
-        if (type === "undefined") continue
-        if (type === "null") inputsObject.push(`${name}: null`)
-        else {
-          if (type === "string")
-            inputsObject.push(`${name}: "${value}"`)
-          else
-            inputsObject.push(`${name}: ${value}`)
+      if (!input?.array) {
+        let inputsObject: string[] = []
+
+        for (let [name, { type, value }] of Object.entries(state.inputs)) {
+          if (type === "undefined") continue
+          if (type === "null") inputsObject.push(`${name}: null`)
+          else {
+            if (type === "string")
+              inputsObject.push(`${name}: "${value}"`)
+            else
+              inputsObject.push(`${name}: ${value}`)
+          }
         }
 
-      }
+        inputs += `, { ${inputsObject.join(", ")} }`
+      } else {
+        if (state.inputs[state.operationName]) {
+          let arrayItems: any[] = []
+          Object.entries(state.inputs[state.operationName].value || {}).forEach(([_idx, val]) => {
+            arrayItems.push(val)
+          })
 
-      inputs += `, { ${inputsObject.join(", ")} }`
+          inputs += `, [${arrayItems.join(", ")}]`
+        }
+      }
     }
 
     switch (state.operationType) {
@@ -168,7 +186,6 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
     output += `('${state.operationName}'${inputs})`
     return output;
   }
-  console.log(types);
 
   return (
     <Resizable
@@ -227,52 +244,7 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
                   )}
                 </div>
                 {state.operationName && getOperationsFromType(types, state.operationTypeInObject) &&
-                  <div className="pt-3">
-                    <div className="flex">
-                      <p
-                        className="font-semibold cursor-pointer"
-                        onClick={() => dispatch({ ActionKind: ActionKind.SetInputsType, payload: { type: null } })}
-                        style={{ color: state.inputsType === null ? "white" : "gray" }}
-                      >{state.operationName} Inputs</p>
-                      <div className="ml-1">
-                        {getOperationInput(types, state.operationTypeInObject, state.operationName)?.rootTypes.map((rootType, idx) => (
-                          <span
-                            key={idx}
-                            className="ml-1 text-zinc-400 text-sm cursor-pointer"
-                            style={{ color: state.inputsType === rootType ? "white" : "gray" }}
-                            onClick={() => dispatch({ ActionKind: ActionKind.SetInputsType, payload: { type: rootType } })}
-                          >{rootType}</span>
-                        ))}
-                      </div>
-                    </div>
-                    {getOperationInput(types, state.operationTypeInObject, state.operationName)?.properties.length === 0 &&
-                      <span className="text-zinc-500">No inputs</span>
-                    }
-                    {state.inputsType == null &&
-                      getOperationInput(types, state.operationTypeInObject, state.operationName)?.properties.map(({ name, type, ...rest }, idx) => {
-                        if (type.length === 1 && !state.inputs[name]) dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName: name, type: type[0] } })
-                        console.log(name, type, rest);
-
-                        return <div key={idx} className="flex items-center my-1">
-                          <p>{name}:</p>
-                          {state.inputs[name] && !["null", "undefined"].includes(state.inputs[name].type) &&
-                            <TypeInputs dispatch={dispatch} inputName={name} type={state.inputs[name].type} />
-                          }
-                          <span className="ml-2">
-                            {type.map((t, i) => {
-                              return <button
-                                key={i}
-                                onClick={() => dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName: name, type: t } })}
-                                style={{ color: state.inputs[name]?.type == t ? "white" : "gray" }}
-                                className="mr-2"
-                              >
-                                {t}
-                              </button>
-                            })}
-                          </span>
-                        </div>
-                      })}
-                  </div>
+                  <Inputs dispatch={dispatch} state={state} types={types} />
                 }
                 <div className="pt-4" >
                   <button
@@ -291,6 +263,45 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
       </div>
     </Resizable>
   );
+}
+
+interface InputsProps {
+  dispatch: (action: Action) => void,
+  state: QueryBuilderState,
+  types: GetTypesResponse
+}
+
+const Inputs: React.FC<InputsProps> = ({ dispatch, state, types }) => {
+  let input = getOperationInput(types, state.operationTypeInObject!, state.operationName!),
+    noInputs = input?.properties.length === 0 && !input.array
+
+  return (
+    <div className="pt-3">
+      <div className="flex">
+        <p
+          className="font-semibold cursor-pointer"
+          onClick={() => dispatch({ ActionKind: ActionKind.SetInputsType, payload: { type: null } })}
+          style={{ color: state.inputsType === null ? "white" : "gray" }}
+        >{state.operationName} Inputs</p>
+        <div className="ml-1">
+          {input?.rootTypes.map((rootType, idx) => (
+            <span
+              key={idx}
+              className="ml-1 text-zinc-400 text-sm cursor-pointer"
+              style={{ color: state.inputsType === rootType ? "white" : "gray" }}
+              onClick={() => dispatch({ ActionKind: ActionKind.SetInputsType, payload: { type: rootType } })}
+            >{rootType}</span>
+          ))}
+        </div>
+      </div>
+      {noInputs && <span className="text-zinc-500">No inputs</span>}
+      {state.inputsType == null &&
+        !input?.array ?
+        <ObjectInputs input={input} dispatch={dispatch} state={state} /> :
+        <ArrayInput input={input} dispatch={dispatch} state={state} />
+      }
+    </div>
+  )
 }
 
 const getOperationsFromType = (types: GetTypesResponse, operationType: string): { [key: string]: InputType } =>

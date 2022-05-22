@@ -59,7 +59,8 @@ export const appRouter = trpc
         a: z.number(),
         b: z.number(),
         nums: z.array(z.object({
-          a: z.string(),
+          a: z.string().optional(),
+          b: z.boolean(),
         })),
         nums1: z.object({
           test: z.boolean().optional(),

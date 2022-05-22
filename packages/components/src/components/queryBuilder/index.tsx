@@ -20,9 +20,11 @@ export interface QueryBuilderState {
   operationType: string | null,
   operationName: string | null,
   operationTypeInObject: string | null,
-  inputs: { [key: string]: { value: any, type: any } },
+  inputs: { [key: string]: QueryBuilderInput },
   inputsType: string | null
 }
+
+export type QueryBuilderInput = { value: any, type: any }
 
 const defaultQueryBuilderState: QueryBuilderState = {
   operationType: null,
@@ -132,6 +134,7 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
   const [state, dispatch] = useReducer(reducer, defaultQueryBuilderState)
   const containerRef = useRef<HTMLDivElement>() as Ref<HTMLDivElement>
   const [generated, setGenerated] = useState<string | null>(null)
+
 
   useEffect(() => {
     if (state.operationType && state.operationName) setGenerated(generate())
@@ -283,23 +286,23 @@ const Inputs: React.FC<InputsProps> = ({ dispatch, state, types }) => {
           onClick={() => dispatch({ ActionKind: ActionKind.SetInputsType, payload: { type: null } })}
           style={{ color: state.inputsType === null ? "white" : "gray" }}
         >{state.operationName} Inputs</p>
-        <div className="ml-1">
-          {input?.rootTypes.map((rootType, idx) => (
+        {input?.rootTypes.map((rootType, idx) => (
+          <div className="ml-1">
             <span
               key={idx}
               className="ml-1 text-zinc-400 text-sm cursor-pointer"
               style={{ color: state.inputsType === rootType ? "white" : "gray" }}
               onClick={() => dispatch({ ActionKind: ActionKind.SetInputsType, payload: { type: rootType } })}
             >{rootType}</span>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
       {noInputs && <span className="text-zinc-500">No inputs</span>}
-      {state.inputsType == null &&
-        !input?.array ?
-        <ObjectInputs input={input} dispatch={dispatch} state={state} /> :
+      {state.inputsType == null && !input?.array ? (
+        <ObjectInputs input={input} dispatch={dispatch} state={state} />
+      ) : (
         <ArrayInput input={input} dispatch={dispatch} state={state} />
-      }
+      )}
     </div>
   )
 }
@@ -308,4 +311,4 @@ const getOperationsFromType = (types: GetTypesResponse, operationType: string): 
   ((types as any || {})[operationType]) || {}
 
 const getOperationInput = (types: GetTypesResponse, operationType: string, operationName: string): InputType =>
-  (((types as any || {})[operationType]) || {})[operationName]
+  getOperationsFromType(types, operationType)[operationName]

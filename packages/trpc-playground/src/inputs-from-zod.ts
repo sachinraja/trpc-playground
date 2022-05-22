@@ -97,6 +97,7 @@ const getTypesFromAnyOfObject = (
     if ('not' in prop) rootTypes.add('undefined')
     else if (prop?.type === 'object') {
       ret.properties = getInputsFromObject(prop)
+      ret.arrayTypes.push('object')
     } else if (prop?.type === 'array') {
       ret.array = true
 
@@ -121,7 +122,7 @@ const getTypesFromArray = (items: any): InputType | null => {
   if ('type' in items) {
     if (items.type === 'object') {
       let properties = getInputsFromObject(items)
-      return { properties, rootTypes: [], array: true, arrayTypes: [] }
+      return { properties, rootTypes: [], array: true, arrayTypes: ['object'] }
     } else {
       const arrayTypes = Array.isArray(items.type) ? items.type : [items.type]
       return { properties: [], rootTypes: [], array: true, arrayTypes }

@@ -21,7 +21,10 @@ export const ArrayInput: React.FC<ArrayInputProps> = ({ input, state, dispatch }
         <div>
           <span>Array</span>
           {state.operationName && Object.entries(state.inputs[state.operationName]?.value || {}).map(([idx, value]) => {
-            return <div key={idx}>{idx}:
+            return <div key={idx} className="my-1">
+              <span>
+                {idx}:
+              </span>
               <TypeInputs
                 dispatchValue={(value) => {
                   if (!state.operationName || !state.inputs[state.operationName]) return

@@ -96,7 +96,7 @@ runApp()
 
 ## Settings
 
-For all configuration options, see [the API docs](https://paka.dev/npm/@trpc-playground/types/v/0.1.0#49dd2aa76519f8e8).
+For all configuration options, see [the API docs](https://paka.dev/npm/@trpc-playground/types@0.1.1/api#be2d1ce7878179d).
 
 ## Writing Queries
 

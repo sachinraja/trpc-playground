@@ -39,14 +39,19 @@ export class TypescriptProject {
     await this.fs.injectCoreLibs()
 
     const system = createSystem(this.fs.fs)
-    this.tsserver = createVirtualTypeScriptEnvironment(
-      system,
-      [TS_PROJECT_ENTRYPOINT],
-      typescript,
-      {
-        target: typescript.ScriptTarget.ESNext,
-      },
-    )
+
+    try {
+      this.tsserver = createVirtualTypeScriptEnvironment(
+        system,
+        [TS_PROJECT_ENTRYPOINT],
+        typescript,
+        {
+          target: typescript.ScriptTarget.ESNext,
+        },
+      )
+    } catch (e) {
+      console.log(e)
+    }
 
     window.ts = this.tsserver
     this.state = 'ready'
@@ -54,7 +59,6 @@ export class TypescriptProject {
 
   public async injectTypes(types: FileMap) {
     const ts = await this.env()
-    console.log(types)
     for (const [name, content] of Object.entries(types)) {
       if (!content.trim()) {
         continue

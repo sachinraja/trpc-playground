@@ -1,35 +1,47 @@
-import { Action, ActionKind, QueryBuilderInput, QueryBuilderState } from ".";
-import { Property } from "../../../../types/src";
-import { InputType } from "../../utils/playground-request";
-import TypeInputs, { ArrayInputs } from "./inputs"
+import { QueryBuilderInput } from ".";
+import { Property } from "../../utils/playground-request";
+import { TupleItem } from "./arrayInputs";
+import TypeInputs, { ArrayInputs } from "./inputs";
 
 interface ObjectInputsProps {
-  input: InputType
-  state: QueryBuilderState
-  dispatch: (action: Action) => void
+  props: Property[]
+  setInputType: (inputName: string, type: string) => void
+  setInputValue: (inputName: string, value: any) => void
+  getInputFromState: (inputName: string) => QueryBuilderInput | null
+  indent: boolean
 }
 
 export const ShowNoInputTypes = ["null", "undefined"]
 
-export const ObjectInputs: React.FC<ObjectInputsProps> = ({ input, state, dispatch }) => {
+export const ObjectInputs: React.FC<ObjectInputsProps> = ({ props, setInputType, setInputValue, getInputFromState, indent }) => {
   return (
-    <div>
-      {input?.properties.map((prop, idx) => (
-        <ObjectInput
-          key={idx}
-          getInputFromState={(inputName) => state.inputs[inputName]}
+    <div className="border-secondary" style={{ marginLeft: indent ? "0.75rem" : "0", borderLeftWidth: indent ? "2px" : 0 }}>
+      {props.map((prop, idx) => (
+        <TupleItem
+          indent={indent}
+          input={getInputFromState(prop.name)}
+          inputType={getInputFromState(prop.name)?.type}
+          name={prop.name}
           prop={prop}
-          setInputType={
-            (inputName: string, type: string) =>
-              dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName, type } })
-          }
-          setInputValue={
-            (inputName: string, value: any) =>
-              dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName, value } })
-          }
+          setInputType={(type) => setInputType(prop.name, type)}
+          setInputValue={(value) => setInputValue(prop.name, value)}
         />
+        // <ObjectInput
+        //   indent={indent}
+        //   key={idx}
+        //   getInputFromState={(inputName) => getInputFromState(inputName)}
+        //   prop={prop}
+        //   setInputType={
+        //     (inputName: string, type: string) =>
+        //       setInputType(inputName, type)
+        //   }
+        //   setInputValue={
+        //     (inputName: string, value: any) =>
+        //       setInputValue(inputName, value)
+        //   }
+        // />
       ))}
-    </div >
+    </div>
   )
 }
 
@@ -82,13 +94,14 @@ export const NestedObjectInputs: React.FC<NestedObjectProps> = ({ nestedProps, s
 }
 
 interface ObjectInputProps {
+  indent: boolean
   prop: Property
   setInputType: (inputName: string, type: string) => void
   setInputValue: (inputName: string, value: any) => void
   getInputFromState: (inputName: string) => QueryBuilderInput | null
 }
 
-export const ObjectInput: React.FC<ObjectInputProps> = ({ prop, setInputType, setInputValue, getInputFromState }) => {
+export const ObjectInput: React.FC<ObjectInputProps> = ({ prop, setInputType, setInputValue, getInputFromState, indent }) => {
   const { name, type, array, nestedProps, arrayTypes } = prop
 
   const input = getInputFromState(name)
@@ -99,6 +112,7 @@ export const ObjectInput: React.FC<ObjectInputProps> = ({ prop, setInputType, se
     return (
       <div className="flex my-1 flex-col items-baseline">
         <div className="flex">
+          {indent && <div className="h-[2px] w-5 bg-secondary mr-2" />}
           <p className="bg-secondary px-2 border border-zinc-800 h-6">
             {name}
           </p>
@@ -131,6 +145,7 @@ export const ObjectInput: React.FC<ObjectInputProps> = ({ prop, setInputType, se
     return (
       <div className="flex my-1 flex-col items-baseline">
         <div className="flex">
+          {indent && <div className="h-[2px] w-5 bg-secondary mr-2" />}
           <p className="bg-secondary px-2 border border-zinc-800 h-6">
             {name}
           </p>
@@ -159,6 +174,7 @@ export const ObjectInput: React.FC<ObjectInputProps> = ({ prop, setInputType, se
 
   return (
     <div className="flex items-center my-1">
+      {indent && <div className="h-[2px] w-5 bg-secondary mr-2" />}
       {(!input || (input && ShowNoInputTypes.includes(input.type))) &&
         <p className="bg-secondary px-2 border border-zinc-800 h-6">{name}</p>
       }

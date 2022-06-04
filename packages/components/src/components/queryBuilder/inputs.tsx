@@ -1,12 +1,9 @@
-import { useEffect, useState } from "preact/hooks"
-import { ObjectInput } from "./objectInputs"
 import { PlusIcon, XIcon } from "@heroicons/react/solid"
-import { ShowNoInputTypes } from "./objectInputs"
+import { useEffect, useState } from "preact/hooks"
 import { Property } from "../../utils/playground-request"
-import { Action, QueryBuilderState } from "."
+import { ObjectInput, ShowNoInputTypes } from "./objectInputs"
 
 interface InputProps {
-  // dispatch: (action: Action) => void,
   dispatchValue: (value: any) => void,
   inputName: string
 }
@@ -85,7 +82,6 @@ const BooleanInput: React.FC<InputProps> = ({ dispatchValue, inputName }) => {
 
   useEffect(() => {
     dispatchValue(value)
-    // dispatch({ ActionKind: ActionKind.SetValue, payload: { value, inputName } })
   }, [value])
 
 
@@ -115,7 +111,7 @@ interface ArrayTypeInputsProps extends InputProps {
 }
 type ArrayItem = { value: any, type: string };
 
-export const ArrayInputs: React.FC<ArrayTypeInputsProps> = ({ inputName, dispatchValue, types, property, }) => {
+export const ArrayInputs: React.FC<ArrayTypeInputsProps> = ({ inputName, dispatchValue, types, property }) => {
   const [items, setItems] = useState<ArrayItem[]>([])
 
   useEffect(() => {

@@ -11,6 +11,7 @@ export type Property = {
   name: string
   type: string[]
   array: boolean
+  tuple: boolean
   nestedProps: Property[]
   arrayTypes: string[]
 }
@@ -19,6 +20,7 @@ export type InputType = {
   rootTypes: string[]
   properties: Property[]
   array: boolean
+  tuple: boolean
   arrayTypes: string[]
 } | null
 

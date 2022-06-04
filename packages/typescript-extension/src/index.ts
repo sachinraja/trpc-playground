@@ -60,7 +60,6 @@ const completionSource = async (
 ): Promise<CompletionResult | null> => {
   const { state, pos } = ctx
   const ts = state.field(tsStateField)
-  console.log(state, pos, ts)
 
   try {
     const completions = (await ts.lang()).getCompletionsAtPosition(

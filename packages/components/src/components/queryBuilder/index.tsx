@@ -1,20 +1,20 @@
 import { ChevronUpIcon } from '@heroicons/react/solid';
-import { Resizable } from "re-resizable"
 import { useAtom } from 'jotai';
 import { useEffect, useReducer, useRef, useState } from 'preact/hooks';
+import { Ref } from 'preact/src';
+import { Resizable } from "re-resizable";
 import React from 'react';
 import { GetTypesResponse, InputType } from '../../utils/playground-request';
 import { queryBuilderOpened } from '../tab/store';
-import TypeInputs from "./inputs";
-import { Ref } from 'preact/src';
-import { ArrayInput } from './arrayInputs';
+import { ArrayInput, TupleInput } from './arrayInputs';
+import { generate } from './generate';
 import { ObjectInputs } from './objectInputs';
 
 interface QueryBuilderProps {
   types: GetTypesResponse | null
 }
 
-let operations = ["Query", "Mutation", "Subscription"] as const
+let operations = ["Query", "Mutation"] as const
 
 export interface QueryBuilderState {
   operationType: string | null,
@@ -135,60 +135,10 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
   const containerRef = useRef<HTMLDivElement>() as Ref<HTMLDivElement>
   const [generated, setGenerated] = useState<string | null>(null)
 
-
   useEffect(() => {
-    if (state.operationType && state.operationName) setGenerated(generate())
+    if (state.operationType && state.operationName) setGenerated(generate({ state, types }))
     else setGenerated(null)
   }, [state])
-
-  const generate = (): string | null => {
-    if (state.operationType === null || state.operationName === null || state.operationTypeInObject === null || !types) return null
-    let input = (types as any)[state.operationTypeInObject]?.[state.operationName]
-
-    let inputs: string = "",
-      output: string = "await ";
-    if (state.inputsType === "null") inputs += ", null"
-    else if (state.inputsType === null) {
-
-      if (!input?.array) {
-        let inputsObject: string[] = []
-
-        for (let [name, { type, value }] of Object.entries(state.inputs)) {
-          if (type === "undefined") continue
-          if (type === "null") inputsObject.push(`${name}: null`)
-          else {
-            if (type === "string")
-              inputsObject.push(`${name}: "${value}"`)
-            else
-              inputsObject.push(`${name}: ${value}`)
-          }
-        }
-
-        inputs += `, { ${inputsObject.join(", ")} }`
-      } else {
-        if (state.inputs[state.operationName]) {
-          let arrayItems: any[] = []
-          Object.entries(state.inputs[state.operationName].value || {}).forEach(([_idx, val]) => {
-            arrayItems.push(val)
-          })
-
-          inputs += `, [${arrayItems.join(", ")}]`
-        }
-      }
-    }
-
-    switch (state.operationType) {
-      case "Mutation":
-        output += "mutate"
-        break
-      case "Query":
-        output += "query"
-        break
-    }
-
-    output += `('${state.operationName}'${inputs})`
-    return output;
-  }
 
   return (
     <Resizable
@@ -277,6 +227,7 @@ interface InputsProps {
 const Inputs: React.FC<InputsProps> = ({ dispatch, state, types }) => {
   let input = getOperationInput(types, state.operationTypeInObject!, state.operationName!),
     noInputs = input?.properties.length === 0 && !input.array
+  console.log(state);
 
   return (
     <div className="pt-3">
@@ -298,10 +249,23 @@ const Inputs: React.FC<InputsProps> = ({ dispatch, state, types }) => {
         ))}
       </div>
       {noInputs && <span className="text-zinc-500">No inputs</span>}
-      {state.inputsType == null && !input?.array ? (
-        <ObjectInputs input={input} dispatch={dispatch} state={state} />
-      ) : (
+      {state.inputsType == null && input?.array ? (
         <ArrayInput input={input} dispatch={dispatch} state={state} />
+      ) : input?.tuple ? (
+        <TupleInput
+          getInput={(inputName) => state.inputs?.[inputName]}
+          props={input.properties}
+          setInputType={(inputName, type) => dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName, type } })}
+          setInputValue={(inputName, value) => dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName, value } })}
+        />
+      ) : input && (
+        <ObjectInputs
+          indent={false}
+          getInputFromState={(inputName) => state.inputs[inputName]}
+          props={input.properties}
+          setInputType={(inputName, type) => dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName, type } })}
+          setInputValue={(inputName, value) => dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName, value } })}
+        />
       )}
     </div>
   )

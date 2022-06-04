@@ -59,15 +59,21 @@ export type Property = {
   name: string
   type: string[]
   array: boolean
+  tuple: boolean
   nestedProps: Property[]
   arrayTypes: string[]
+  literalValue: any
+  enumValues: null | any[]
 }
 
 export type InputType = {
   rootTypes: string[]
   properties: Property[]
   array: boolean
+  tuple: boolean
   arrayTypes: string[]
+  literalValue: any
+  enumValues: null | any[]
 } | null
 
 export type ResolveTypesReturn = {

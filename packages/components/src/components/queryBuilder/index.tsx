@@ -4,9 +4,9 @@ import { useEffect, useReducer, useRef, useState } from 'preact/hooks';
 import { Ref } from 'preact/src';
 import { Resizable } from "re-resizable";
 import React from 'react';
-import { GetTypesResponse, InputType } from '../../utils/playground-request';
+import { GetTypesResponse, Property } from '../../utils/playground-request';
 import { queryBuilderOpened } from '../tab/store';
-import { ArrayInput, TupleInput } from './arrayInputs';
+import { ArrayInputs, TupleInput } from './arrayInputs';
 import { generate } from './generate';
 import { ObjectInputs } from './objectInputs';
 
@@ -227,6 +227,7 @@ interface InputsProps {
 const Inputs: React.FC<InputsProps> = ({ dispatch, state, types }) => {
   let input = getOperationInput(types, state.operationTypeInObject!, state.operationName!),
     noInputs = input?.properties.length === 0 && !input.array
+
   console.log(state);
 
   return (
@@ -237,7 +238,7 @@ const Inputs: React.FC<InputsProps> = ({ dispatch, state, types }) => {
           onClick={() => dispatch({ ActionKind: ActionKind.SetInputsType, payload: { type: null } })}
           style={{ color: state.inputsType === null ? "white" : "gray" }}
         >{state.operationName} Inputs</p>
-        {input?.rootTypes.map((rootType, idx) => (
+        {input?.type.map((rootType, idx) => (
           <div className="ml-1">
             <span
               key={idx}
@@ -250,7 +251,20 @@ const Inputs: React.FC<InputsProps> = ({ dispatch, state, types }) => {
       </div>
       {noInputs && <span className="text-zinc-500">No inputs</span>}
       {state.inputsType == null && input?.array ? (
-        <ArrayInput input={input} dispatch={dispatch} state={state} />
+        <ArrayInputs
+          properties={[input]}
+          setInputsType={(type: string) => dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName: state.operationName!, type } })}
+          setInputType={(inputName: string, type: string) => {
+            const newValue = { ...state.inputs[state.operationName!]?.value, [inputName]: { type, value: -1 } }
+            dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName: state.operationName!, value: newValue } })
+          }}
+          setInputValue={(inputName, value) => {
+            const newValue = { ...state.inputs[state.operationName!]?.value, [inputName]: { type: state.inputs[state.operationName!]?.value[inputName].type, value } }
+            dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName: state.operationName!, value: newValue } })
+          }}
+          arrayTypes={input.arrayTypes}
+          inputValue={state.inputs[state.operationName!]?.value || {}}
+        />
       ) : input?.tuple ? (
         <TupleInput
           getInput={(inputName) => state.inputs?.[inputName]}
@@ -271,8 +285,8 @@ const Inputs: React.FC<InputsProps> = ({ dispatch, state, types }) => {
   )
 }
 
-const getOperationsFromType = (types: GetTypesResponse, operationType: string): { [key: string]: InputType } =>
+const getOperationsFromType = (types: GetTypesResponse, operationType: string): { [key: string]: Property } =>
   ((types as any || {})[operationType]) || {}
 
-const getOperationInput = (types: GetTypesResponse, operationType: string, operationName: string): InputType =>
+const getOperationInput = (types: GetTypesResponse, operationType: string, operationName: string): Property =>
   getOperationsFromType(types, operationType)[operationName]

@@ -1,66 +1,49 @@
 import { PlusIcon } from "@heroicons/react/solid";
 import { useEffect } from "preact/hooks";
-import { Action, ActionKind, QueryBuilderInput, QueryBuilderState } from ".";
-import { InputType, Property } from "../../utils/playground-request";
+import { QueryBuilderInput } from ".";
+import { Property } from "../../utils/playground-request";
 import TypeInputs from "./inputs";
 import { ObjectInputs } from './objectInputs';
 
 interface ArrayInputProps {
-  input: InputType,
-  state: QueryBuilderState,
-  dispatch: (action: Action) => void
+  setInputsType: (type: string) => void
+  setInputType: (inputName: string, type: string) => void
+  setInputValue: (inputName: string, value: any) => void
+  inputValue: any
+  arrayTypes: string[]
+  properties: Property[]
 }
 
-export const ArrayInput: React.FC<ArrayInputProps> = ({ input, state, dispatch }) => {
+export const ArrayInputs: React.FC<ArrayInputProps> = ({ setInputType, inputValue, arrayTypes, setInputValue, properties, setInputsType }) => {
   useEffect(() => {
-    dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName: state.operationName!, type: "array" } })
+    setInputsType("array")
     return () => { }
   }, [])
 
   return (
     <div>
-      <span>Array</span>
-      {input?.arrayTypes.length !== 0 &&
-        <div className="ml-5 border-l-2 border-secondary">
-          {state.operationName && Object.entries(state.inputs[state.operationName]?.value || {}).map(([idx, value]: [any, any]) => {
-            if (input?.arrayTypes.length === 1 && !value.type && state.operationName) {
-              const newValue = { ...state.inputs[state.operationName].value, [idx]: { value: -1, type: input.arrayTypes[0] } }
-
-              dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName: state.operationName, value: newValue } })
+      {arrayTypes.length !== 0 &&
+        <div style={{ marginLeft: "0.75rem" }} className=" border-l-2 border-secondary">
+          {Object.entries(inputValue).map(([_idx, val]) => val as any).map((value, idx) => {
+            if (arrayTypes.length === 1 && !value.type) {
+              setInputValue(idx.toString(), -1)
             }
 
-            return (
-              <div key={idx} className="my-1 flex items-center">
-                <div className="h-[2px] w-5 bg-secondary mr-2" />
-                <TypeInputs
-                  dispatchValue={(val) => {
-                    if (!state.operationName || !state.inputs[state.operationName]) return
-                    const newValue = { ...state.inputs[state.operationName].value, [idx]: { value: val, type: value.type } }
-
-                    dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName: state.operationName, value: newValue } })
-                  }}
-                  inputName={idx}
-                  type={input?.arrayTypes[0]!}
-                />
-                <span className="ml-2">
-                  {input?.arrayTypes.map((t, i) => (
-                    <button
-                      key={i}
-                      onClick={() => {
-                        if (!state.operationName || !state.inputs[state.operationName]) return
-                        const newValue = { ...state.inputs[state.operationName].value, [idx]: { ...value, type: t } }
-
-                        dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName: state.operationName, value: newValue } })
-                      }}
-                      style={{ color: state.inputs[state.operationName!]?.value[idx].type == t ? "white" : "gray" }}
-                      className="mr-2"
-                    >
-                      {t}
-                    </button>
-                  ))}
-                </span>
-              </div>
-            )
+            return <TupleItem
+              indent={true}
+              types={properties[0].arrayTypes}
+              input={inputValue[idx]}
+              inputType={inputValue[idx].type}
+              name={idx.toString()}
+              prop={properties[0]}
+              setInputType={(type) => {
+                setInputType(idx.toString(), type)
+              }}
+              setInputValue={(newValue: any) => {
+                setInputValue(idx.toString(), newValue)
+              }}
+              key={idx}
+            />
           })}
           <div className="flex items-center h-6 mt-3">
             <div className="h-[2px] w-5 bg-secondary mr-2" />
@@ -68,12 +51,10 @@ export const ArrayInput: React.FC<ArrayInputProps> = ({ input, state, dispatch }
               title="New Item"
               className="bg-secondary p-1 rounded-md"
               onClick={() => {
-                if (!state.operationName || !state.inputs[state.operationName]) return
-                let nextIdx = Object.entries(state.inputs[state.operationName].value).length
+                let nextIdx = Object.entries(inputValue).length
 
-                const newValue = { ...state.inputs[state.operationName].value, [nextIdx]: -1 }
-
-                dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName: state.operationName, value: newValue } })
+                setInputType(nextIdx.toString(), "")
+                // setInputValue(nextIdx.toString(), -1)
               }}
             >
               <PlusIcon width={20} height={20} />
@@ -104,6 +85,7 @@ export const TupleInput: React.FC<TupleInputProps> = ({ props, setInputType, get
           name={idx.toString()}
           input={getInput(idx.toString())}
           indent={false}
+          types={prop.type}
         />
       ))}
     </div>
@@ -118,15 +100,17 @@ interface TupleItemProps {
   inputType: string
   name: string
   indent: boolean
+  types: string[]
 }
 
-export const TupleItem: React.FC<TupleItemProps> = ({ prop, setInputType, inputType, setInputValue, name, input, indent }) => {
-  const { type: types, nestedProps } = prop
+export const TupleItem: React.FC<TupleItemProps> = ({ prop, setInputType, inputType, setInputValue, name, input, indent, types }) => {
+  const { properties } = prop
 
   useEffect(() => {
-    types.length === 1 && setInputType(types[0])
+    types.length === 1 && inputType !== types[0] && setInputType(types[0])
     return () => { }
   }, [])
+
 
   return (
     <div className="flex my-1 items-center">
@@ -134,7 +118,38 @@ export const TupleItem: React.FC<TupleItemProps> = ({ prop, setInputType, inputT
       {inputType ? (
         <div>
           {inputType === "array" ? (
-            <div>array</div>
+            <div>
+              <div className="flex">
+                <p className="bg-secondary px-2 border border-zinc-800 h-6 w-fit">
+                  {name}
+                </p>
+                <TupleItemTypeSelection
+                  types={types}
+                  setType={(type) => setInputType(type)}
+                  selectedType={inputType}
+                />
+              </div>
+              <ArrayInputs
+                setInputsType={(type) => {
+                  // console.log(type);
+                }}
+                arrayTypes={prop.arrayTypes}
+                inputValue={input?.value}
+                properties={[prop]}
+                setInputType={(inputName, type) => {
+                  if (!input) return
+
+                  const newValue = { ...input.value, [inputName]: { type } }
+                  setInputValue(newValue)
+                }}
+                setInputValue={(inputName, value) => {
+                  if (!input) return
+
+                  const newInputValue = { ...input.value, [inputName]: { ...input.value[inputName], value } };
+                  setInputValue(newInputValue)
+                }}
+              />
+            </div>
           ) : inputType === "object" ? (
             <div>
               <div className="flex">
@@ -149,7 +164,7 @@ export const TupleItem: React.FC<TupleItemProps> = ({ prop, setInputType, inputT
               </div>
               <ObjectInputs
                 getInputFromState={(inputName) => input?.value[inputName]}
-                props={nestedProps}
+                props={properties}
                 setInputType={(inputName, type) => {
                   if (!input) return
                   const newInputValue = { ...input.value, [inputName]: { ...input.value[inputName], type } };

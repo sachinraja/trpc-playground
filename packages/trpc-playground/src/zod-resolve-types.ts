@@ -1,4 +1,4 @@
-import { InputType, ResolveTypesReturn } from '@trpc-playground/types'
+import { Property, ResolveTypesReturn } from '@trpc-playground/types'
 import { AnyRouter } from '@trpc/server'
 import { ZodAny } from 'zod'
 import { printNode, zodToTs } from 'zod-to-ts'
@@ -31,8 +31,8 @@ const joinQueries = (functionName: string, queries: Record<string, { inputParser
 }
 
 interface GetTypesFromRouterReturn {
-  queries: { [key: string]: InputType }
-  mutations: { [key: string]: InputType }
+  queries: { [key: string]: Property | null }
+  mutations: { [key: string]: Property | null }
 }
 
 const getTypesFromRouter = (router: AnyRouter): GetTypesFromRouterReturn => {
@@ -40,13 +40,13 @@ const getTypesFromRouter = (router: AnyRouter): GetTypesFromRouterReturn => {
     prev[name] = getInputs(name, query as any)
 
     return prev
-  }, {} as { [key: string]: InputType })
+  }, {} as { [key: string]: Property | null })
 
   let mutations = Object.entries(router._def.mutations).reduce((prev, [name, mutation]) => {
     prev[name] = getInputs(name, mutation as any)
 
     return prev
-  }, {} as { [key: string]: InputType })
+  }, {} as { [key: string]: Property | null })
 
   return {
     mutations,

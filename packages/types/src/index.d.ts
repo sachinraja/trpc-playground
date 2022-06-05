@@ -60,26 +60,16 @@ export type Property = {
   type: string[]
   array: boolean
   tuple: boolean
-  nestedProps: Property[]
+  properties: Property[]
   arrayTypes: string[]
   literalValue: any
   enumValues: null | any[]
 }
 
-export type InputType = {
-  rootTypes: string[]
-  properties: Property[]
-  array: boolean
-  tuple: boolean
-  arrayTypes: string[]
-  literalValue: any
-  enumValues: null | any[]
-} | null
-
 export type ResolveTypesReturn = {
   raw: string[]
-  queries: { [key: string]: InputType }
-  mutations: { [key: string]: InputType }
+  queries: { [key: string]: Property | null }
+  mutations: { [key: string]: Property | null }
 }
 
 export type ServerConfig = {

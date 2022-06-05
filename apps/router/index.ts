@@ -45,10 +45,14 @@ export const appRouter = trpc
   //   input: z.string().array(),
   //   resolve: (i) => i
   // })
+  .query('arrays', {
+    input: z.array(z.union([z.string(), z.number()])),
+    resolve: () => [],
+  })
   .query('tuples', {
     input: z.tuple([
       z.string(),
-      z.number(),
+      z.array(z.string()),
       z.object({
         a: z.number(),
       }),

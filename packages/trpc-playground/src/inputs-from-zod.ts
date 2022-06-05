@@ -1,5 +1,5 @@
 import { zodToJsonSchema } from 'zod-to-json-schema'
-import { InputType, Property } from '../../types/src'
+import { Property } from '../../types/src'
 
 const getTypesFromAnyOf = (anyOf: any[], inputTypes: Set<string> = new Set()): Set<string> => {
   anyOf.forEach((prop: any) => {
@@ -22,29 +22,30 @@ const getInputsFromObject = (object: any): Property[] => {
 
   Object.entries(object.properties).forEach(([name, props]: [string, any]) => {
     let input: Property = {
+      name,
       array: false,
       arrayTypes: [],
-      name,
       type: [],
-      nestedProps: [],
+      properties: [],
       literalValue: undefined,
       enumValues: null,
+      tuple: false,
     }
 
     if ('type' in props) {
       if (props.type === 'object') {
         const objInputs = getInputsFromObject(props)
         input.type = ['object']
-        input.nestedProps = objInputs
+        input.properties = objInputs
       } else if (props.type === 'array') {
         input.array = true
 
         const nestedArrayType = getTypesFromArray(props.items)
         if (nestedArrayType) {
-          input.type = ['array', ...nestedArrayType.rootTypes]
+          input.type = ['array', ...nestedArrayType.type]
           input.arrayTypes = nestedArrayType.arrayTypes
-          input.nestedProps = nestedArrayType.properties
-          nestedArrayType.rootTypes
+          input.properties = nestedArrayType.properties
+          nestedArrayType.type
         }
       } else {
         if (Array.isArray(props.type)) props.type.forEach((type: string) => input.type.push(type))
@@ -68,8 +69,8 @@ const getInputsFromObject = (object: any): Property[] => {
 
 const getTypesFromAnyOfObject = (
   anyOfObject: any[],
-  ret: NonNullable<InputType>,
-): NonNullable<InputType> => {
+  ret: Property,
+): Property => {
   let rootTypes: Set<string> = new Set()
 
   for (let prop of anyOfObject) {
@@ -86,13 +87,13 @@ const getTypesFromAnyOfObject = (
       }
     } else if ('anyOf' in prop) {
       let nested = getTypesFromAnyOfObject(prop.anyOf, ret)
-      rootTypes = new Set(nested.rootTypes)
+      rootTypes = new Set(nested.type)
     } else if ('type' in prop && prop.type !== 'object') {
       rootTypes.add(prop.type)
     }
   }
 
-  ret.rootTypes = Array.from(rootTypes)
+  ret.type = Array.from(rootTypes)
 
   return ret
 }
@@ -102,27 +103,28 @@ const getTupleTypes = (items: any[]) => {
   const inputs: Property[] = []
 
   for (const item of items) {
-    let queryInput: Property = {
+    let queryInput: Property | null = {
       array: false,
       arrayTypes: [],
       enumValues: null,
       literalValue: undefined,
       name: '',
-      nestedProps: [],
+      properties: [],
       type: [],
+      tuple: false,
     }
 
     if ('type' in item) {
       switch (item.type) {
         case 'object': {
-          queryInput.nestedProps = getInputsFromObject(item)
+          queryInput.properties = getInputsFromObject(item)
           queryInput.type.push('object')
           break
         }
 
         case 'array': {
-          // queryInput = getTypesFromArray(item)
-          queryInput.type.push('array')
+          queryInput = getTypesFromArray(item)
+          queryInput?.type.push('array')
           break
         }
 
@@ -138,21 +140,22 @@ const getTupleTypes = (items: any[]) => {
       // queryInput = getTypesFromAnyOfObject(item.anyOf, queryInput)
     }
 
-    inputs.push(queryInput)
+    queryInput && inputs.push(queryInput)
   }
 
   return inputs
 }
 
 // Get input types from array like definitions: [Array, Tuple]
-const getTypesFromArray = (def: any): InputType | null => {
+const getTypesFromArray = (def: any): Property | null => {
   const { items } = def
 
   // True if definition is tuple
   if (Array.isArray(items) && items.length == def.minItems && items.length == def.maxItems) {
     return {
+      name: '',
       properties: getTupleTypes(items),
-      rootTypes: [],
+      type: [],
       tuple: true,
       array: false,
       arrayTypes: [],
@@ -165,8 +168,9 @@ const getTypesFromArray = (def: any): InputType | null => {
         let properties = getInputsFromObject(items)
 
         return {
+          name: '',
           properties,
-          rootTypes: [],
+          type: [],
           tuple: false,
           array: true,
           arrayTypes: ['object'],
@@ -177,8 +181,9 @@ const getTypesFromArray = (def: any): InputType | null => {
         const arrayTypes = Array.isArray(items.type) ? items.type : [items.type]
 
         return {
+          name: '',
           properties: [],
-          rootTypes: [],
+          type: [],
           array: true,
           tuple: false,
           arrayTypes,
@@ -190,8 +195,9 @@ const getTypesFromArray = (def: any): InputType | null => {
       const arrayTypes = Array.from(getTypesFromAnyOf(items.anyOf))
 
       return {
+        name: '',
         properties: [],
-        rootTypes: [],
+        type: [],
         array: true,
         tuple: false,
         arrayTypes,
@@ -204,9 +210,10 @@ const getTypesFromArray = (def: any): InputType | null => {
   return null
 }
 
-const defaultQueryInput: InputType = {
+const defaultQueryInput: Property = {
+  name: '',
   properties: [],
-  rootTypes: [],
+  type: [],
   array: false,
   arrayTypes: [],
   literalValue: undefined,
@@ -215,8 +222,8 @@ const defaultQueryInput: InputType = {
 }
 
 // Get Inputs for querybuilder by parsing trpc router into JSON schema
-export const getInputs = (name: string, query: any): InputType => {
-  let queryInput: InputType = { ...defaultQueryInput }
+export const getInputs = (name: string, query: any): Property | null => {
+  let queryInput: Property | null = { ...defaultQueryInput }
 
   if (typeof query.inputParser == 'function') return queryInput
 
@@ -238,7 +245,7 @@ export const getInputs = (name: string, query: any): InputType => {
       }
 
       default: {
-        Array.isArray(def.type) ? queryInput.rootTypes = def.type : queryInput.rootTypes.push(def.type)
+        Array.isArray(def.type) ? queryInput.type = def.type : queryInput.type.push(def.type)
 
         if ('const' in def) queryInput.literalValue = def.const
         else if ('enum' in def) queryInput.enumValues = def.enum

@@ -12,22 +12,14 @@ export type Property = {
   type: string[]
   array: boolean
   tuple: boolean
-  nestedProps: Property[]
+  properties: Property[]
   arrayTypes: string[]
 }
 
-export type InputType = {
-  rootTypes: string[]
-  properties: Property[]
-  array: boolean
-  tuple: boolean
-  arrayTypes: string[]
-} | null
-
 export type GetTypesResponse = {
   raw: string[]
-  queries: { [key: string]: InputType }
-  mutations: { [key: string]: InputType }
+  queries: { [key: string]: Property | null }
+  mutations: { [key: string]: Property | null }
 }
 
 export async function makePlaygroundRequest(

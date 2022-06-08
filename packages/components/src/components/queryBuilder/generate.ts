@@ -16,31 +16,14 @@ export const generate = ({ state, types }: GenerateFnInputs): string | null => {
     output: string = 'await '
   if (state.inputsType === 'null') inputs += ', null'
   else if (state.inputsType === null) {
-    if (!input?.array) {
-      let inputsObject: string[] = []
-
-      for (let [name, { type, value }] of Object.entries(state.inputs)) {
-        if (type === 'undefined') continue
-        if (type === 'null') inputsObject.push(`${name}: null`)
-        else {
-          if (type === 'string') {
-            inputsObject.push(`${name}: "${value}"`)
-          } else {
-            inputsObject.push(`${name}: ${value}`)
-          }
-        }
-      }
-
-      inputs += `, { ${inputsObject.join(', ')} }`
-    } else {
-      if (state.inputs[state.operationName]) {
-        let arrayItems: any[] = []
-        Object.entries(state.inputs[state.operationName].value || {}).forEach(([_idx, val]) => {
-          arrayItems.push(val)
-        })
-
-        inputs += `, [${arrayItems.join(', ')}]`
-      }
+    if (input?.array || input?.tuple) {
+      inputs += `, ${generateArrayInputs(state.inputs)}`
+    } else if (input.properties.length !== 0) {
+      inputs += `, ${generateObjectInputs(state.inputs)}`
+    } else if (input.type.length !== 0) {
+      inputs += `, ${
+        formatPrimitive(state.inputs[state.operationName!].value, state.inputs[state.operationName!].type)
+      }`
     }
   }
 
@@ -56,3 +39,33 @@ export const generate = ({ state, types }: GenerateFnInputs): string | null => {
   output += `('${state.operationName}'${inputs})`
   return output
 }
+
+const generateArrayInputs = (inputs: { [key: string]: any }): string => {
+  let arrayItems: any[] = []
+
+  Object.entries(inputs || {}).forEach(([_idx, val]) => {
+    if (val.type === 'array') {
+      arrayItems.push(generateArrayInputs(val.value))
+    } else if (val.type === 'object') {
+      arrayItems.push(generateObjectInputs(val.value))
+    } else arrayItems.push(formatPrimitive(val.value, val.type))
+  })
+
+  return `[${arrayItems.join(', ')}]`
+}
+
+const generateObjectInputs = (inputs: { [key: string]: any }): string => {
+  let inputsObject: string[] = []
+
+  for (let [name, { type, value }] of Object.entries(inputs)) {
+    if (type === 'undefined') continue
+    if (type === 'null') inputsObject.push(`${name}: null`)
+    else {
+      inputsObject.push(`${name}: ${formatPrimitive(value, type)}`)
+    }
+  }
+
+  return `{ ${inputsObject.join(', ')} }`
+}
+
+const formatPrimitive = (value: string, type: string) => type === 'string' ? `"${value}"` : `${value}`

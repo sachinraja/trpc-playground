@@ -1,3 +1,4 @@
+import { EditorView } from '@codemirror/view'
 import { atom } from 'jotai'
 import { Tab } from './types'
 
@@ -32,3 +33,4 @@ export const currentTabIndexAtom = atom((get) => {
 })
 
 export const queryBuilderOpened = atom<boolean>(false)
+export const editorAtom = atom<EditorView | null>(null)

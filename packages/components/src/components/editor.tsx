@@ -14,14 +14,14 @@ import { batchEval, serialEval, transformAndRunQueries } from '../editor/transfo
 import { makePlaygroundRequest } from '../utils/playground-request'
 import { configAtom, trpcClientAtom, typesAtom } from './provider'
 import { QueryBuilder } from './queryBuilder'
-import { currentTabAtom, previousTabAtom, previousTabIdAtom, tabsAtom, updateCurrentTabIdAtom } from './tab/store'
+import { currentTabAtom, editorAtom, previousTabAtom, previousTabIdAtom, tabsAtom, updateCurrentTabIdAtom } from './tab/store'
 
 const MemoizedCodeMirror = memo((props: CodeMirrorProps) => <CodeMirror {...props} />)
 
 const responseValueAtom = atom(printObject({ foo: 'bar' }))
 
 export const Editor = () => {
-  const [editorView, setEditorView] = useState<EditorView | null>(null)
+  const [editorView, setEditorView] = useAtom(editorAtom)
   const [types, setTypes] = useAtom(typesAtom)
   const [, setTabs] = useAtom(tabsAtom)
   const [previousTab] = useAtom(previousTabAtom)

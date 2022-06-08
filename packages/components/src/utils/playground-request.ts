@@ -14,6 +14,8 @@ export type Property = {
   tuple: boolean
   properties: Property[]
   arrayTypes: string[]
+  literalValue: any
+  enumValues: null | any[]
 }
 
 export type GetTypesResponse = {

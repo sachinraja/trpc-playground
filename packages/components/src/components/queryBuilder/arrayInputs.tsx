@@ -15,6 +15,7 @@ interface ArrayInputProps {
 }
 
 export const ArrayInputs: React.FC<ArrayInputProps> = ({ setInputType, inputValue, arrayTypes, setInputValue, properties, setInputsType }) => {
+  // console.log(inputValue);
   useEffect(() => {
     setInputsType("array")
     return () => { }
@@ -180,9 +181,13 @@ export const TupleItem: React.FC<TupleItemProps> = ({ prop, setInputType, inputT
             </div>
           ) : (
             <TypeInputs
-              dispatchValue={(val) => {
-                setInputValue(val)
-              }}
+              dispatchValue={
+                (val) => {
+                  setInputValue(val)
+                }
+              }
+              literalValue={prop.literalValue}
+              enumValues={prop.enumValues}
               inputName={name}
               type={inputType}
             />

@@ -37,10 +37,11 @@ interface GetTypesFromRouterReturn {
 
 const getTypesFromRouter = (router: AnyRouter): GetTypesFromRouterReturn => {
   let queries = Object.entries(router._def.queries).reduce((prev, [name, query]) => {
-    prev[name] = getInputs(name, query as any)
+    prev[name] = getInputs(name, query)
 
     return prev
   }, {} as { [key: string]: Property | null })
+  console.log(queries)
 
   let mutations = Object.entries(router._def.mutations).reduce((prev, [name, mutation]) => {
     prev[name] = getInputs(name, mutation as any)

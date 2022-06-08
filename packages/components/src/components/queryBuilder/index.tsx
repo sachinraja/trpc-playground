@@ -1,12 +1,12 @@
 import { ChevronUpIcon } from '@heroicons/react/solid';
 import { useAtom } from 'jotai';
-import { useEffect, useReducer, useRef, useState } from 'preact/hooks';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'preact/hooks';
 import { Ref } from 'preact/src';
 import { Resizable } from "re-resizable";
 import React from 'react';
 import { GetTypesResponse, Property } from '../../utils/playground-request';
-import { queryBuilderOpened } from '../tab/store';
-import { ArrayInputs, TupleInput } from './arrayInputs';
+import { editorAtom, queryBuilderOpened } from '../tab/store';
+import { ArrayInputs, TupleInput, TupleItem } from './arrayInputs';
 import { generate } from './generate';
 import { ObjectInputs } from './objectInputs';
 
@@ -135,10 +135,30 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
   const containerRef = useRef<HTMLDivElement>() as Ref<HTMLDivElement>
   const [generated, setGenerated] = useState<string | null>(null)
 
+  const [editorView] = useAtom(editorAtom)
+
   useEffect(() => {
     if (state.operationType && state.operationName) setGenerated(generate({ state, types }))
     else setGenerated(null)
   }, [state])
+
+  const insertGenerated = useCallback(
+    () => {
+      const gen = generate({ state, types });
+      if (!editorView || !gen) return
+
+      const line = editorView.state.doc.lineAt(editorView.state.selection.main.head)
+
+      editorView.dispatch({
+        changes: {
+          from: line.from,
+          to: line.to,
+          insert: `${line.text}\n${gen}`,
+        },
+      })
+    },
+    [editorView, state],
+  )
 
   return (
     <Resizable
@@ -205,6 +225,7 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
                       opacity: state.operationType === null || state.operationName === null ? "0.6" : "1",
                       pointerEvents: state.operationType === null || state.operationName === null ? "none" : "all"
                     }}
+                    onClick={insertGenerated}
                     className="bg-secondary px-2 shadow-lg mt-2 font-semibold"
                   >Create</button>
                   <kbd className="bg-zinc-900 py-1 px-2 text-md shadow-lg">{generated}</kbd>
@@ -226,9 +247,9 @@ interface InputsProps {
 
 const Inputs: React.FC<InputsProps> = ({ dispatch, state, types }) => {
   let input = getOperationInput(types, state.operationTypeInObject!, state.operationName!),
-    noInputs = input?.properties.length === 0 && !input.array
+    noInputs = input?.properties.length === 0 && !input.array && !input.tuple && input.type.length === 0
 
-  console.log(state);
+  console.log(input);
 
   return (
     <div className="pt-3">
@@ -238,7 +259,7 @@ const Inputs: React.FC<InputsProps> = ({ dispatch, state, types }) => {
           onClick={() => dispatch({ ActionKind: ActionKind.SetInputsType, payload: { type: null } })}
           style={{ color: state.inputsType === null ? "white" : "gray" }}
         >{state.operationName} Inputs</p>
-        {input?.type.map((rootType, idx) => (
+        {input.array || input.tuple || input.properties.length !== 0 && input?.type.map((rootType, idx) => (
           <div className="ml-1">
             <span
               key={idx}
@@ -253,32 +274,47 @@ const Inputs: React.FC<InputsProps> = ({ dispatch, state, types }) => {
       {state.inputsType == null && input?.array ? (
         <ArrayInputs
           properties={[input]}
-          setInputsType={(type: string) => dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName: state.operationName!, type } })}
+          setInputsType={(type: string) => {
+            // dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName: state.operationName!, type } })
+          }}
           setInputType={(inputName: string, type: string) => {
-            const newValue = { ...state.inputs[state.operationName!]?.value, [inputName]: { type, value: -1 } }
-            dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName: state.operationName!, value: newValue } })
+            dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName, type } })
           }}
           setInputValue={(inputName, value) => {
-            const newValue = { ...state.inputs[state.operationName!]?.value, [inputName]: { type: state.inputs[state.operationName!]?.value[inputName].type, value } }
-            dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName: state.operationName!, value: newValue } })
+            dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName, value } })
           }}
           arrayTypes={input.arrayTypes}
-          inputValue={state.inputs[state.operationName!]?.value || {}}
+          inputValue={state.inputs || {}}
         />
       ) : input?.tuple ? (
         <TupleInput
           getInput={(inputName) => state.inputs?.[inputName]}
           props={input.properties}
-          setInputType={(inputName, type) => dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName, type } })}
-          setInputValue={(inputName, value) => dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName, value } })}
+          setInputType={(inputName, type) => {
+            dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName, type } })
+          }}
+          setInputValue={(inputName, value) => {
+            dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName, value } })
+          }}
         />
-      ) : input && (
+      ) : input.properties.length !== 0 ? (
         <ObjectInputs
           indent={false}
           getInputFromState={(inputName) => state.inputs[inputName]}
           props={input.properties}
           setInputType={(inputName, type) => dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName, type } })}
           setInputValue={(inputName, value) => dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName, value } })}
+        />
+      ) : !noInputs && (
+        <TupleItem
+          indent={false}
+          input={state.inputs[state.operationName!]}
+          inputType={state.inputs[state.operationName!]?.type}
+          name="input"
+          prop={input}
+          types={input.type}
+          setInputType={(type) => dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName: state.operationName!, type } })}
+          setInputValue={(value) => dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName: state.operationName!, value } })}
         />
       )}
     </div>

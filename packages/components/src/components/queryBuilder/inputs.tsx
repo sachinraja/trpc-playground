@@ -7,30 +7,47 @@ interface InputProps {
 
 interface TypeInputsProps extends InputProps {
   type: string,
+  literalValue: any
+  enumValues: any[] | null
 }
 
-const TypeInputs: React.FC<TypeInputsProps> = ({ type, dispatchValue, inputName, }) => {
+const TypeInputs: React.FC<TypeInputsProps> = ({ type, dispatchValue, inputName, enumValues, literalValue }) => {
+  const [canDispatch, setCanDispatch] = useState(true)
   let props = {
     dispatchValue,
     inputName
   }
 
+  useEffect(() => {
+    console.log(enumValues);
+    if (literalValue != null) {
+      dispatchValue!(literalValue)
+      setCanDispatch(false)
+    } else setCanDispatch(true)
+
+    return () => { }
+  }, [literalValue])
+
   switch (type) {
     case "string": {
-      return <StringInput {...props} />
+      return <StringInput {...props} canDispatch={canDispatch} />
     }
     case "number": {
-      return <NumberInput {...props} />
+      return <NumberInput {...props} canDispatch={canDispatch} />
     }
     case "boolean": {
-      return <BooleanInput {...props} />
+      return <BooleanInput {...props} canDispatch={canDispatch} />
     }
   }
 
   return null
 }
 
-const StringInput: React.FC<InputProps> = ({ dispatchValue, inputName }) => {
+interface TypeInput extends InputProps {
+  canDispatch: boolean
+}
+
+const StringInput: React.FC<TypeInput> = ({ dispatchValue, inputName, canDispatch }) => {
   const [value, setValue] = useState<string>("")
 
   useEffect(() => {
@@ -46,13 +63,13 @@ const StringInput: React.FC<InputProps> = ({ dispatchValue, inputName }) => {
         type="text"
         className="text-white bg-primary outline-0 pl-2"
         value={value}
-        onChange={(e) => setValue(e.currentTarget.value)}
+        onChange={(e) => canDispatch && setValue(e.currentTarget.value)}
       />
     </div>
   )
 }
 
-const NumberInput: React.FC<InputProps> = ({ dispatchValue, inputName }) => {
+const NumberInput: React.FC<TypeInput> = ({ dispatchValue, inputName, canDispatch }) => {
   const [value, setValue] = useState<number>(0)
 
   useEffect(() => {
@@ -68,19 +85,18 @@ const NumberInput: React.FC<InputProps> = ({ dispatchValue, inputName }) => {
         type="number"
         className="text-white bg-primary outline-0 pl-2 flex-1"
         value={value}
-        onChange={(e) => setValue(+e.currentTarget.value)}
+        onChange={(e) => canDispatch && setValue(+e.currentTarget.value)}
       />
     </div>
   )
 }
 
-const BooleanInput: React.FC<InputProps> = ({ dispatchValue, inputName }) => {
+const BooleanInput: React.FC<TypeInput> = ({ dispatchValue, inputName, canDispatch }) => {
   const [value, setValue] = useState<boolean>(false)
 
   useEffect(() => {
     dispatchValue(value)
   }, [value])
-
 
   return (
     <div className="border border-zinc-800 rounded-sm h-6 flex w-64 items-center">
@@ -92,7 +108,7 @@ const BooleanInput: React.FC<InputProps> = ({ dispatchValue, inputName }) => {
           type="radio"
           className="text-white bg-primary outline-0 pl-2"
           checked={value}
-          onClick={() => setValue((v) => !v)}
+          onClick={() => canDispatch && setValue((v) => !v)}
         />
         <span className="ml-1">
           {value ? "True" : "False"}

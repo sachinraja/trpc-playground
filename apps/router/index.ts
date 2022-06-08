@@ -9,10 +9,13 @@ enum EnumTest {
 
 export const appRouter = trpc
   .router()
-  // .query("primitive", {
-  //   input: z.string(),
-  //   resolve: (i) => i
-  // })
+  .query('no-args', {
+    resolve: () => [],
+  })
+  .query('primitive', {
+    input: z.string(),
+    resolve: (i) => i,
+  })
   // .query("literal", {
   //   input: z.literal(22),
   //   resolve: (i) => i
@@ -33,13 +36,13 @@ export const appRouter = trpc
   //   input: z.nullable(z.number()),
   //   resolve: (i) => i
   // })
-  // .query("objects", {
-  //   input: z.object({
-  //     a: z.literal(false),
-  //     b: z.enum(["1", "2"]),
-  //   }),
-  //   resolve: (i) => i
-  // })
+  .query('objects', {
+    input: z.object({
+      a: z.literal(false),
+      b: z.enum(['1']),
+    }),
+    resolve: (i) => i,
+  })
   // .query("arrays", {
   //   // input: z.array(z.string()),
   //   input: z.string().array(),

@@ -223,14 +223,12 @@ const defaultQueryInput: Property = {
 
 // Get Inputs for querybuilder by parsing trpc router into JSON schema
 export const getInputs = (name: string, query: any): Property | null => {
-  let queryInput: Property | null = { ...defaultQueryInput }
+  let queryInput: Property | null = { ...defaultQueryInput, type: [], properties: [], arrayTypes: [] }
 
   if (typeof query.inputParser == 'function') return queryInput
 
   let def = zodToJsonSchema(query.inputParser, name).definitions[name] as any
   if (!def) return queryInput
-
-  console.log(name, def, '\n')
 
   if ('type' in def) {
     switch (def.type) {
@@ -256,7 +254,7 @@ export const getInputs = (name: string, query: any): Property | null => {
     queryInput = getTypesFromAnyOfObject(def.anyOf, queryInput)
   }
 
-  console.log(queryInput, '\n')
+  // console.log(name, queryInput, '\n')
 
   return queryInput
 }

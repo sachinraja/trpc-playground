@@ -249,8 +249,6 @@ const Inputs: React.FC<InputsProps> = ({ dispatch, state, types }) => {
   let input = getOperationInput(types, state.operationTypeInObject!, state.operationName!),
     noInputs = input?.properties.length === 0 && !input.array && !input.tuple && input.type.length === 0
 
-  console.log(input);
-
   return (
     <div className="pt-3">
       <div className="flex">

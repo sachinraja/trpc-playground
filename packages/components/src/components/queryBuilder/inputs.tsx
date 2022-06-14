@@ -19,7 +19,6 @@ const TypeInputs: React.FC<TypeInputsProps> = ({ type, dispatchValue, inputName,
   }
 
   useEffect(() => {
-    console.log(enumValues);
     if (literalValue != null) {
       dispatchValue!(literalValue)
       setCanDispatch(false)
@@ -30,13 +29,13 @@ const TypeInputs: React.FC<TypeInputsProps> = ({ type, dispatchValue, inputName,
 
   switch (type) {
     case "string": {
-      return <StringInput {...props} canDispatch={canDispatch} />
+      return <StringInput {...props} canDispatch={canDispatch} enumValues={enumValues} />
     }
     case "number": {
-      return <NumberInput {...props} canDispatch={canDispatch} />
+      return <NumberInput {...props} canDispatch={canDispatch} enumValues={enumValues} />
     }
     case "boolean": {
-      return <BooleanInput {...props} canDispatch={canDispatch} />
+      return <BooleanInput {...props} canDispatch={canDispatch} enumValues={enumValues} />
     }
   }
 
@@ -44,11 +43,12 @@ const TypeInputs: React.FC<TypeInputsProps> = ({ type, dispatchValue, inputName,
 }
 
 interface TypeInput extends InputProps {
-  canDispatch: boolean
+  canDispatch: boolean,
+  enumValues: any[] | null
 }
 
-const StringInput: React.FC<TypeInput> = ({ dispatchValue, inputName, canDispatch }) => {
-  const [value, setValue] = useState<string>("")
+const StringInput: React.FC<TypeInput> = ({ dispatchValue, inputName, canDispatch, enumValues }) => {
+  const [value, setValue] = useState<string>(enumValues != null ? enumValues[0] : "")
 
   useEffect(() => {
     dispatchValue(value)
@@ -59,12 +59,23 @@ const StringInput: React.FC<TypeInput> = ({ dispatchValue, inputName, canDispatc
       <p className="bg-secondary px-2 border-r border-zinc-800">
         {inputName}
       </p>
-      <input
-        type="text"
-        className="text-white bg-primary outline-0 pl-2"
-        value={value}
-        onChange={(e) => canDispatch && setValue(e.currentTarget.value)}
-      />
+      {enumValues != null ? (
+        <select
+          className="text-white bg-primary outline-0 pl-2 w-full"
+          onChange={(e) => canDispatch && setValue(e.currentTarget.value)}
+        >
+          {enumValues.map((val, idx) => (
+            <option key={idx} value={val}>{val}</option>
+          ))}
+        </select>
+      ) : (
+        <input
+          type="text"
+          className="text-white bg-primary outline-0 pl-2"
+          value={value}
+          onChange={(e) => canDispatch && setValue(e.currentTarget.value)}
+        />
+      )}
     </div>
   )
 }

@@ -54,7 +54,6 @@ export const appRouter = trpc
   })
   .query('tuples', {
     input: z.tuple([
-      z.string(),
       z.array(z.string()),
       z.object({
         a: z.number(),

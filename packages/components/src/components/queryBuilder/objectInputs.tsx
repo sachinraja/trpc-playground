@@ -17,6 +17,7 @@ export const ObjectInputs: React.FC<ObjectInputsProps> = ({ props, setInputType,
     <div className="border-secondary" style={{ marginLeft: indent ? "0.75rem" : "0", borderLeftWidth: indent ? "2px" : 0 }}>
       {props.map((prop, idx) => (
         <TupleItem
+          key={idx}
           types={prop.type}
           indent={indent}
           input={getInputFromState(prop.name)}

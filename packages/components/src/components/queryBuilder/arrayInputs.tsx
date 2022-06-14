@@ -132,7 +132,6 @@ export const TupleItem: React.FC<TupleItemProps> = ({ prop, setInputType, inputT
               </div>
               <ArrayInputs
                 setInputsType={(type) => {
-                  // console.log(type);
                 }}
                 arrayTypes={prop.arrayTypes}
                 inputValue={input?.value}

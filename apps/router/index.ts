@@ -40,6 +40,9 @@ export const appRouter = trpc
     input: z.object({
       a: z.literal(false),
       b: z.enum(['1']),
+      c: z.array(z.enum(['1', '2'])),
+      d: z.tuple([z.string(), z.boolean()]),
+      e: z.array(z.literal('1')),
     }),
     resolve: (i) => i,
   })

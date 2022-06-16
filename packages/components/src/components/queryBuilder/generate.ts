@@ -7,6 +7,7 @@ interface GenerateFnInputs {
 }
 
 export const generate = ({ state, types }: GenerateFnInputs): string | null => {
+  console.log(state)
   if (state.operationType === null || state.operationName === null || state.operationTypeInObject === null || !types) {
     return null
   }
@@ -60,6 +61,9 @@ const generateObjectInputs = (inputs: { [key: string]: any }): string => {
   for (let [name, { type, value }] of Object.entries(inputs)) {
     if (type === 'undefined') continue
     if (type === 'null') inputsObject.push(`${name}: null`)
+    else if (type === 'array') inputsObject.push(`${name}: ${generateArrayInputs(value ?? {})}`)
+    else if (type === 'object') inputsObject.push(`${name}: ${generateObjectInputs(value ?? {})}`)
+    else if (type === 'tuple') inputsObject.push(`${name}: ${generateArrayInputs(value ?? {})}`)
     else {
       inputsObject.push(`${name}: ${formatPrimitive(value, type)}`)
     }

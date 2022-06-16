@@ -1,132 +1,86 @@
-import { useEffect, useState } from "preact/hooks"
+import { Action, ActionKind, QueryBuilderState } from "."
+import { GetTypesResponse } from "../../utils/playground-request"
+import { ArrayInputs, TupleInput } from "./arrayInputs"
+import { getOperationInput } from "./getOperation"
+import { InputItem } from "./InputItem"
+import { ObjectInputs } from "./objectInputs"
 
-interface InputProps {
-  dispatchValue: (value: any) => void,
-  inputName: string
+interface InputsProps {
+	dispatch: (action: Action) => void,
+	state: QueryBuilderState,
+	types: GetTypesResponse
 }
 
-interface TypeInputsProps extends InputProps {
-  type: string,
-  literalValue: any
-  enumValues: any[] | null
+export const Inputs: React.FC<InputsProps> = ({ dispatch, state, types }) => {
+	let input = getOperationInput(types, state.operationTypeInObject!, state.operationName!),
+		noInputs = input?.properties.length === 0 && !input.array && !input.tuple && input.type.length === 0
+
+	return (
+		<div className="pt-3">
+			<div className="flex">
+				<p
+					className="font-semibold cursor-pointer"
+					onClick={() => dispatch({ ActionKind: ActionKind.SetInputsType, payload: { type: null } })}
+					style={{ color: state.inputsType === null ? "white" : "gray" }}
+				>{state.operationName} Inputs</p>
+				{input.array || input.tuple || input.properties.length !== 0 && input?.type.map((rootType, idx) => (
+					<div className="ml-1">
+						<span
+							key={idx}
+							className="ml-1 text-zinc-400 text-sm cursor-pointer"
+							style={{ color: state.inputsType === rootType ? "white" : "gray" }}
+							onClick={() => dispatch({ ActionKind: ActionKind.SetInputsType, payload: { type: rootType } })}
+						>{rootType}</span>
+					</div>
+				))}
+			</div>
+			{noInputs && <span className="text-zinc-500">No inputs</span>}
+			{state.inputsType == null && input?.array ? (
+				<ArrayInputs
+					properties={[input]}
+					setInputsType={(type: string) => {
+						// dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName: state.operationName!, type } })
+					}}
+					setInputType={(inputName: string, type: string) => {
+						dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName, type } })
+					}}
+					setInputValue={(inputName, value) => {
+						dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName, value } })
+					}}
+					arrayTypes={input.arrayTypes}
+					inputValue={state.inputs || {}}
+				/>
+			) : input?.tuple ? (
+				<TupleInput
+					getInput={(inputName) => state.inputs?.[inputName]}
+					props={input.properties}
+					setInputType={(inputName, type) => {
+						dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName, type } })
+					}}
+					setInputValue={(inputName, value) => {
+						dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName, value } })
+					}}
+				/>
+			) : input.properties.length !== 0 ? (
+				<ObjectInputs
+					indent={false}
+					getInputFromState={(inputName) => state.inputs[inputName]}
+					props={input.properties}
+					setInputType={(inputName, type) => dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName, type } })}
+					setInputValue={(inputName, value) => dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName, value } })}
+				/>
+			) : !noInputs && (
+				<InputItem
+					indent={false}
+					input={state.inputs[state.operationName!]}
+					inputType={state.inputs[state.operationName!]?.type}
+					name="input"
+					prop={input}
+					types={input.type}
+					setInputType={(type) => dispatch({ ActionKind: ActionKind.SetInputType, payload: { inputName: state.operationName!, type } })}
+					setInputValue={(value) => dispatch({ ActionKind: ActionKind.SetValue, payload: { inputName: state.operationName!, value } })}
+				/>
+			)}
+		</div>
+	)
 }
-
-const TypeInputs: React.FC<TypeInputsProps> = ({ type, dispatchValue, inputName, enumValues, literalValue }) => {
-  const [canDispatch, setCanDispatch] = useState(true)
-  let props = {
-    dispatchValue,
-    inputName
-  }
-
-  useEffect(() => {
-    if (literalValue != null) {
-      dispatchValue!(literalValue)
-      setCanDispatch(false)
-    } else setCanDispatch(true)
-
-    return () => { }
-  }, [literalValue])
-
-  switch (type) {
-    case "string": {
-      return <StringInput {...props} canDispatch={canDispatch} enumValues={enumValues} />
-    }
-    case "number": {
-      return <NumberInput {...props} canDispatch={canDispatch} enumValues={enumValues} />
-    }
-    case "boolean": {
-      return <BooleanInput {...props} canDispatch={canDispatch} enumValues={enumValues} />
-    }
-  }
-
-  return null
-}
-
-interface TypeInput extends InputProps {
-  canDispatch: boolean,
-  enumValues: any[] | null
-}
-
-const StringInput: React.FC<TypeInput> = ({ dispatchValue, inputName, canDispatch, enumValues }) => {
-  const [value, setValue] = useState<string>(enumValues != null ? enumValues[0] : "")
-
-  useEffect(() => {
-    dispatchValue(value)
-  }, [value])
-
-  return (
-    <div className="border border-zinc-800 rounded-sm h-6 flex w-64">
-      <p className="bg-secondary px-2 border-r border-zinc-800">
-        {inputName}
-      </p>
-      {enumValues != null ? (
-        <select
-          className="text-white bg-primary outline-0 pl-2 w-full"
-          onChange={(e) => canDispatch && setValue(e.currentTarget.value)}
-        >
-          {enumValues.map((val, idx) => (
-            <option key={idx} value={val}>{val}</option>
-          ))}
-        </select>
-      ) : (
-        <input
-          type="text"
-          className="text-white bg-primary outline-0 pl-2"
-          value={value}
-          onChange={(e) => canDispatch && setValue(e.currentTarget.value)}
-        />
-      )}
-    </div>
-  )
-}
-
-const NumberInput: React.FC<TypeInput> = ({ dispatchValue, inputName, canDispatch }) => {
-  const [value, setValue] = useState<number>(0)
-
-  useEffect(() => {
-    dispatchValue(value)
-  }, [value])
-
-  return (
-    <div className="border border-zinc-800 rounded-sm h-6 flex w-64">
-      <p className="bg-secondary px-2 border-r border-zinc-800">
-        {inputName}
-      </p>
-      <input
-        type="number"
-        className="text-white bg-primary outline-0 pl-2 flex-1"
-        value={value}
-        onChange={(e) => canDispatch && setValue(+e.currentTarget.value)}
-      />
-    </div>
-  )
-}
-
-const BooleanInput: React.FC<TypeInput> = ({ dispatchValue, inputName, canDispatch }) => {
-  const [value, setValue] = useState<boolean>(false)
-
-  useEffect(() => {
-    dispatchValue(value)
-  }, [value])
-
-  return (
-    <div className="border border-zinc-800 rounded-sm h-6 flex w-64 items-center">
-      <p className="bg-secondary px-2 border-r border-zinc-800">
-        {inputName}
-      </p>
-      <div className="flex items-center justify-center flex-1">
-        <input
-          type="radio"
-          className="text-white bg-primary outline-0 pl-2"
-          checked={value}
-          onClick={() => canDispatch && setValue((v) => !v)}
-        />
-        <span className="ml-1">
-          {value ? "True" : "False"}
-        </span>
-      </div>
-    </div>
-  )
-}
-
-export default TypeInputs

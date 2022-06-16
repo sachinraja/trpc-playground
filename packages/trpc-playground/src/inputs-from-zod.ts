@@ -7,7 +7,7 @@ const getTypesFromAnyOf = (anyOf: any[], inputTypes: Set<string> = new Set()): S
     else if ('not' in prop) {
       inputTypes.add('undefined')
     } else if (prop.anyOf) {
-      console.log(prop.anyOf)
+      // console.log(prop.anyOf)
       inputTypes = getTypesFromAnyOf(prop.anyOf, inputTypes)
     }
   })
@@ -33,20 +33,27 @@ const getInputsFromObject = (object: any): Property[] => {
     }
 
     if ('type' in props) {
-      if (props.type === 'object') {
+      if (Array.isArray(props.items) && props.items.length == props.minItems && props.items.length == props.maxItems) {
+        input.tuple = true
+        input.properties = getTupleTypes(props.items)
+        input.type.push('tuple')
+      } else if (props.type === 'object') {
         const objInputs = getInputsFromObject(props)
         input.type = ['object']
         input.properties = objInputs
       } else if (props.type === 'array') {
         input.array = true
 
-        const nestedArrayType = getTypesFromArray(props.items)
-        if (nestedArrayType) {
-          input.type = ['array', ...nestedArrayType.type]
-          input.arrayTypes = nestedArrayType.arrayTypes
-          input.properties = nestedArrayType.properties
-          nestedArrayType.type
-        }
+        const nestedArrayType = getTypesFromArray(props)
+        input = nestedArrayType ?? input
+        input.name = name
+        input.type.push('array')
+        // console.log(input)
+        // input.type = ['array', ...nestedArrayType.type]
+        // input.arrayTypes = nestedArrayType.arrayTypes
+        // input.properties = nestedArrayType.properties
+        // nestedArrayType.type
+        // }
       } else {
         if (Array.isArray(props.type)) props.type.forEach((type: string) => input.type.push(type))
         else input.type.push(props.type)
@@ -81,7 +88,7 @@ const getTypesFromAnyOfObject = (
     } else if (prop?.type === 'array') {
       ret.array = true
 
-      const types = getTypesFromArray(prop.items)
+      const types = getTypesFromArray(prop)
       if (types) {
         ret.arrayTypes = types.arrayTypes
       }
@@ -137,7 +144,7 @@ const getTupleTypes = (items: any[]) => {
         }
       }
     } else if ('anyOf' in item) {
-      // queryInput = getTypesFromAnyOfObject(item.anyOf, queryInput)
+      queryInput = getTypesFromAnyOfObject(item.anyOf, queryInput)
     }
 
     queryInput && inputs.push(queryInput)
@@ -149,6 +156,7 @@ const getTupleTypes = (items: any[]) => {
 // Get input types from array like definitions: [Array, Tuple]
 const getTypesFromArray = (def: any): Property | null => {
   const { items } = def
+  // console.log(def)
 
   // True if definition is tuple
   if (Array.isArray(items) && items.length == def.minItems && items.length == def.maxItems) {
@@ -164,6 +172,7 @@ const getTypesFromArray = (def: any): Property | null => {
     }
   } else {
     if ('type' in items) {
+      // console.log(items.type)
       if (items.type === 'object') {
         let properties = getInputsFromObject(items)
 
@@ -177,6 +186,8 @@ const getTypesFromArray = (def: any): Property | null => {
           literalValue: undefined,
           enumValues: null,
         }
+        // } else if (items.type === "array") {
+        //   console.log("HERE: ", getTypesFromArray(items))
       } else {
         const arrayTypes = Array.isArray(items.type) ? items.type : [items.type]
 
@@ -187,8 +198,8 @@ const getTypesFromArray = (def: any): Property | null => {
           array: true,
           tuple: false,
           arrayTypes,
-          literalValue: undefined,
-          enumValues: null,
+          literalValue: items.const ?? undefined,
+          enumValues: items.enum ?? null,
         }
       }
     } else if ('anyOf' in items) {

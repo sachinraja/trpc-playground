@@ -1,75 +1,40 @@
 import { GetTypesResponse } from '../../utils/playground-request'
-import { QueryBuilderState } from '.'
+import { QueryBuilderState } from './queryBuilderState'
 
 interface GenerateFnInputs {
   state: QueryBuilderState
   types: GetTypesResponse | null
 }
 
-export const generate = ({ state, types }: GenerateFnInputs): string | null => {
-  console.log(state)
+// Generate code snippet of selected query and inputs
+export const generate = ({ state, types }: GenerateFnInputs): { generated: string; inputLength: number } | null => {
   if (state.operationType === null || state.operationName === null || state.operationTypeInObject === null || !types) {
     return null
   }
-  let input = (types as any)[state.operationTypeInObject]?.[state.operationName]
-
-  let inputs: string = '',
-    output: string = 'await '
-  if (state.inputsType === 'null') inputs += ', null'
-  else if (state.inputsType === null) {
-    if (input?.array || input?.tuple) {
-      inputs += `, ${generateArrayInputs(state.inputs)}`
-    } else if (input.properties.length !== 0) {
-      inputs += `, ${generateObjectInputs(state.inputs)}`
-    } else if (input.type.length !== 0) {
-      inputs += `, ${
-        formatPrimitive(state.inputs[state.operationName!].value, state.inputs[state.operationName!].type)
-      }`
-    }
-  }
+  let output: string = 'await '
 
   switch (state.operationType) {
     case 'Mutation':
-      output += 'mutate'
+      output += 'mutation'
       break
     case 'Query':
       output += 'query'
       break
   }
 
-  output += `('${state.operationName}'${inputs})`
-  return output
+  const input = getQueryDefaultInput({ state, types })
+  output += `('${state.operationName}'${input})`
+  return { generated: output, inputLength: input.length }
 }
 
-const generateArrayInputs = (inputs: { [key: string]: any }): string => {
-  let arrayItems: any[] = []
+// Get default generated input for query from types response
+const getQueryDefaultInput = ({ state, types }: GenerateFnInputs) => {
+  if (!types || !state.operationTypeInObject) return ''
 
-  Object.entries(inputs || {}).forEach(([_idx, val]) => {
-    if (val.type === 'array') {
-      arrayItems.push(generateArrayInputs(val.value))
-    } else if (val.type === 'object') {
-      arrayItems.push(generateObjectInputs(val.value))
-    } else arrayItems.push(formatPrimitive(val.value, val.type))
-  })
-
-  return `[${arrayItems.join(', ')}]`
-}
-
-const generateObjectInputs = (inputs: { [key: string]: any }): string => {
-  let inputsObject: string[] = []
-
-  for (let [name, { type, value }] of Object.entries(inputs)) {
-    if (type === 'undefined') continue
-    if (type === 'null') inputsObject.push(`${name}: null`)
-    else if (type === 'array') inputsObject.push(`${name}: ${generateArrayInputs(value ?? {})}`)
-    else if (type === 'object') inputsObject.push(`${name}: ${generateObjectInputs(value ?? {})}`)
-    else if (type === 'tuple') inputsObject.push(`${name}: ${generateArrayInputs(value ?? {})}`)
-    else {
-      inputsObject.push(`${name}: ${formatPrimitive(value, type)}`)
-    }
+  const op = ((types as any)[state.operationTypeInObject]?.[state.operationName!])
+  if (op) {
+    return op.default ? `, ${op.default}` : ``
   }
 
-  return `{ ${inputsObject.join(', ')} }`
+  return ''
 }
-
-const formatPrimitive = (value: string, type: string) => type === 'string' ? `"${value}"` : `${value}`

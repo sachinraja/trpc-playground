@@ -1,8 +1,7 @@
-import { Property, ResolveTypesReturn } from '@trpc-playground/types'
 import { AnyRouter } from '@trpc/server'
 import { ZodAny } from 'zod'
 import { printNode, zodToTs } from 'zod-to-ts'
-import { getInputs } from './inputs-from-zod'
+import { getDefaultInput } from './get-default-input'
 
 const joinQueries = (functionName: string, queries: Record<string, { inputParser: ZodAny }>) => {
   const queryNames: string[] = []
@@ -12,7 +11,7 @@ const joinQueries = (functionName: string, queries: Record<string, { inputParser
     queryNames.push(stringName)
 
     if (!query.inputParser._def) return `QueryName extends ${stringName} ? [undefined?]`
-    const { node } = zodToTs(query.inputParser as ZodAny)
+    let { node } = zodToTs(query.inputParser as ZodAny)
 
     const inputType = printNode(node)
     const queryType = `QueryName extends ${stringName} ? [${inputType}]`
@@ -30,24 +29,47 @@ const joinQueries = (functionName: string, queries: Record<string, { inputParser
   return `declare function ${functionName}<QueryName extends ${joinedQueryNames}>(${args.join(',')}): void`
 }
 
+type QueryDefaultAndType = Record<string, { default: string; type: string }>
+
 interface GetTypesFromRouterReturn {
-  queries: { [key: string]: Property | null }
-  mutations: { [key: string]: Property | null }
+  queries: QueryDefaultAndType
+  mutations: QueryDefaultAndType
 }
 
+type ResolveTypesReturn = {
+  tsTypes: string[]
+} & GetTypesFromRouterReturn
+
 const getTypesFromRouter = (router: AnyRouter): GetTypesFromRouterReturn => {
-  let queries = Object.entries(router._def.queries).reduce((prev, [name, query]) => {
-    prev[name] = getInputs(name, query)
+  let queries = Object.entries(router._def.queries as Record<string, { inputParser: ZodAny }>).reduce(
+    (prev, [name, query]) => {
+      if (query.inputParser?._def) {
+        const { node } = zodToTs((query as any).inputParser)
+        prev[name] = {
+          type: printNode(node),
+          default: getDefaultInput(query),
+        }
+      } else prev[name] = { default: '', type: '' }
 
-    return prev
-  }, {} as { [key: string]: Property | null })
-  console.log(queries)
+      return prev
+    },
+    {} as QueryDefaultAndType,
+  )
 
-  let mutations = Object.entries(router._def.mutations).reduce((prev, [name, mutation]) => {
-    prev[name] = getInputs(name, mutation as any)
+  let mutations = Object.entries(router._def.mutations as Record<string, { inputParser: ZodAny }>).reduce(
+    (prev, [name, mutation]) => {
+      if (mutation.inputParser?._def) {
+        const { node } = zodToTs((mutation as any).inputParser)
+        prev[name] = {
+          type: printNode(node),
+          default: getDefaultInput(mutation),
+        }
+      } else prev[name] = { default: '', type: '' }
 
-    return prev
-  }, {} as { [key: string]: Property | null })
+      return prev
+    },
+    {} as QueryDefaultAndType,
+  )
 
   return {
     mutations,
@@ -56,7 +78,7 @@ const getTypesFromRouter = (router: AnyRouter): GetTypesFromRouterReturn => {
 }
 
 export const zodResolveTypes = async (router: AnyRouter): Promise<ResolveTypesReturn> => ({
-  raw: [
+  tsTypes: [
     joinQueries('query', router._def.queries),
     joinQueries('mutation', router._def.mutations),
   ],

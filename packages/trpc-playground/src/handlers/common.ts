@@ -64,7 +64,7 @@ export const handleRequest = async ({ rawReq, req, common }: TrpcPlaygroundReque
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...types, types: types.raw }),
+        body: JSON.stringify(types),
       }
     } else {
       // not a valid operation, 400 Bad Request

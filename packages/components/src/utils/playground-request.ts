@@ -7,22 +7,16 @@ type MakePlaygroundRequestOptions = {
   body?: BodyObject
 }
 
-export type Property = {
-  name: string
-  type: string[]
-  array: boolean
-  tuple: boolean
-  properties: Property[]
-  arrayTypes: string[]
-  literalValue: any
-  enumValues: null | any[]
+export type QueryDefaultAndType = Record<string, { default: string; type: string }>
+
+interface GetTypesFromRouterReturn {
+  queries: QueryDefaultAndType
+  mutations: QueryDefaultAndType
 }
 
 export type GetTypesResponse = {
-  raw: string[]
-  queries: { [key: string]: Property | null }
-  mutations: { [key: string]: Property | null }
-}
+  tsTypes: string[]
+} & GetTypesFromRouterReturn
 
 export async function makePlaygroundRequest(
   operation: 'getTypes',

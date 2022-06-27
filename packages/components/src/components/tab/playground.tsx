@@ -76,7 +76,7 @@ export const PlaygroundTab = ({ index }: TabProps) => {
               setIsEditingTabName(true)
             }}
           >
-            <p className="font-semibold text-m mb-1 text-neutral-200">{tab.name}</p>
+            <p className='font-semibold text-m mb-1 text-neutral-200'>{tab.name}</p>
           </button>
         )}
 

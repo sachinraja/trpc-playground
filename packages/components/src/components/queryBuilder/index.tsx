@@ -1,133 +1,19 @@
-import { ChevronUpIcon } from '@heroicons/react/solid';
-import { useAtom } from 'jotai';
-import { useCallback, useEffect, useReducer, useRef, useState } from 'preact/hooks';
-import { Ref } from 'preact/src';
-import { Resizable } from "re-resizable";
-import React from 'react';
-import { GetTypesResponse } from '../../utils/playground-request';
-import { editorAtom, queryBuilderOpened } from '../tab/store';
-import { generate } from './generate';
-import { getOperationsFromType } from './getOperation';
-import { Inputs } from "./Inputs"
+import { ChevronUpIcon } from '@heroicons/react/solid'
+import { useAtom } from 'jotai'
+import { useCallback, useEffect, useReducer, useRef, useState } from 'preact/hooks'
+import { Ref } from 'preact/src'
+import { Resizable } from 're-resizable'
+import React from 'react'
+import { GetTypesResponse, QueryDefaultAndType } from '../../utils/playground-request'
+import { editorAtom, queryBuilderOpened } from '../tab/store'
+import { generate } from './generate'
+import { ActionKind, defaultQueryBuilderState, reducer } from './queryBuilderState'
 
 interface QueryBuilderProps {
   types: GetTypesResponse | null
 }
 
-let operations = ["Query", "Mutation"] as const
-
-export interface QueryBuilderState {
-  operationType: string | null,
-  operationName: string | null,
-  operationTypeInObject: string | null,
-  inputs: { [key: string]: QueryBuilderInput },
-  inputsType: string | null
-}
-
-export type QueryBuilderInput = { value: any, type: any }
-
-const defaultQueryBuilderState: QueryBuilderState = {
-  operationType: null,
-  operationName: null,
-  operationTypeInObject: null,
-  inputs: {},
-  inputsType: null
-}
-
-export enum ActionKind {
-  SetOperationType = "SET_OPERATION_TYPE",
-  SetOperationName = "SET_OPERATION_NAME",
-  SetInputType = "SET_INPUT_TYPE",
-  SetValue = "SET_VALUE",
-  SetInputsType = "SET_INPUTS_TYPE"
-}
-
-type SetTypeAction = {
-  ActionKind: ActionKind.SetOperationType,
-  payload: { type: "Query" | "Mutation" | "Subscription" }
-}
-
-type SetNameAction = {
-  ActionKind: ActionKind.SetOperationName,
-  payload: { name: string }
-}
-
-type SetValueAction = {
-  ActionKind: ActionKind.SetValue,
-  payload: { inputName: string, value: any }
-}
-
-type SetInputsTypeAction = {
-  ActionKind: ActionKind.SetInputsType,
-  payload: { type: string | null }
-}
-
-type SetInputTypeAction = {
-  ActionKind: ActionKind.SetInputType,
-  payload: { type: any, inputName: string, defaultValue?: any }
-}
-
-export type Action =
-  SetTypeAction |
-  SetNameAction |
-  SetInputTypeAction |
-  SetValueAction |
-  SetInputsTypeAction
-
-const reducer = (oldState: QueryBuilderState, action: Action): QueryBuilderState => {
-  const state = { ...oldState }
-
-  switch (action.ActionKind) {
-    case ActionKind.SetOperationType: {
-      if (action.payload.type !== state.operationType) {
-        state.operationName = null
-        state.inputs = {}
-        state.inputsType = null
-      }
-      state.operationType = action.payload.type
-
-      switch (action.payload.type) {
-        case "Mutation":
-          state.operationTypeInObject = "mutations"
-          break
-        case "Query":
-          state.operationTypeInObject = "queries"
-          break
-        case "Subscription":
-          state.operationTypeInObject = "subscriptions"
-          break
-      }
-      break
-    }
-    case ActionKind.SetOperationName: {
-      if (action.payload.name !== state.operationName) {
-        state.inputs = {}
-        state.inputsType = null
-      }
-
-      state.operationName = action.payload.name
-      break
-    }
-    case ActionKind.SetInputType: {
-      state.inputs[action.payload.inputName] = { value: action.payload.defaultValue || -1, type: action.payload.type }
-
-      break
-    }
-    case ActionKind.SetValue: {
-      if (state.inputs[action.payload.inputName]) {
-        state.inputs[action.payload.inputName].value = action.payload.value
-      }
-      break
-    }
-    case ActionKind.SetInputsType: {
-      if (state.inputsType != action.payload.type) state.inputs = {}
-      state.inputsType = action.payload.type
-      break
-    }
-  }
-
-  return state
-}
+let operations = ['Query', 'Mutation'] as const
 
 export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
   const [queryBuilderOpen, setQueryBuilderOpened] = useAtom(queryBuilderOpened)
@@ -138,23 +24,38 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
   const [editorView] = useAtom(editorAtom)
 
   useEffect(() => {
-    if (state.operationType && state.operationName) setGenerated(generate({ state, types }))
+    if (state.operationType && state.operationName) {
+      const newGenerated = generate({ state, types })
+      if (newGenerated?.generated)
+        setGenerated(newGenerated.generated)
+    }
     else setGenerated(null)
   }, [state])
 
   const insertGenerated = useCallback(
     () => {
-      const gen = generate({ state, types });
+      const gen = generate({ state, types })
       if (!editorView || !gen) return
 
+      const { generated, inputLength } = gen
       const line = editorView.state.doc.lineAt(editorView.state.selection.main.head)
 
+      editorView.focus()
+      // Add generated query to next line in editor
       editorView.dispatch({
         changes: {
           from: line.from,
           to: line.to,
-          insert: `${line.text}\n${gen}`,
+          insert: `${line.text}\n${generated}`,
         },
+      })
+
+      // Select default generated input so user can instantly remove/edit
+      editorView.dispatch({
+        selection: {
+          anchor: line.to + generated.length - inputLength,
+          head: line.to + generated.length
+        }
       })
     },
     [editorView, state],
@@ -163,79 +64,82 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
   return (
     <Resizable
       enable={{ top: true }}
-      maxHeight={queryBuilderOpen ? "80%" : "1.5rem"}
-      minHeight="24px"
+      maxHeight={queryBuilderOpen ? '80%' : '1.5rem'}
+      minHeight='24px'
       onResizeStart={() => setQueryBuilderOpened(true)}
-      minWidth="100%"
+      minWidth='100%'
     >
       <div
         className={`flex flex-col overflow-hidden h-full`}
         ref={containerRef}
       >
         <div
-          className="flex justify-between mx-3 pb-1 items-center h-6 cursor-pointer"
+          className='flex justify-between mx-3 pb-1 items-center h-6 cursor-pointer'
           onClick={() => setQueryBuilderOpened(open => !open)}
         >
-          <p className={"text-neutral-100	mx-1 font-semibold"}>Query builder</p>
+          <p className={'text-neutral-100	mx-1 font-semibold'}>Query builder</p>
           <button>
-            {
-              queryBuilderOpen ?
-                <ChevronUpIcon width={18} height={18} className="rotate-180" /> :
-                <ChevronUpIcon width={18} height={18} className="rotate-0" />
-            }
+            {queryBuilderOpen
+              ? <ChevronUpIcon width={18} height={18} className='rotate-180' />
+              : <ChevronUpIcon width={18} height={18} className='rotate-0' />}
           </button>
         </div>
-        {queryBuilderOpen && types &&
-          <div className="flex-1 bg-primary w-full overflow-y-auto pt-2 px-4 pb-5">
-            <div className="pb-3">
-              <p className="font-semibold">Operation</p>
-              <div>
-                {operations.map((op) =>
-                  <button
-                    className="bg-secondary mx-2 px-2 shadow-lg"
-                    style={{ color: state.operationType === op ? "white" : "gray" }}
-                    key={op}
-                    onClick={
-                      () => dispatch({ ActionKind: ActionKind.SetOperationType, payload: { type: op } })
-                    }
-                  >{op}</button>
-                )}
-              </div>
-            </div>
-            {state.operationTypeInObject &&
-              <div className="pt-3">
-                <p className="font-semibold">{state.operationType}</p>
-                <div className="ml-1">
-                  {Object.keys(getOperationsFromType(types, state.operationTypeInObject)).map((opName, idx) =>
+        {queryBuilderOpen && types
+          && (
+            <div className='flex-1 bg-primary w-full overflow-y-auto pt-2 px-4 pb-5'>
+              <div className='pb-3'>
+                <p className='font-semibold'>Operation</p>
+                <div>
+                  {operations.map((op) => (
                     <button
-                      key={idx}
-                      className="bg-secondary mx-1 px-2 shadow-lg mb-1"
-                      style={{ color: state.operationName === opName ? "white" : "gray" }}
-                      onClick={() => dispatch({ ActionKind: ActionKind.SetOperationName, payload: { name: opName } })}
+                      className='bg-secondary mx-2 px-2 shadow-lg'
+                      style={{ color: state.operationType === op ? 'white' : 'gray' }}
+                      key={op}
+                      onClick={() => dispatch({ ActionKind: ActionKind.SetOperationType, payload: { type: op } })}
                     >
-                      {opName}
+                      {op}
                     </button>
-                  )}
-                </div>
-                {state.operationName && getOperationsFromType(types, state.operationTypeInObject) &&
-                  <Inputs dispatch={dispatch} state={state} types={types} />
-                }
-                <div className="pt-4" >
-                  <button
-                    style={{
-                      opacity: state.operationType === null || state.operationName === null ? "0.6" : "1",
-                      pointerEvents: state.operationType === null || state.operationName === null ? "none" : "all"
-                    }}
-                    onClick={insertGenerated}
-                    className="bg-secondary px-2 shadow-lg mt-2 font-semibold"
-                  >Create</button>
-                  <kbd className="bg-zinc-900 py-1 px-2 text-md shadow-lg">{generated}</kbd>
+                  ))}
                 </div>
               </div>
-            }
-          </div>
-        }
+              {state.operationTypeInObject
+                && (
+                  <div className='pt-3'>
+                    <p className='font-semibold'>{state.operationType}</p>
+                    <div className='ml-1'>
+                      {Object.keys(getOperationsFromType(types, state.operationTypeInObject)).map((opName, idx) => (
+                        <button
+                          key={idx}
+                          className='bg-secondary mx-1 px-2 shadow-lg mb-1'
+                          style={{ color: state.operationName === opName ? 'white' : 'gray' }}
+                          onClick={() =>
+                            dispatch({ ActionKind: ActionKind.SetOperationName, payload: { name: opName } })}
+                        >
+                          {opName}
+                        </button>
+                      ))}
+                    </div>
+                    <div className='pt-4'>
+                      <button
+                        style={{
+                          opacity: state.operationType === null || state.operationName === null ? '0.6' : '1',
+                          pointerEvents: state.operationType === null || state.operationName === null ? 'none' : 'all',
+                        }}
+                        onClick={insertGenerated}
+                        className='bg-secondary px-2 shadow-lg mt-2 font-semibold'
+                      >
+                        Create
+                      </button>
+                      <kbd className='bg-zinc-900 py-1 px-2 text-md shadow-lg'>{generated}</kbd>
+                    </div>
+                  </div>
+                )}
+            </div>
+          )}
       </div>
     </Resizable>
-  );
+  )
 }
+
+const getOperationsFromType = (types: GetTypesResponse, operationType: string): QueryDefaultAndType =>
+  ((types as any || {})[operationType]) || {}

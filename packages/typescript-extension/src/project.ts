@@ -50,7 +50,7 @@ export class TypescriptProject {
         },
       )
     } catch (e) {
-      console.log(e)
+      console.error(e)
     }
 
     window.ts = this.tsserver

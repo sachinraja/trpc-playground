@@ -3,7 +3,7 @@ import { createReactQueryHooks } from '@trpc/react'
 import { AnyRouter } from '@trpc/server'
 import { atom, Provider as JotaiProvider } from 'jotai'
 import { ComponentChildren } from 'preact'
-import { useMemo } from 'preact/hooks'
+import { useCallback, useMemo } from 'preact/hooks'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import superjson from 'superjson'
 import { TrpcClient } from '../types'
@@ -25,13 +25,19 @@ export const typesAtom = atom<GetTypesResponse | null>(null)
 export const PlaygroundProvider = ({ config, children }: PlaygroundProviderProps) => {
   const queryClient = useMemo(() => new QueryClient(), [])
 
+  const getHeaders = useCallback(
+    () => {
+      console.log('get headers', config)
+      return config.request.globalHeaders
+    },
+    [config.request.globalHeaders],
+  )
+
   const transformer = config.request.superjson ? superjson : undefined
   const trpcClient = useMemo(() =>
     trpc.createClient({
       url: config.trpcApiEndpoint,
-      headers() {
-        return config.request.globalHeaders
-      },
+      headers: getHeaders,
       transformer,
     }), [])
 

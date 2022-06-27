@@ -3,7 +3,6 @@ import { EditorState } from '@codemirror/state'
 export function findFirstCursor(state: EditorState) {
   // A SelectionRange is a cursor. Even if the user has a "selection", their cursor is still at the edge of the selection
   const cursors = state.selection.asSingle().ranges
-  // console.log(state.doc.lineAt(state.selection.main.head))
   return { pos: cursors[0].head }
 }
 

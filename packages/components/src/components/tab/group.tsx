@@ -83,7 +83,7 @@ export const TabGroup = () => {
           updateCurrentTabId(newTab.id)
         }}
       >
-        <PlusIcon width={20} height={20} className="text-neutral-200" />
+        <PlusIcon width={20} height={20} className='text-neutral-200' />
       </button>
       {/* </BaseTab> */}
     </div>

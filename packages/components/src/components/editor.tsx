@@ -7,14 +7,21 @@ import { injectTypes, setDiagnostics } from '@trpc-playground/typescript-extensi
 import { printObject } from '@trpc-playground/utils'
 import { atom, useAtom } from 'jotai'
 import { memo } from 'preact/compat'
-import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'preact/hooks'
+import { useCallback, useEffect, useLayoutEffect, useMemo } from 'preact/hooks'
 import CodeMirror, { CodeMirrorProps } from 'rodemirror'
 import { baseExtension, tsExtension } from '../editor/extensions'
 import { batchEval, serialEval, transformAndRunQueries } from '../editor/transform-and-run-queries'
 import { makePlaygroundRequest } from '../utils/playground-request'
 import { configAtom, trpcClientAtom, typesAtom } from './provider'
 import { QueryBuilder } from './queryBuilder'
-import { currentTabAtom, editorAtom, previousTabAtom, previousTabIdAtom, tabsAtom, updateCurrentTabIdAtom } from './tab/store'
+import {
+  currentTabAtom,
+  editorAtom,
+  previousTabAtom,
+  previousTabIdAtom,
+  tabsAtom,
+  updateCurrentTabIdAtom
+} from './tab/store'
 
 const MemoizedCodeMirror = memo((props: CodeMirrorProps) => <CodeMirror {...props} />)
 
@@ -37,13 +44,13 @@ export const Editor = () => {
     if (!editorView) return
 
     try {
-      const res = await makePlaygroundRequest('getTypes', {
+      const response = await makePlaygroundRequest('getTypes', {
         playgroundEndpoint: config.playgroundEndpoint,
       })
-      setTypes(res)
+      setTypes(response)
 
       editorView.dispatch(injectTypes({
-        '/index.d.ts': res.raw.join('\n'),
+        '/index.d.ts': response.tsTypes.join('\n'),
       }))
       // server might be restarting so ignore fetch errors
       // eslint-disable-next-line no-empty
@@ -82,11 +89,6 @@ export const Editor = () => {
     javascript(),
     EditorState.readOnly.of(true),
     EditorView.theme({
-      '.cm-content': {
-        // bg-slate-800
-        backgroundColor: "var(--primary-color)"
-        // backgroundColor: 'rgb(30 41 59 / var(--tw-bg-opacity)) !important',
-      },
       '.cm-line': {
         marginLeft: '30px',
       },
@@ -138,9 +140,7 @@ export const Editor = () => {
 
   return (
     <div className='relative h-full overflow-y-auto'>
-      <div
-        className='absolute left-0 right-0 mx-auto w-[4px] z-10 h-full bg-secondary '
-      >
+      <div className='absolute left-0 right-0 mx-auto w-[4px] z-10 h-full bg-secondary '>
       </div>
       <button
         className='absolute left-0 right-0 mx-auto w-[75px] z-10 focus:outline-none group'
@@ -166,7 +166,7 @@ export const Editor = () => {
       </button>
 
       <div className='grid grid-cols-2 items-stretch h-full'>
-        <div className="flex flex-col h-full">
+        <div className='flex flex-col h-full'>
           <MemoizedCodeMirror
             extensions={extensions}
             onEditorViewChange={(editorView) => setEditorView(editorView)}
@@ -178,8 +178,8 @@ export const Editor = () => {
         <MemoizedCodeMirror
           extensions={responseEditorExtensions}
           value={responseValue}
-          selection={{ head: 0, anchor: 0, }}
-          elementProps={{ className: "bg-primary h-" }}
+          selection={{ head: 0, anchor: 0 }}
+          elementProps={{ className: 'bg-primary h-' }}
         />
       </div>
     </div>

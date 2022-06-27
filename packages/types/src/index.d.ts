@@ -55,23 +55,6 @@ export type RenderOptions = {
   cdnUrl?: string
 }
 
-export type Property = {
-  name: string
-  type: string[]
-  array: boolean
-  tuple: boolean
-  properties: Property[]
-  arrayTypes: string[]
-  literalValue: any
-  enumValues: null | any[]
-}
-
-export type ResolveTypesReturn = {
-  raw: string[]
-  queries: { [key: string]: Property | null }
-  mutations: { [key: string]: Property | null }
-}
-
 export type ServerConfig = {
   /**
    * The trpc router that the playground server handler uses to generate types.

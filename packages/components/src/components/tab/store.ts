@@ -8,9 +8,57 @@ const currentTab = {
   doc: "await query('hello', { text: 'client' })\nexport {}",
 }
 
-export const tabsAtom = atom<Tab[]>([
-  currentTab,
-])
+const defaultConfig = {
+  tabs: [currentTab],
+  headers: {},
+}
+
+export type Headers = Record<string, string>
+
+interface GlobalState {
+  tabs: Tab[]
+  headers: Headers
+}
+
+export const getInitialState = (): GlobalState => {
+  const config = localStorage.getItem('trpc-playground-config')
+
+  if (config !== null) {
+    try {
+      return JSON.parse(config) || defaultConfig
+    } catch {}
+  }
+  return defaultConfig
+}
+
+const stateAtom = atom(getInitialState())
+
+export const headersAtom = atom(
+  (get) => get(stateAtom).headers || {},
+  (get, set, update) => {
+    const oldValue = get(stateAtom)
+    const headers = typeof update === 'function' ? update(oldValue.headers || {}) : update
+
+    const newValue = { ...oldValue, headers }
+
+    set(stateAtom, newValue)
+    localStorage.setItem('trpc-playground-config', JSON.stringify(newValue))
+  },
+)
+
+export const tabsAtom = atom<Tab[], (tabs: Tab[]) => Tab[]>(
+  (get) => get(stateAtom).tabs || [],
+  (get, set, update) => {
+    const oldValue = get(stateAtom)
+    const tabs = typeof update === 'function' ? update(oldValue.tabs) : update
+
+    const newValue = { ...oldValue, tabs }
+
+    set(stateAtom, newValue)
+    localStorage.setItem('trpc-playground-config', JSON.stringify(newValue))
+  },
+)
+
 export const totalTabsCreatedAtom = atom(3)
 export const previousTabIdAtom = atom('0')
 const currentTabIdAtom = atom('0')

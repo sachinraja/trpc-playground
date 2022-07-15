@@ -101,7 +101,7 @@ export const PlaygroundTab = ({ index }: TabProps) => {
             updateCurrentTabId(newTabs[0].id)
           }
 
-          setTabs(newTabs)
+          setTabs(() => newTabs)
         }}
       >
         <XIcon className='text-neutral-500 hover:text-neutral-300' width={18} height={18} />

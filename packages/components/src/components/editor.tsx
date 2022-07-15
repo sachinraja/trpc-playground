@@ -38,7 +38,7 @@ export const Editor = () => {
   const [responseValue, setResponseValue] = useAtom(responseValueAtom)
   const [trpcClient] = useAtom(trpcClientAtom)
   const [config] = useAtom(configAtom)
-  const evalFunction = useMemo(() => config.request.batching ? batchEval : serialEval, [config.request.batching])
+  const evalFunction = useMemo(() => config?.request.batching ? batchEval : serialEval, [config.request.batching])
 
   const refreshTypes = useCallback(async () => {
     if (!editorView) return
@@ -179,7 +179,7 @@ export const Editor = () => {
           extensions={responseEditorExtensions}
           value={responseValue}
           selection={{ head: 0, anchor: 0 }}
-          elementProps={{ className: 'bg-primary h-' }}
+          elementProps={{ className: 'bg-primary h-full' }}
         />
       </div>
     </div>

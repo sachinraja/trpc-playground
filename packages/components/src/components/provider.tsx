@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import superjson from 'superjson'
 import { TrpcClient } from '../types'
 import { GetTypesResponse } from '../utils/playground-request'
+import { getInitialState } from './tab/store'
 import { createInitialValues } from './utils'
 
 // need to pass in AnyRouter to satisfy rollup-plugin-dts
@@ -25,11 +26,9 @@ export const typesAtom = atom<GetTypesResponse | null>(null)
 export const PlaygroundProvider = ({ config, children }: PlaygroundProviderProps) => {
   const queryClient = useMemo(() => new QueryClient(), [])
 
+  // Merge headers in config and global headers from localstorage
   const getHeaders = useCallback(
-    () => {
-      console.log('get headers', config)
-      return config.request.globalHeaders
-    },
+    () => ({ ...config.request.globalHeaders, ...getInitialState().headers }),
     [config.request.globalHeaders],
   )
 

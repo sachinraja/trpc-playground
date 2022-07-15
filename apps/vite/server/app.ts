@@ -13,6 +13,10 @@ const runApp = async () => {
   const playgroundEndpoint = '/api/trpc-playground'
 
   const trpcMiddleware = trpcExpress.createExpressMiddleware({
+    createContext: (opts) => {
+      console.log(opts.req)
+      return opts
+    },
     router: appRouter,
   })
   app.use(

@@ -6,6 +6,12 @@ const users = ['user1', 'user2', 'user3']
 
 export const appRouter = trpc
   .router()
+  .mutation('test', {
+    input: z.never(),
+    resolve({}) {
+      return null
+    },
+  })
   .query('hello', {
     input: z
       .object({

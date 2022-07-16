@@ -9,12 +9,17 @@ import {
   ZodArrayDef,
   ZodEnumDef,
   ZodFirstPartyTypeKind,
+  ZodIntersectionDef,
   ZodLiteralDef,
+  ZodMapDef,
+  ZodNativeEnumDef,
   ZodNullableDef,
   ZodNumberDef,
   ZodObjectDef,
   ZodOptionalDef,
+  ZodPromiseDef,
   ZodRecordDef,
+  ZodSetDef,
   ZodStringDef,
   ZodTupleDef,
   ZodTypeDef,
@@ -53,8 +58,20 @@ const getDefaultForDef = (def: any): string | undefined => {
       return defaultNullable(def)
     case ZodFirstPartyTypeKind.ZodOptional:
       return defaultOptional(def)
+    case ZodFirstPartyTypeKind.ZodIntersection:
+      return defaultIntersection(def)
     case ZodFirstPartyTypeKind.ZodEnum:
       return defaultEnum(def)
+    case ZodFirstPartyTypeKind.ZodNativeEnum:
+      return defaultNativeEnum(def)
+    case ZodFirstPartyTypeKind.ZodMap:
+      return defaultMap(def)
+    case ZodFirstPartyTypeKind.ZodSet:
+      return defaultSet(def)
+    case ZodFirstPartyTypeKind.ZodPromise:
+      return defaultPromise(def)
+    case ZodFirstPartyTypeKind.ZodNaN:
+      return 'NaN'
     case ZodFirstPartyTypeKind.ZodDiscriminatedUnion:
     case ZodFirstPartyTypeKind.ZodUnion:
       return defaultUnion(def)
@@ -147,4 +164,31 @@ const defaultUnion = (def: ZodUnionDef) => {
   return getDefaultForDef(options[0]._def)
 }
 
-// TODO: DiscriminatedUnion, Intersection
+// Does not work correctly
+const defaultIntersection = (def: ZodIntersectionDef) => {
+  return getDefaultForDef(def.right._def)
+}
+
+// don't know if this is the best solution
+const defaultNativeEnum = (def: ZodNativeEnumDef) => {
+  const val = Object.values(def.values)[Object.values(def.values).length - 1]
+  if (val) {
+    return typeof val === 'string' ? `"${val}"` : `${val}`
+  }
+
+  return ''
+}
+
+const defaultMap = (_def: ZodMapDef) => {
+  return 'new Map()'
+}
+
+const defaultSet = (_def: ZodSetDef) => {
+  return 'new Set()'
+}
+
+const defaultPromise = (def: ZodPromiseDef) => {
+  return `Promise.resolve(${getDefaultForDef(def.type._def)})`
+}
+
+// ZodLazy

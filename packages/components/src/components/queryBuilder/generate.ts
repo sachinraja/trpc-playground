@@ -32,9 +32,6 @@ const getQueryDefaultInput = ({ state, types }: GenerateFnInputs) => {
   if (!types || !state.operationTypeInObject) return ''
 
   const op = ((types as any)[state.operationTypeInObject]?.[state.operationName!])
-  if (op) {
-    return op.default ? `, ${op.default}` : ``
-  }
-
-  return ''
+  if (!op) return ''
+  return op.default ? `, ${op.default}` : ``
 }

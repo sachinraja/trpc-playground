@@ -51,12 +51,13 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
       })
 
       // Select default generated input so user can instantly remove/edit
-      editorView.dispatch({
-        selection: {
-          anchor: line.to + generated.length - inputLength,
-          head: line.to + generated.length
-        }
-      })
+      if (line.to + generated.length - inputLength !== line.to + generated.length)
+        editorView.dispatch({
+          selection: {
+            anchor: line.to + generated.length - inputLength,
+            head: line.to + generated.length
+          }
+        })
     },
     [editorView, state],
   )

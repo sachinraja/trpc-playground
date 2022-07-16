@@ -25,7 +25,7 @@ export const Settings: React.FC<SettingsProps> = ({ hide }) => {
 
 const Headers = () => {
   const [headers, setHeaders] = useAtom(headersAtom)
-  let headerItems = Object.entries(headers) as Array<[string, string]>
+  let headerItems = Object.entries(headers)
 
   return (
     <>
@@ -45,6 +45,7 @@ const Headers = () => {
             if (newName in headers) return alert("Name already exists")
 
             headerItems[idx][0] = newName
+
             const newHeaders = headerItems.reduce((prev, curr) => {
               prev[curr[0]] = curr[1]
               return prev

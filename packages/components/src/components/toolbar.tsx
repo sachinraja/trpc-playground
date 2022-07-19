@@ -1,13 +1,15 @@
-import { useAtom } from 'jotai'
-import { useState } from 'preact/hooks'
+import { useAtom, atom } from 'jotai'
 import { Docs } from './docs'
 import { configAtom } from './provider'
 import { Settings } from "./settings"
 
+const showDocsAtom = atom(false),
+  showSettingsAtom = atom(false)
+
 export const Toolbar = () => {
   const [config] = useAtom(configAtom)
-  const [showDocs, setShowDocs] = useState(false)
-  const [showSettings, setShowSettings] = useState(false)
+  const [showDocs, setShowDocs] = useAtom(showDocsAtom)
+  const [showSettings, setShowSettings] = useAtom(showSettingsAtom)
 
   return (
     <div className='flex px-1 py-1 bg-primary shadow-md justify-between'>

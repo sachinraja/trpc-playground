@@ -11,7 +11,7 @@ const joinQueries = (functionName: string, queries: Record<string, { inputParser
     queryNames.push(stringName)
 
     if (!query.inputParser._def) return `QueryName extends ${stringName} ? [undefined?]`
-    let { node } = zodToTs(query.inputParser as ZodAny)
+    const { node } = zodToTs(query.inputParser as ZodAny)
 
     const inputType = printNode(node)
     const queryType = `QueryName extends ${stringName} ? [${inputType}]`
@@ -40,14 +40,14 @@ type ResolveTypesReturn = {
   tsTypes: string[]
 } & GetTypesFromRouterReturn
 
-const getTypesFromRouter = (router: AnyRouter): GetTypesFromRouterReturn => {
-  let queries = Object.entries(router._def.queries as Record<string, { inputParser: ZodAny }>).reduce(
-    (prev, [name, query]) => {
-      if (query.inputParser?._def) {
-        const { node } = zodToTs((query as any).inputParser)
+const getDefaultForOperations = (operations: any) => {
+  return Object.entries(operations as Record<string, { inputParser: ZodAny }>).reduce(
+    (prev, [name, op]) => {
+      if (op.inputParser?._def) {
+        const { node } = zodToTs((op as any).inputParser)
         prev[name] = {
           type: printNode(node),
-          default: getDefaultInput(query),
+          default: getDefaultInput(op),
         }
       } else prev[name] = { default: '', type: '' }
 
@@ -55,26 +55,6 @@ const getTypesFromRouter = (router: AnyRouter): GetTypesFromRouterReturn => {
     },
     {} as QueryDefaultAndType,
   )
-
-  let mutations = Object.entries(router._def.mutations as Record<string, { inputParser: ZodAny }>).reduce(
-    (prev, [name, mutation]) => {
-      if (mutation.inputParser?._def) {
-        const { node } = zodToTs((mutation as any).inputParser)
-        prev[name] = {
-          type: printNode(node),
-          default: getDefaultInput(mutation),
-        }
-      } else prev[name] = { default: '', type: '' }
-
-      return prev
-    },
-    {} as QueryDefaultAndType,
-  )
-
-  return {
-    mutations,
-    queries,
-  }
 }
 
 export const zodResolveTypes = async (router: AnyRouter): Promise<ResolveTypesReturn> => ({
@@ -82,10 +62,6 @@ export const zodResolveTypes = async (router: AnyRouter): Promise<ResolveTypesRe
     joinQueries('query', router._def.queries),
     joinQueries('mutation', router._def.mutations),
   ],
-  ...getTypesFromRouter(router),
+  queries: getDefaultForOperations(router._def.queries),
+  mutations: getDefaultForOperations(router._def.mutations),
 })
-
-const foo = <T extends string | number>(
-  first: T,
-  ...a: (T extends string ? [boolean] : [undefined])
-) => undefined

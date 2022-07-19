@@ -1,6 +1,5 @@
 import { PlusIcon, XIcon } from '@heroicons/react/solid';
 import { useAtom } from 'jotai';
-import { useEffect, useState } from 'preact/hooks';
 import { SidebarOverlay } from './sidebarOverlay';
 import { Headers as HeadersType, headersAtom } from './tab/store';
 
@@ -96,12 +95,6 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ name, value, setHeader, setHeaderName, removeHeader }) => {
-  const [valueInput, setValueInput] = useState(value)
-
-  useEffect(() => {
-    setHeader(valueInput)
-  }, [valueInput])
-
   return (
     <div className="flex my-1 items-center">
       <input
@@ -120,8 +113,9 @@ const Header: React.FC<HeaderProps> = ({ name, value, setHeader, setHeaderName, 
         placeholder="value"
         className="bg-transparent border border-zinc-800 text-lg border-l-0 px-1 outline-none flex-1 h-9"
         type="text"
-        defaultValue={valueInput}
-        onChange={(e) => setValueInput(e.currentTarget.value)}
+        defaultValue={value}
+        // onChange={(e) => setValueInput(e.currentTarget.value)}
+        onChange={(e) => setHeader(e.currentTarget.value)}
       />
       <button
         onClick={() => removeHeader()}

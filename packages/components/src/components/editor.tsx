@@ -179,7 +179,6 @@ export const Editor = () => {
           extensions={responseEditorExtensions}
           value={responseValue}
           selection={{ head: 0, anchor: 0 }}
-          elementProps={{ className: 'bg-primary h-full' }}
         />
       </div>
     </div>

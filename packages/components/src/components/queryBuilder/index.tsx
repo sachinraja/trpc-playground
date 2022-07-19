@@ -1,6 +1,6 @@
 import { ChevronUpIcon } from '@heroicons/react/solid'
-import { useAtom } from 'jotai'
-import { useCallback, useEffect, useReducer, useRef, useState } from 'preact/hooks'
+import { useAtom, atom } from 'jotai'
+import { useCallback, useEffect, useReducer, useRef } from 'preact/hooks'
 import { Ref } from 'preact/src'
 import { Resizable } from 're-resizable'
 import React from 'react'
@@ -13,13 +13,15 @@ interface QueryBuilderProps {
   types: GetTypesResponse | null
 }
 
-let operations = ['Query', 'Mutation'] as const
+const generatedAtom = atom<string | null>(null)
+
+const operations = ['Query', 'Mutation'] as const
 
 export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
   const [queryBuilderOpen, setQueryBuilderOpened] = useAtom(queryBuilderOpened)
   const [state, dispatch] = useReducer(reducer, defaultQueryBuilderState)
   const containerRef = useRef<HTMLDivElement>() as Ref<HTMLDivElement>
-  const [generated, setGenerated] = useState<string | null>(null)
+  const [generated, setGenerated] = useAtom(generatedAtom)
 
   const [editorView] = useAtom(editorAtom)
 

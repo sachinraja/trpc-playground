@@ -9,9 +9,19 @@ interface SettingsProps {
 export const Settings: React.FC<SettingsProps> = ({ hide }) => {
   return (
     <SidebarOverlay hide={hide}>
-      <h1 className='text-2xl font-semibold bg-primary p-3 sticky top-0 shadow-md'>
-        Settings
-      </h1>
+      <div className='bg-primary p-3 sticky top-0 shadow-md flex justify-between items-center'>
+        <h1 className='text-2xl font-semibold'>
+          Settings
+        </h1>
+
+        <button onClick={hide}>
+          <XIcon
+            width={20}
+            height={20}
+            className="text-neutral-300 hover:text-white transition-colors"
+          />
+        </button>
+      </div>
       <div className="p-3 py-4">
         <h2 className="text-lg font-semibold">
           Global headers

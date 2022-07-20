@@ -133,7 +133,7 @@ export const QueryBuilder: React.FC<QueryBuilderProps> = ({ types }) => {
                       >
                         Create
                       </button>
-                      <kbd className='bg-zinc-900 py-1 px-2 text-md shadow-lg'>{generated}</kbd>
+                      <kbd className='py-1 px-2 text-md shadow-lg'>{generated}</kbd>
                     </div>
                   </div>
                 )}

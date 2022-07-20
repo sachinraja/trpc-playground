@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 .trpc-playground {
-    --primary-color: #191919;
-    --secondary-color: #1e1e1e;
-    --primary-color-triplet: 25, 25, 25;
-    --secondary-color-triplet: 30, 30, 30;
+    --primary-color: #0e0e0e;
+    --secondary-color: #151515;
+    --primary-color-triplet: 14, 14, 14;
+    --secondary-color-triplet: 21, 21, 21;
 }
 
 body {

@@ -22,7 +22,7 @@ export const Docs: React.FC<DocsProps> = ({ hide }) => {
             <div>
               <div className='bg-primary p-3 sticky top-0 shadow-md flex justify-between items-center'>
                 <h1 className='text-2xl font-semibold'>
-                  Settings
+                  Queries
                 </h1>
                 <button onClick={hide}>
                   <XIcon

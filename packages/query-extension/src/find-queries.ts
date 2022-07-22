@@ -25,7 +25,7 @@ export class QueryRangeValue extends RangeValue {
 
   async init() {
     if (this.rawArgs) {
-      this.query.args = await Promise.all(this.rawArgs.map(async (arg) => {
+      this.query.args = await Promise.all(this.rawArgs.map((arg) => {
         const argsWithReturn = `return ${arg}`
         const transformedCode = transformTs(argsWithReturn)
         return maskedEval(transformedCode, {})

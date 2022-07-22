@@ -2,74 +2,44 @@ import * as trpc from '@trpc/server'
 import superjson from 'superjson'
 import { z } from 'zod'
 
-const users = ['user1', 'user2', 'user3']
+const users = [
+  { name: 'user1', id: 0 },
+  { name: 'user2', id: 1 },
+  { name: 'user3', id: 2 },
+]
 
 export const appRouter = trpc
   .router()
-  .query('hello', {
-    input: z
-      .object({
-        text: z.string().nullish(),
-      })
-      .nullish(),
-    resolve({ input }) {
-      return {
-        greeting: `hello ${input?.text ?? 'world'}`,
-      }
+  .query('get-users', {
+    resolve() {
+      return users
     },
   })
-  .query('hello_num', {
-    input: z
-      .object({
-        text: z.number(),
-      })
-      .nullish(),
-    resolve({ input }) {
-      return {
-        greeting: `hello ${input?.text ?? 'world'}`,
-      }
+  .query('get-user-by-id', {
+    input: z.object({
+      userId: z.number(),
+    }),
+    resolve({ input: { userId } }) {
+      return users.find(({ id }) => id === userId)
     },
   })
-  .query('subtract_nums', {
-    input: z
-      .object({
-        a: z.number(),
-        b: z.number(),
-      }),
-    resolve({ input }) {
-      return {
-        sum: input.a - input.b,
-      }
-    },
-  })
-  .query('add_nums', {
-    input: z
-      .object({
-        a: z.number(),
-        b: z.number(),
-      }),
-    resolve({ input }) {
-      return {
-        sum: input.a + input.b,
-      }
-    },
-  })
-  .mutation('delete_last_user', {
+  .mutation('remove-last-user', {
     resolve() {
       users.splice(users.length - 1, 1)
       return users
     },
   })
-  .query('no-args', {
-    resolve() {
-      return 5
+  .mutation('insert-user', {
+    input: z.object({
+      id: z.number(),
+      name: z.string(),
+      // email: z.string().email()
+    }),
+    resolve({ input }) {
+      users.push(input)
+      return input
     },
-  }).query('date', {
-    input: z.date(),
-    async resolve({ input }) {
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      return { serverTime: new Date(), requestTime: input }
-    },
-  }).transformer(superjson)
+  })
+  .transformer(superjson)
 
 export type AppRouter = typeof appRouter

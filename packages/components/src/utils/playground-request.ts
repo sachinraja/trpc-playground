@@ -7,10 +7,22 @@ type MakePlaygroundRequestOptions = {
   body?: BodyObject
 }
 
+export type DefaultOperationType = { value: string; inputLength: number }
+export type QueryDefaultAndType = Record<string, { default: DefaultOperationType; type: string }>
+
+export type GetTypesFromRouterReturn = {
+  queries: QueryDefaultAndType
+  mutations: QueryDefaultAndType
+}
+
+export type GetTypesResponse = {
+  tsTypes: string[]
+} & GetTypesFromRouterReturn
+
 export async function makePlaygroundRequest(
   operation: 'getTypes',
   options: MakePlaygroundRequestOptions,
-): Promise<string[]>
+): Promise<GetTypesResponse>
 
 export async function makePlaygroundRequest<Operation extends PlaygroundRequestOperation>(
   operation: Operation,
@@ -27,5 +39,5 @@ export async function makePlaygroundRequest<Operation extends PlaygroundRequestO
     body: requestBody,
   })
 
-  return response.json()
+  return response.json() as Promise<GetTypesResponse>
 }

@@ -169,18 +169,24 @@ export function lineNumbers(): Extension {
 
     // Gutter line marker styles
     EditorView.baseTheme({
+      '.cm-gutter': {
+        backgroundColor: 'var(--primary-color)',
+      },
       '.cm-lineNumbers': {
         display: 'flex',
-
         '& .cm-gutterElement': {
           padding: '0 8px 0 0',
         },
       },
-      '.cm-gutterElement': { userSelect: 'none' },
+      '.cm-gutterElement': {
+        userSelect: 'none',
+        backgroundColor: 'var(--primary-color)',
+      },
       '.cm-queryRunButton': {
         cursor: 'pointer',
         width: '24px',
         height: '24',
+        backgroundColor: 'var(--primary-color)',
         color: '#E2E8F0', /* blueGray-200 */
 
         '&:hover': {

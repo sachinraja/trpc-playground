@@ -43,8 +43,8 @@ for (const [dep, { version, src }] of Object.entries(dependencies)) {
 
   // Get a list of files in this dependency
   const files = await glob(
-    src.map(g => path.join(__dirname, '..', 'node_modules', dep, g)),
-    { absolute: true },
+    src,
+    { absolute: true, cwd: path.join(__dirname, '..', 'node_modules', dep) },
   )
 
   const metaFile = path.join(DEST_ROOT, dep, 'meta.js')

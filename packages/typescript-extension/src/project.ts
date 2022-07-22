@@ -39,14 +39,19 @@ export class TypescriptProject {
     await this.fs.injectCoreLibs()
 
     const system = createSystem(this.fs.fs)
-    this.tsserver = createVirtualTypeScriptEnvironment(
-      system,
-      [TS_PROJECT_ENTRYPOINT],
-      typescript,
-      {
-        target: typescript.ScriptTarget.ESNext,
-      },
-    )
+
+    try {
+      this.tsserver = createVirtualTypeScriptEnvironment(
+        system,
+        [TS_PROJECT_ENTRYPOINT],
+        typescript,
+        {
+          target: typescript.ScriptTarget.ESNext,
+        },
+      )
+    } catch (e) {
+      console.error(e)
+    }
 
     window.ts = this.tsserver
     this.state = 'ready'

@@ -7,9 +7,10 @@ type MakePlaygroundRequestOptions = {
   body?: BodyObject
 }
 
-export type QueryDefaultAndType = Record<string, { default: string; type: string }>
+export type DefaultOperationType = { value: string; inputLength: number }
+export type QueryDefaultAndType = Record<string, { default: DefaultOperationType; type: string }>
 
-interface GetTypesFromRouterReturn {
+export type GetTypesFromRouterReturn = {
   queries: QueryDefaultAndType
   mutations: QueryDefaultAndType
 }

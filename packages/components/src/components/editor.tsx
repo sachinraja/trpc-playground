@@ -172,7 +172,7 @@ export const Editor = () => {
             onEditorViewChange={(editorView) => setEditorView(editorView)}
             elementProps={{ className: 'bg-primary flex-1' }}
           />
-          <QueryBuilder types={types} />
+          <QueryBuilder />
         </div>
 
         <MemoizedCodeMirror

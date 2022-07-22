@@ -1,8 +1,38 @@
-// Get default input string for query/mutation defined in the router
-export const getDefaultInput = (query: any): string => {
-  if (typeof query.inputParser == 'function') return ''
+import { ZodAny } from 'zod'
+import { printNode, zodToTs } from 'zod-to-ts'
 
-  return getDefaultForDef(query.inputParser._def) ?? ''
+type GenerateInput = {
+  operationType: string
+  operationName: string
+}
+
+// Generate code snippet for operation
+export const generateSnippet = (inputParser: ZodAny, { operationType, operationName }: GenerateInput) => {
+  const hasInput = !!inputParser?._def
+
+  let output: string = `await ${operationType}`
+  const input = hasInput ? getDefaultInput(inputParser) : ''
+  const type = hasInput ? getOperationType(inputParser) : ''
+
+  output += `('${operationName}'${input})`
+
+  return {
+    type,
+    default: { value: output, inputLength: input.length },
+  }
+}
+
+const getOperationType = (inputParser: ZodAny) => {
+  const { node } = zodToTs(inputParser)
+  return printNode(node)
+}
+
+// Get default input string for query/mutation defined in the router
+const getDefaultInput = (inputParser: ZodAny): string => {
+  if (typeof inputParser === 'function') return ''
+
+  const defaultInput = getDefaultForDef(inputParser._def)
+  return defaultInput ? `, ${defaultInput}` : ``
 }
 
 import {

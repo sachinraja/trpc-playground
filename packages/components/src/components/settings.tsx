@@ -1,7 +1,8 @@
 import { PlusIcon, XIcon } from '@heroicons/react/solid';
 import { useAtom } from 'jotai';
 import { SidebarOverlay } from './sidebarOverlay';
-import { Headers as HeadersType, headersAtom } from './tab/store';
+import { headersAtom } from './tab/store';
+import { Headers as HeadersType } from "./tab/types"
 
 interface SettingsProps {
   hide: () => void
@@ -46,9 +47,9 @@ const Headers = () => {
               .reduce((prev, curr) => {
                 prev[curr[0]] = curr[1]
                 return prev
-              }, {} as any)
+              }, {} as HeadersType)
 
-            setHeaders(newHeaders)
+            setHeaders(() => newHeaders)
           }}
           setHeaderName={(newName) => {
             if (newName in headers) return alert("Name already exists")
@@ -58,18 +59,18 @@ const Headers = () => {
             const newHeaders = headerItems.reduce((prev, curr) => {
               prev[curr[0]] = curr[1]
               return prev
-            }, {} as any)
+            }, {} as HeadersType)
 
-            setHeaders(newHeaders)
+            setHeaders(() => newHeaders)
           }}
           setHeader={(value) => {
             headerItems[idx][1] = value
             const newHeaders = headerItems.reduce((prev, curr) => {
               prev[curr[0]] = curr[1]
               return prev
-            }, {} as any)
+            }, {} as HeadersType)
 
-            setHeaders(newHeaders)
+            setHeaders(() => newHeaders)
           }}
           key={idx}
           name={name}
@@ -124,7 +125,6 @@ const Header: React.FC<HeaderProps> = ({ name, value, setHeader, setHeaderName, 
         className="bg-transparent border border-zinc-800 text-lg border-l-0 px-1 outline-none flex-1 h-9"
         type="text"
         defaultValue={value}
-        // onChange={(e) => setValueInput(e.currentTarget.value)}
         onChange={(e) => setHeader(e.currentTarget.value)}
       />
       <button

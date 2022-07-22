@@ -1,9 +1,11 @@
 import { AnyRouter } from '@trpc/server'
 import { ZodAny } from 'zod'
 import { printNode, zodToTs } from 'zod-to-ts'
-import { getDefaultInput } from './get-default-input'
+import { generateSnippet } from './get-default-input'
 
-const joinQueries = (functionName: string, queries: Record<string, { inputParser: ZodAny }>) => {
+type QueriesType = Record<string, { inputParser: ZodAny }>
+
+const joinQueries = (functionName: string, queries: QueriesType) => {
   const queryNames: string[] = []
 
   const queryTypes = Object.entries(queries).map(([name, query]) => {
@@ -29,39 +31,33 @@ const joinQueries = (functionName: string, queries: Record<string, { inputParser
   return `declare function ${functionName}<QueryName extends ${joinedQueryNames}>(${args.join(',')}): void`
 }
 
-type QueryDefaultAndType = Record<string, { default: string; type: string }>
+type DefaultOperationType = { value: string; inputLength: number }
+type QueryDefaultAndType = Record<string, { default: DefaultOperationType; type: string }>
 
-interface GetTypesFromRouterReturn {
+export type GetTypesFromRouterReturn = {
   queries: QueryDefaultAndType
   mutations: QueryDefaultAndType
 }
 
-type ResolveTypesReturn = {
+export type ResolveTypesReturn = {
   tsTypes: string[]
 } & GetTypesFromRouterReturn
 
-const getDefaultForOperations = (operations: any) => {
-  return Object.entries(operations as Record<string, { inputParser: ZodAny }>).reduce(
-    (prev, [name, op]) => {
-      if (op.inputParser?._def) {
-        const { node } = zodToTs((op as any).inputParser)
-        prev[name] = {
-          type: printNode(node),
-          default: getDefaultInput(op),
-        }
-      } else prev[name] = { default: '', type: '' }
+const getDefaultForOperations = (operations: QueriesType, operationType: string) =>
+  Object.entries(operations).reduce(
+    (prev, [name, { inputParser }]) => {
+      prev[name] = generateSnippet(inputParser, { operationType, operationName: name })
 
       return prev
     },
     {} as QueryDefaultAndType,
   )
-}
 
 export const zodResolveTypes = async (router: AnyRouter): Promise<ResolveTypesReturn> => ({
   tsTypes: [
     joinQueries('query', router._def.queries),
     joinQueries('mutation', router._def.mutations),
   ],
-  queries: getDefaultForOperations(router._def.queries),
-  mutations: getDefaultForOperations(router._def.mutations),
+  queries: getDefaultForOperations(router._def.queries, 'query'),
+  mutations: getDefaultForOperations(router._def.mutations, 'mutation'),
 })

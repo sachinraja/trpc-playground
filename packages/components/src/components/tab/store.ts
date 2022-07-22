@@ -1,6 +1,6 @@
 import { EditorView } from '@codemirror/view'
-import { atom } from 'jotai'
-import { Tab } from './types'
+import { atom, WritableAtom } from 'jotai'
+import { GlobalState, Headers, Tab } from './types'
 
 const currentTab = {
   id: '0',
@@ -11,13 +11,6 @@ const currentTab = {
 const defaultConfig = {
   tabs: [currentTab],
   headers: {},
-}
-
-export type Headers = Record<string, string>
-
-interface GlobalState {
-  tabs: Tab[]
-  headers: Headers
 }
 
 export const getInitialState = (): GlobalState => {
@@ -33,26 +26,22 @@ export const getInitialState = (): GlobalState => {
 
 const stateAtom = atom(getInitialState())
 
-export const headersAtom = atom(
+export const headersAtom: WritableAtom<Headers, (old: Headers) => Headers> = atom(
   (get) => get(stateAtom).headers || {},
-  (get, set, update) => {
+  (get, set, updateHeaders) => {
     const oldValue = get(stateAtom)
-    const headers = typeof update === 'function' ? update(oldValue.headers || {}) : update
-
-    const newValue = { ...oldValue, headers }
+    const newValue = { ...oldValue, headers: updateHeaders(oldValue.headers) }
 
     set(stateAtom, newValue)
     localStorage.setItem('trpc-playground-config', JSON.stringify(newValue))
   },
 )
 
-export const tabsAtom = atom<Tab[], (tabs: Tab[]) => Tab[]>(
+export const tabsAtom: WritableAtom<Tab[], (old: Tab[]) => Tab[]> = atom(
   (get) => get(stateAtom).tabs || [],
-  (get, set, update) => {
+  (get, set, updateTabs) => {
     const oldValue = get(stateAtom)
-    const tabs = typeof update === 'function' ? update(oldValue.tabs) : update
-
-    const newValue = { ...oldValue, tabs }
+    const newValue = { ...oldValue, tabs: updateTabs(oldValue.tabs) }
 
     set(stateAtom, newValue)
     localStorage.setItem('trpc-playground-config', JSON.stringify(newValue))

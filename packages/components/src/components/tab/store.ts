@@ -1,15 +1,10 @@
 import { EditorView } from '@codemirror/view'
 import { atom } from 'jotai'
 import { GlobalState, Headers, Tab } from './types'
-
-const currentTab = {
-  id: '0',
-  name: 'basic query',
-  doc: "await query('hello', { text: 'client' })\nexport {}",
-}
+import { createNewDefaultTab } from './utils'
 
 const defaultConfig = {
-  tabs: [currentTab],
+  tabs: [createNewDefaultTab()],
   headers: {},
 }
 
@@ -48,7 +43,6 @@ export const tabsAtom = atom(
   },
 )
 
-export const totalTabsCreatedAtom = atom(3)
 export const previousTabIdAtom = atom('0')
 const currentTabIdAtom = atom('0')
 

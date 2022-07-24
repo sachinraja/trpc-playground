@@ -28,7 +28,7 @@ const getOperationType = (inputParser: ZodAny) => {
 }
 
 // Get default input string for query/mutation defined in the router
-const getDefaultInput = (inputParser: ZodAny): string => {
+const getDefaultInput = (inputParser: ZodAny) => {
   if (typeof inputParser === 'function') return ''
 
   const defaultInput = getDefaultForDef(inputParser._def)
@@ -56,8 +56,8 @@ import {
   ZodUnionDef,
 } from 'zod'
 
-const getDefaultForDef = (def: any): string | undefined => {
-  if (!def) return
+const getDefaultForDef = (def: any): string => {
+  if (!def) return ''
 
   switch ((def as any).typeName) {
     case ZodFirstPartyTypeKind.ZodString:

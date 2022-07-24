@@ -4,7 +4,7 @@ import { atom, useAtom } from 'jotai'
 import { useCallback, useMemo, useState } from 'preact/hooks'
 import AutosizeInput from 'react-input-autosize'
 import { BaseTab } from './base'
-import { tabsAtom, totalTabsCreatedAtom, updateCurrentTabIdAtom } from './store'
+import { tabsAtom, updateCurrentTabIdAtom } from './store'
 import { createNewDefaultTab } from './utils'
 
 type TabProps = {
@@ -14,7 +14,6 @@ type TabProps = {
 export const PlaygroundTab = ({ index }: TabProps) => {
   const [tabs, setTabs] = useAtom(tabsAtom)
   const [currentTabId, updateCurrentTabId] = useAtom(updateCurrentTabIdAtom)
-  const [totalTabsCreated, setTotalTabsCreated] = useAtom(totalTabsCreatedAtom)
   const [isEditingTabName, setIsEditingTabName] = useState(false)
   const tabRef = useMemo(() => atom(tabs[index]), [tabs])
   const [tab] = useAtom(tabRef)
@@ -90,8 +89,7 @@ export const PlaygroundTab = ({ index }: TabProps) => {
           const newTabs = [...tabs]
           newTabs.splice(index, 1)
           if (newTabs.length === 0) {
-            newTabs.push(createNewDefaultTab(totalTabsCreated))
-            setTotalTabsCreated((totalTabsCreated) => totalTabsCreated + 1)
+            newTabs.push(createNewDefaultTab())
           }
 
           // if current tab was closed, this should be -1 (index not found)

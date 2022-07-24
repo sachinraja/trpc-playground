@@ -1,3 +1,4 @@
+import { GetTypesFromRouterReturn, QueryDefaultAndType } from '@trpc-playground/types'
 import { AnyRouter } from '@trpc/server'
 import { ZodAny } from 'zod'
 import { printNode, zodToTs } from 'zod-to-ts'
@@ -29,14 +30,6 @@ const joinQueries = (functionName: string, queries: QueriesType) => {
   args.push(`...args: ${joinedQueryTypes}`)
 
   return `declare function ${functionName}<QueryName extends ${joinedQueryNames}>(${args.join(',')}): void`
-}
-
-type DefaultOperationType = { value: string; inputLength: number }
-type QueryDefaultAndType = Record<string, { default: DefaultOperationType; type: string }>
-
-export type GetTypesFromRouterReturn = {
-  queries: QueryDefaultAndType
-  mutations: QueryDefaultAndType
 }
 
 export type ResolveTypesReturn = {

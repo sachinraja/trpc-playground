@@ -1,6 +1,7 @@
 import { useAtom } from 'jotai'
 import React from 'react'
-import { GetTypesResponse, QueryDefaultAndType } from '../utils/playground-request'
+import { QueryDefaultAndType } from '@trpc-playground/types'
+import { GetTypesResponse } from '../utils/playground-request'
 import { typesAtom } from './provider'
 import { SidebarOverlay } from "./sidebarOverlay"
 
@@ -41,7 +42,7 @@ const DocsForOperationType: React.FC<DocsForOperationTypeProps> = ({ label, oper
       <span className="ml-2 text-gray-500 font-normal">{Object.keys(operations).length}</span>
     </h1>
     {Object.entries(operations).map(([name, def]) => (
-      <div className='py-2 px-3 border-b-2 border-primary'>
+      <div className='py-2 px-3 border-b-2 border-primary' key={name}>
         <span className="text-xl font-semibold">{name}</span>
         <pre className="text-gray-300">
           {def.type}

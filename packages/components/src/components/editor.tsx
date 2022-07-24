@@ -29,7 +29,7 @@ const responseValueAtom = atom(printObject({ foo: 'bar' }))
 
 export const Editor = () => {
   const [editorView, setEditorView] = useAtom(editorAtom)
-  const [types, setTypes] = useAtom(typesAtom)
+  const [, setTypes] = useAtom(typesAtom)
   const [, setTabs] = useAtom(tabsAtom)
   const [previousTab] = useAtom(previousTabAtom)
   const [previousTabId] = useAtom(previousTabIdAtom)

@@ -105,10 +105,11 @@ const getDefaultForDef = (def: any): string | undefined => {
     case ZodFirstPartyTypeKind.ZodDiscriminatedUnion:
     case ZodFirstPartyTypeKind.ZodUnion:
       return defaultUnion(def)
+    default:
+      return ''
   }
 }
 
-// TODO: Handle max/min length
 const defaultString = (_def: ZodStringDef) => {
   return `""`
 }
@@ -117,7 +118,6 @@ const defaultDate = (_def: ZodStringDef) => {
   return `new Date()`
 }
 
-// TODO: Handle max/min
 const defaultNumber = (_def: ZodNumberDef) => {
   return `0`
 }
@@ -144,7 +144,7 @@ const defaultObject = (def: ZodObjectDef) => {
   let entries = Object.entries(def.shape())
   entries.forEach(([name, propDef], idx) => {
     ret += `${name}: ${getDefaultForDef(propDef._def)}`
-    if (idx != entries.length - 1) ret += `, `
+    if (idx !== entries.length - 1) ret += `, `
     else ret += ` `
   })
   ret += `}`
@@ -152,9 +152,8 @@ const defaultObject = (def: ZodObjectDef) => {
   return ret
 }
 
-// TODO: Handle max/min length
-const defaultArray = (_def: ZodArrayDef) => {
-  return `[]`
+const defaultArray = (def: ZodArrayDef) => {
+  return `[${getDefaultForDef(def.type._def)}]`
 }
 
 const defaultTuple = (def: ZodTupleDef) => {
@@ -162,7 +161,7 @@ const defaultTuple = (def: ZodTupleDef) => {
   for (let i = 0; i < def.items.length; i++) {
     let item = def.items[i]
     ret += `${getDefaultForDef(item._def)}`
-    if (i != def.items.length - 1) ret += ``
+    if (i !== def.items.length - 1) ret += ``
   }
 
   return ret
@@ -220,5 +219,3 @@ const defaultSet = (_def: ZodSetDef) => {
 const defaultPromise = (def: ZodPromiseDef) => {
   return `Promise.resolve(${getDefaultForDef(def.type._def)})`
 }
-
-// ZodLazy

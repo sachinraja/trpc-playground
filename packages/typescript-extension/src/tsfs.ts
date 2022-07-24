@@ -45,11 +45,9 @@ export class TSFS {
     // TODO:: Integrity checks?
     if (isCached) {
       const fileNames = meta.files
-      const fileContents = (
-        await Promise.all(
-          fileNames.map(f => localforage.getItem<string>(`ts-lib/${libName}/${meta.version}/${f}`)),
-        )
-      ) as string[] // type-cast is olay because we know this file should exist
+      const fileContents = (await Promise.all(
+        fileNames.map(f => localforage.getItem<string>(`ts-lib/${libName}/${meta.version}/${f}`)),
+      )) as string[] // type-cast is olay because we know this file should exist
 
       fileNames.forEach((name, i) => cb(name, fileContents[i]))
     } else {

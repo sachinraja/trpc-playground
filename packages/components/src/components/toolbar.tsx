@@ -3,8 +3,8 @@ import { Docs } from './docs'
 import { configAtom } from './provider'
 import { Settings } from "./settings"
 
-const showDocsAtom = atom(false),
-  showSettingsAtom = atom(false)
+const showDocsAtom = atom(false)
+const showSettingsAtom = atom(false)
 
 export const Toolbar = () => {
   const [config] = useAtom(configAtom)

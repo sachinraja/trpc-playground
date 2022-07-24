@@ -40,18 +40,14 @@ export class TypescriptProject {
 
     const system = createSystem(this.fs.fs)
 
-    try {
-      this.tsserver = createVirtualTypeScriptEnvironment(
-        system,
-        [TS_PROJECT_ENTRYPOINT],
-        typescript,
-        {
-          target: typescript.ScriptTarget.ESNext,
-        },
-      )
-    } catch (e) {
-      console.error(e)
-    }
+    this.tsserver = createVirtualTypeScriptEnvironment(
+      system,
+      [TS_PROJECT_ENTRYPOINT],
+      typescript,
+      {
+        target: typescript.ScriptTarget.ESNext,
+      },
+    )
 
     window.ts = this.tsserver
     this.state = 'ready'

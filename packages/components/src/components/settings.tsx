@@ -7,6 +7,7 @@ import { Headers as HeadersType } from "./tab/types"
 interface SettingsProps {
   hide: () => void
 }
+
 export const Settings: React.FC<SettingsProps> = ({ hide }) => {
   return (
     <SidebarOverlay hide={hide}>
@@ -35,51 +36,21 @@ export const Settings: React.FC<SettingsProps> = ({ hide }) => {
 
 const Headers = () => {
   const [headers, setHeaders] = useAtom(headersAtom)
-  let headerItems = Object.entries(headers)
 
   return (
-    <>
-      {headerItems.map(([name, value], idx) => (
-        <Header
-          removeHeader={() => {
-            const newHeaders = headerItems
-              .filter((_item, headerIdx) => idx !== headerIdx)
-              .reduce((prev, curr) => {
-                prev[curr[0]] = curr[1]
-                return prev
-              }, {} as HeadersType)
-
-            setHeaders(() => newHeaders)
-          }}
-          setHeaderName={(newName) => {
-            if (newName in headers) return alert("Name already exists")
-
-            headerItems[idx][0] = newName
-
-            const newHeaders = headerItems.reduce((prev, curr) => {
-              prev[curr[0]] = curr[1]
-              return prev
-            }, {} as HeadersType)
-
-            setHeaders(() => newHeaders)
-          }}
-          setHeader={(value) => {
-            headerItems[idx][1] = value
-            const newHeaders = headerItems.reduce((prev, curr) => {
-              prev[curr[0]] = curr[1]
-              return prev
-            }, {} as HeadersType)
-
-            setHeaders(() => newHeaders)
-          }}
-          key={idx}
-          name={name}
-          value={value as string}
-        />
-      ))}
+    <div className="overflow-auto">
+      <div className="flex flex-col gap-1">
+        {Object.entries(headers).map(([name, value]) => (
+          <Header
+            key={name}
+            name={name}
+            value={value}
+          />
+        ))}
+      </div>
       <button
-        title="New Header"
-        className='bg-primary border-zinc-800 border px-2 text-lg outline-none text-zinc-200 py-1'
+        title='New Header'
+        className='mt-1 bg-primary border-zinc-800 border px-2 text-lg outline-none text-zinc-200 py-1'
         onClick={() => {
           if ("name" in headers)
             return alert("Header with the name `name` already exists")
@@ -93,21 +64,20 @@ const Headers = () => {
       >
         <PlusIcon width={20} height={20} className='text-neutral-200' />
       </button>
-    </>
+    </div>
   )
 }
 
 interface HeaderProps {
-  removeHeader: () => void
-  setHeader: (value: string) => void
-  setHeaderName: (name: string) => void
   name: string,
   value: string
 }
 
-const Header: React.FC<HeaderProps> = ({ name, value, setHeader, setHeaderName, removeHeader }) => {
+const Header: React.FC<HeaderProps> = ({ name, value }) => {
+  const [headers, setHeaders] = useAtom(headersAtom)
+
   return (
-    <div className="flex my-1 items-center">
+    <div className="flex items-center">
       <input
         size={name.length}
         type="text"
@@ -115,9 +85,18 @@ const Header: React.FC<HeaderProps> = ({ name, value, setHeader, setHeaderName, 
         className='bg-primary border-zinc-800 border px-2 text-lg outline-none min-w-[130px] text-zinc-200 py-1 h-9'
         readOnly
         onClick={() => {
-          const res = prompt("Rename header", name)?.trim()
-          if (res == null || res === name || !res) return
-          setHeaderName(res)
+          const newName = prompt("Rename header", name)?.trim()
+          if (newName == null || newName === name || !newName) return
+
+          if (newName in headers) return alert("Name already exists")
+
+          setHeaders((headers) => {
+            const newHeaders = { ...headers }
+            newHeaders[newName] = value
+            delete newHeaders[name]
+
+            return newHeaders
+          })
         }}
       />
       <input
@@ -125,10 +104,21 @@ const Header: React.FC<HeaderProps> = ({ name, value, setHeader, setHeaderName, 
         className="bg-transparent border border-zinc-800 text-lg border-l-0 px-1 outline-none flex-1 h-9"
         type="text"
         defaultValue={value}
-        onChange={(e) => setHeader(e.currentTarget.value)}
+        onChange={(e) => {
+          setHeaders((headers) => {
+            headers[name] = e.currentTarget.value
+            return headers
+          })
+        }}
       />
       <button
-        onClick={() => removeHeader()}
+        onClick={() => {
+          setHeaders((headers) => {
+            const newHeaders = { ...headers }
+            delete newHeaders[name]
+            return newHeaders
+          })
+        }}
         title="Remove Header"
       >
         <XIcon

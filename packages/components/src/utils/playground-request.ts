@@ -1,18 +1,10 @@
-import { PlaygroundRequestOperation } from '@trpc-playground/types'
+import { GetTypesFromRouterReturn, PlaygroundRequestOperation } from '@trpc-playground/types'
 
 type BodyObject = Record<string, unknown>
 
 type MakePlaygroundRequestOptions = {
   playgroundEndpoint: string
   body?: BodyObject
-}
-
-export type DefaultOperationType = { value: string; inputLength: number }
-export type QueryDefaultAndType = Record<string, { default: DefaultOperationType; type: string }>
-
-export type GetTypesFromRouterReturn = {
-  queries: QueryDefaultAndType
-  mutations: QueryDefaultAndType
 }
 
 export type GetTypesResponse = {
@@ -39,5 +31,5 @@ export async function makePlaygroundRequest<Operation extends PlaygroundRequestO
     body: requestBody,
   })
 
-  return response.json() as Promise<GetTypesResponse>
+  return response.json()
 }

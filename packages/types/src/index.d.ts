@@ -88,3 +88,12 @@ export type PlaygroundRequestOperation = 'getTypes'
 export type Awaited<T> = T extends PromiseLike<infer U> ? U : T
 
 export type DeepRequiredClientConfig = DeepRequired<ClientConfig>
+
+export type DefaultOperationType = { value: string; inputLength: number }
+
+export type QueryDefaultAndType = Record<string, { default: DefaultOperationType; type: string }>
+
+export type GetTypesFromRouterReturn = {
+  queries: QueryDefaultAndType
+  mutations: QueryDefaultAndType
+}

@@ -92,9 +92,9 @@ export const QueryBuilder: React.FC = () => {
             <span className="font-semibold">Operations</span>
             <div className='pt-3'>
               <div className='ml-1'>
-                {Object.keys({ ...types.queries, ...types.mutations }).map((opName, idx) => (
+                {Object.keys({ ...types.queries, ...types.mutations }).map((opName) => (
                   <button
-                    key={idx}
+                    key={opName}
                     className='bg-secondary mx-1 px-2 shadow-lg mb-1'
                     style={{ color: operationName === opName ? 'white' : 'gray' }}
                     onClick={() => setOperationName(opName)}

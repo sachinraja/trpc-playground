@@ -1,5 +1,5 @@
 import { EditorView } from '@codemirror/view'
-import { atom, WritableAtom } from 'jotai'
+import { atom } from 'jotai'
 import { GlobalState, Headers, Tab } from './types'
 
 const currentTab = {
@@ -26,9 +26,9 @@ export const getInitialState = (): GlobalState => {
 
 const stateAtom = atom(getInitialState())
 
-export const headersAtom: WritableAtom<Headers, (old: Headers) => Headers> = atom(
-  (get) => get(stateAtom).headers || {},
-  (get, set, updateHeaders) => {
+export const headersAtom = atom(
+  (get) => get(stateAtom).headers,
+  (get, set, updateHeaders: (headers: Headers) => Headers) => {
     const oldValue = get(stateAtom)
     const newValue = { ...oldValue, headers: updateHeaders(oldValue.headers) }
 
@@ -37,9 +37,9 @@ export const headersAtom: WritableAtom<Headers, (old: Headers) => Headers> = ato
   },
 )
 
-export const tabsAtom: WritableAtom<Tab[], (old: Tab[]) => Tab[]> = atom(
-  (get) => get(stateAtom).tabs || [],
-  (get, set, updateTabs) => {
+export const tabsAtom = atom(
+  (get) => get(stateAtom).tabs,
+  (get, set, updateTabs: (tabs: Tab[]) => Tab[]) => {
     const oldValue = get(stateAtom)
     const newValue = { ...oldValue, tabs: updateTabs(oldValue.tabs) }
 
@@ -69,5 +69,5 @@ export const currentTabIndexAtom = atom((get) => {
   return get(tabsAtom).findIndex((tab) => tab.id === get(currentTabIdAtom))
 })
 
-export const queryBuilderOpened = atom<boolean>(false)
+export const queryBuilderOpened = atom(false)
 export const editorAtom = atom<EditorView | null>(null)

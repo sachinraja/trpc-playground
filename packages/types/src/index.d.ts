@@ -63,7 +63,7 @@ export type ServerConfig = {
   /**
    * Resolves the typescript types for the router and returns an array of types to inject. Uses [`zod-to-ts`](https://github.com/sachinraja/zod-to-ts) by default.
    */
-  resolveTypes?: (router: AnyRouter) => ResolveTypesReturn | Promise<ResolveTypesReturn>
+  resolveTypes?: (router: AnyRouter) => ResolvedRouterSchema | Promise<ResolvedRouterSchema>
   /**
    * Options for rendering the HTML playground page.
    */
@@ -83,7 +83,7 @@ export type ServerConfig = {
 
 export type TrpcPlaygroundConfig = ClientConfig & ServerConfig
 
-export type PlaygroundRequestOperation = 'getTypes'
+export type PlaygroundRequestOperation = 'getRouterSchema'
 
 export type Awaited<T> = T extends PromiseLike<infer U> ? U : T
 
@@ -93,7 +93,8 @@ export type DefaultOperationType = { value: string; inputLength: number }
 
 export type QueryDefaultAndType = Record<string, { default: DefaultOperationType; type: string }>
 
-export type GetTypesFromRouterReturn = {
+export type ResolvedRouterSchema = {
+  tsTypes: string[]
   queries: QueryDefaultAndType
   mutations: QueryDefaultAndType
 }

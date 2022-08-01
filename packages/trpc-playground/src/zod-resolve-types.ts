@@ -1,4 +1,4 @@
-import { GetTypesFromRouterReturn, QueryDefaultAndType } from '@trpc-playground/types'
+import { QueryDefaultAndType, ResolvedRouterSchema } from '@trpc-playground/types'
 import { AnyRouter } from '@trpc/server'
 import { ZodAny } from 'zod'
 import { printNode, zodToTs } from 'zod-to-ts'
@@ -32,10 +32,6 @@ const joinQueries = (functionName: string, queries: QueriesType) => {
   return `declare function ${functionName}<QueryName extends ${joinedQueryNames}>(${args.join(',')}): void`
 }
 
-export type ResolveTypesReturn = {
-  tsTypes: string[]
-} & GetTypesFromRouterReturn
-
 const getDefaultForOperations = (operations: QueriesType, operationType: string) =>
   Object.entries(operations).reduce(
     (prev, [name, { inputParser }]) => {
@@ -46,7 +42,7 @@ const getDefaultForOperations = (operations: QueriesType, operationType: string)
     {} as QueryDefaultAndType,
   )
 
-export const zodResolveTypes = async (router: AnyRouter): Promise<ResolveTypesReturn> => ({
+export const zodResolveTypes = async (router: AnyRouter): Promise<ResolvedRouterSchema> => ({
   tsTypes: [
     joinQueries('query', router._def.queries),
     joinQueries('mutation', router._def.mutations),

@@ -1,7 +1,7 @@
-import { useAtom, atom } from 'jotai'
+import { atom, useAtom } from 'jotai'
 import { Docs } from './docs'
 import { configAtom } from './provider'
-import { Settings } from "./settings"
+import { Settings } from './settings'
 
 const showDocsAtom = atom(false)
 const showSettingsAtom = atom(false)
@@ -14,13 +14,13 @@ export const Toolbar = () => {
   return (
     <div className='flex px-1 py-1 bg-primary shadow-md justify-between'>
       <p className='p-2 inline-block font-bold'>{config.trpcApiEndpoint}</p>
-      <div className="flex items-center">
+      <div className='flex items-center'>
         <NavButton onClick={() => setShowDocs(true)}>Docs</NavButton>
         <NavButton onClick={() => setShowSettings(true)}>Settings</NavButton>
       </div>
       {showDocs && <Docs hide={() => setShowDocs(false)} />}
       {showSettings && <Settings hide={() => setShowSettings(false)} />}
-    </div >
+    </div>
   )
 }
 

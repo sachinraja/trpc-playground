@@ -60,7 +60,7 @@ export const handleRequest = async ({ rawReq, req, common }: TrpcPlaygroundReque
 
     const bodyObject: HTTPBody = typeof body === 'string' ? JSON.parse(body) : body
 
-    if (bodyObject.operation === 'getTypes') {
+    if (bodyObject.operation === 'getRouterSchema') {
       return {
         headers: {
           'Content-Type': 'application/json',

@@ -20,7 +20,7 @@ import {
   previousTabAtom,
   previousTabIdAtom,
   tabsAtom,
-  updateCurrentTabIdAtom
+  updateCurrentTabIdAtom,
 } from './tab/store'
 
 const MemoizedCodeMirror = memo((props: CodeMirrorProps) => <CodeMirror {...props} />)
@@ -38,13 +38,13 @@ export const Editor = () => {
   const [responseValue, setResponseValue] = useAtom(responseValueAtom)
   const [trpcClient] = useAtom(trpcClientAtom)
   const [config] = useAtom(configAtom)
-  const evalFunction = useMemo(() => config?.request.batching ? batchEval : serialEval, [config.request.batching])
+  const evalFunction = useMemo(() => config.request.batching ? batchEval : serialEval, [config.request.batching])
 
   const refreshTypes = useCallback(async () => {
     if (!editorView) return
 
     try {
-      const response = await makePlaygroundRequest('getTypes', {
+      const response = await makePlaygroundRequest('getRouterSchema', {
         playgroundEndpoint: config.playgroundEndpoint,
       })
       setTypes(response)
@@ -54,7 +54,7 @@ export const Editor = () => {
       }))
       // server might be restarting so ignore fetch errors
       // eslint-disable-next-line no-empty
-    } catch (error) { }
+    } catch (error) {}
   }, [editorView])
 
   const extensions = useMemo(() => [

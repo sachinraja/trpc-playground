@@ -1,8 +1,8 @@
-import { GetTypesResponse } from '../../utils/playground-request'
+import { ResolvedRouterSchema } from '@trpc-playground/types'
 
 interface GenerateFnInputs {
   operationName: string
-  types: GetTypesResponse | null
+  types: ResolvedRouterSchema | null
 }
 
 export const getDefaultOperation = (

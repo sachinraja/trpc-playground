@@ -7,11 +7,11 @@ module.exports = {
       prefix: '.trpc-playground',
       transform(prefix, selector, prefixedSelector) {
         if (['html', '.trpc-playground'].includes(selector)) {
-          return prefix;
+          return prefix
         } else {
-          return prefixedSelector;
+          return prefixedSelector
         }
       },
     }),
   ],
-};
+}

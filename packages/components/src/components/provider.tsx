@@ -1,4 +1,4 @@
-import { DeepRequiredClientConfig } from '@trpc-playground/types'
+import { DeepRequiredClientConfig, ResolvedRouterSchema } from '@trpc-playground/types'
 import { createReactQueryHooks } from '@trpc/react'
 import { AnyRouter } from '@trpc/server'
 import { atom, Provider as JotaiProvider } from 'jotai'
@@ -7,7 +7,6 @@ import { useCallback, useMemo } from 'preact/hooks'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import superjson from 'superjson'
 import { TrpcClient } from '../types'
-import { GetTypesResponse } from '../utils/playground-request'
 import { getInitialState } from './tab/store'
 import { createInitialValues } from './utils'
 
@@ -21,7 +20,7 @@ type PlaygroundProviderProps = {
 
 export const trpcClientAtom = atom<TrpcClient>(null!)
 export const configAtom = atom<DeepRequiredClientConfig>(null!)
-export const typesAtom = atom<GetTypesResponse | null>(null)
+export const typesAtom = atom<ResolvedRouterSchema | null>(null)
 
 export const PlaygroundProvider = ({ config, children }: PlaygroundProviderProps) => {
   const queryClient = useMemo(() => new QueryClient(), [])

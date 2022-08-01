@@ -21,9 +21,10 @@ const operationNameAtom: WritableAtom<string | null, string> = atom(
     if (!types) return
 
     const defaultOp = getDefaultOperation({ types, operationName: update })
-    if (defaultOp?.value)
+    if (defaultOp?.value) {
       set(generatedAtom, defaultOp.value)
-  }
+    }
+  },
 )
 
 export const QueryBuilder: React.FC = () => {
@@ -41,26 +42,27 @@ export const QueryBuilder: React.FC = () => {
       if (!gen) return
 
       const { value: generated, inputLength } = gen
-      const line = editorView.state.doc.lineAt(editorView.state.selection.main.head)
+      const cursor = editorView.state.selection.asSingle().ranges[0]
 
       editorView.focus()
-      // Add generated query to next line in editor
+      // Add generated query to current line in editor
       editorView.dispatch({
         changes: {
-          from: line.from,
-          to: line.to,
-          insert: `${line.text}\n${generated}`,
+          from: cursor.from,
+          to: cursor.to,
+          insert: generated,
         },
       })
 
       // Select generated default input so user can instantly remove/edit
-      if (line.to + generated.length - inputLength !== line.to + generated.length)
+      if (cursor.from + generated.length - inputLength !== cursor.from + generated.length) {
         editorView.dispatch({
           selection: {
-            anchor: line.to + generated.length - inputLength,
-            head: line.to + generated.length
-          }
+            anchor: cursor.from + generated.length - inputLength - 1,
+            head: cursor.from + generated.length - 1,
+          },
         })
+      }
     },
     [editorView, operationName],
   )
@@ -89,7 +91,7 @@ export const QueryBuilder: React.FC = () => {
         </div>
         {queryBuilderOpen && (
           <div className='flex-1 bg-primary w-full overflow-y-auto pt-2 px-4 pb-5'>
-            <span className="font-semibold">Operations</span>
+            <span className='font-semibold'>Operations</span>
             <div className='pt-3'>
               <div className='ml-1'>
                 {Object.keys({ ...types.queries, ...types.mutations }).map((opName) => (
@@ -105,7 +107,7 @@ export const QueryBuilder: React.FC = () => {
               </div>
               <div className='pt-4'>
                 <button
-                  title="Insert snippet into editor"
+                  title='Insert snippet into editor'
                   style={{
                     opacity: operationName === null ? '0.6' : '1',
                     pointerEvents: operationName === null ? 'none' : 'all',

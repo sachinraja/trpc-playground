@@ -14,6 +14,7 @@ export const getInitialState = (): GlobalState => {
   if (config !== null) {
     try {
       return JSON.parse(config) || defaultConfig
+      // eslint-disable-next-line no-empty
     } catch {}
   }
   return defaultConfig

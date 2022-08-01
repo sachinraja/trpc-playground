@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 interface SidebarOverlayProps {
   hide: () => void
@@ -14,5 +14,5 @@ export const SidebarOverlay: React.FC<SidebarOverlayProps> = ({ hide, children }
         {children}
       </div>
     </div>
-  );
+  )
 }

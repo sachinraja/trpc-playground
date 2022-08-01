@@ -10,7 +10,7 @@ type GenerateInput = {
 export const generateSnippet = (inputParser: ZodAny, { operationType, operationName }: GenerateInput) => {
   const hasInput = !!inputParser?._def
 
-  let output: string = `await ${operationType}`
+  let output = `await ${operationType}`
   const input = hasInput ? getDefaultInput(inputParser) : ''
   const type = hasInput ? getOperationType(inputParser) : ''
 
@@ -59,7 +59,7 @@ import {
 const getDefaultForDef = (def: any): string => {
   if (!def) return ''
 
-  switch ((def as any).typeName) {
+  switch (def.typeName) {
     case ZodFirstPartyTypeKind.ZodString:
       return defaultString(def)
     case ZodFirstPartyTypeKind.ZodDate:
@@ -141,7 +141,7 @@ const defaultNull = (_def: ZodTypeDef) => {
 const defaultObject = (def: ZodObjectDef) => {
   let ret = `{ `
 
-  let entries = Object.entries(def.shape())
+  const entries = Object.entries(def.shape())
   entries.forEach(([name, propDef], idx) => {
     ret += `${name}: ${getDefaultForDef(propDef._def)}`
     if (idx !== entries.length - 1) ret += `, `
@@ -159,7 +159,7 @@ const defaultArray = (def: ZodArrayDef) => {
 const defaultTuple = (def: ZodTupleDef) => {
   let ret = `[`
   for (let i = 0; i < def.items.length; i++) {
-    let item = def.items[i]
+    const item = def.items[i]
     ret += `${getDefaultForDef(item._def)}`
     if (i !== def.items.length - 1) ret += ``
   }

@@ -12,9 +12,9 @@
     "clean": "pnpm -r clean",
     "prepare": "husky install",
     "test": "vitest",
-    "dev:vite-server": "pnpm dev:server --filter vite-app",
-    "dev:vite-client": "pnpm dev:client --filter vite-app",
-    "dev:serve-html": "pnpm serve-dev --filter @trpc-playground/html",
+    "dev:vite-server": "pnpm  --filter vite-app dev:server",
+    "dev:vite-client": "pnpm  --filter vite-app dev:client",
+    "dev:serve-html": "pnpm --filter @trpc-playground/html serve-dev",
     "dev": "run-p dev:*"
   },
   "devDependencies": {
@@ -49,5 +49,6 @@
         }
       }
     }
-  }
+  },
+  "packageManager": "pnpm@7.9.0"
 }

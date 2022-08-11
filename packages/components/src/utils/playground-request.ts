@@ -1,4 +1,4 @@
-import { PlaygroundRequestOperation } from '@trpc-playground/types'
+import { PlaygroundRequestOperation, ResolvedRouterSchema } from '@trpc-playground/types'
 
 type BodyObject = Record<string, unknown>
 
@@ -8,9 +8,9 @@ type MakePlaygroundRequestOptions = {
 }
 
 export async function makePlaygroundRequest(
-  operation: 'getTypes',
+  operation: 'getRouterSchema',
   options: MakePlaygroundRequestOptions,
-): Promise<string[]>
+): Promise<ResolvedRouterSchema>
 
 export async function makePlaygroundRequest<Operation extends PlaygroundRequestOperation>(
   operation: Operation,

@@ -39,6 +39,7 @@ export class TypescriptProject {
     await this.fs.injectCoreLibs()
 
     const system = createSystem(this.fs.fs)
+
     this.tsserver = createVirtualTypeScriptEnvironment(
       system,
       [TS_PROJECT_ENTRYPOINT],

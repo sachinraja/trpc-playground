@@ -7,7 +7,7 @@ import { BaseTab } from './base'
 import { MouseSensor } from './dnd-sensors'
 import { Draggable } from './draggable'
 import { PlaygroundTab } from './playground'
-import { currentTabAtom, currentTabIndexAtom, tabsAtom, totalTabsCreatedAtom, updateCurrentTabIdAtom } from './store'
+import { currentTabAtom, currentTabIndexAtom, tabsAtom, updateCurrentTabIdAtom } from './store'
 import { Tab } from './types'
 import { createNewDefaultTab } from './utils'
 
@@ -16,7 +16,6 @@ export const TabGroup = () => {
   const [currentTab] = useAtom(currentTabAtom)
   const [currentTabIndex] = useAtom(currentTabIndexAtom)
   const [, updateCurrentTabId] = useAtom(updateCurrentTabIdAtom)
-  const [totalTabsCreated, setTotalTabsCreated] = useAtom(totalTabsCreatedAtom)
 
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -40,7 +39,7 @@ export const TabGroup = () => {
   }, [tabs, currentTab])
 
   return (
-    <div className='flex flex-shrink-0 space-x-2 overflow-x-scroll scroll mx-2'>
+    <div className='flex mt-2 flex-shrink-0 space-x-2 overflow-hidden scroll mx-2 h-8 items-center'>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -76,14 +75,13 @@ export const TabGroup = () => {
         <button
           title='Create new tab'
           onClick={() => {
-            const newTab = createNewDefaultTab(totalTabsCreated)
+            const newTab = createNewDefaultTab()
             const newTabs: Tab[] = [...tabs, newTab]
-            setTabs(newTabs)
-            setTotalTabsCreated((totalTabsCreated) => totalTabsCreated + 1)
+            setTabs(() => newTabs)
             updateCurrentTabId(newTab.id)
           }}
         >
-          <PlusIcon width={20} height={20} />
+          <PlusIcon width={20} height={20} className='text-neutral-200' />
         </button>
       </BaseTab>
     </div>

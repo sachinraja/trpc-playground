@@ -4,7 +4,7 @@ import { atom, useAtom } from 'jotai'
 import { useCallback, useMemo, useState } from 'preact/hooks'
 import AutosizeInput from 'react-input-autosize'
 import { BaseTab } from './base'
-import { tabsAtom, totalTabsCreatedAtom, updateCurrentTabIdAtom } from './store'
+import { tabsAtom, updateCurrentTabIdAtom } from './store'
 import { createNewDefaultTab } from './utils'
 
 type TabProps = {
@@ -14,7 +14,6 @@ type TabProps = {
 export const PlaygroundTab = ({ index }: TabProps) => {
   const [tabs, setTabs] = useAtom(tabsAtom)
   const [currentTabId, updateCurrentTabId] = useAtom(updateCurrentTabIdAtom)
-  const [totalTabsCreated, setTotalTabsCreated] = useAtom(totalTabsCreatedAtom)
   const [isEditingTabName, setIsEditingTabName] = useState(false)
   const tabRef = useMemo(() => atom(tabs[index]), [tabs])
   const [tab] = useAtom(tabRef)
@@ -76,13 +75,13 @@ export const PlaygroundTab = ({ index }: TabProps) => {
               setIsEditingTabName(true)
             }}
           >
-            <p>{tab.name}</p>
+            <p className='font-semibold text-m mb-1 text-neutral-200'>{tab.name}</p>
           </button>
         )}
 
       <button
         title='Close tab'
-        className='ml-4'
+        className='ml-2'
         onClick={(e) => {
           // will trigger tab onClick and set this to current tab otherwise
           e.stopPropagation()
@@ -90,8 +89,7 @@ export const PlaygroundTab = ({ index }: TabProps) => {
           const newTabs = [...tabs]
           newTabs.splice(index, 1)
           if (newTabs.length === 0) {
-            newTabs.push(createNewDefaultTab(totalTabsCreated))
-            setTotalTabsCreated((totalTabsCreated) => totalTabsCreated + 1)
+            newTabs.push(createNewDefaultTab())
           }
 
           // if current tab was closed, this should be -1 (index not found)
@@ -101,10 +99,10 @@ export const PlaygroundTab = ({ index }: TabProps) => {
             updateCurrentTabId(newTabs[0].id)
           }
 
-          setTabs(newTabs)
+          setTabs(() => newTabs)
         }}
       >
-        <XIcon className='text-slate-800' width={20} height={20} />
+        <XIcon className='text-neutral-500 hover:text-neutral-300' width={18} height={18} />
       </button>
     </BaseTab>
   )

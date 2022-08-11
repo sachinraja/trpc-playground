@@ -3,9 +3,10 @@ module.exports = {
     require('tailwindcss')(),
     require('autoprefixer')(),
     require('postcss-prefix-selector')({
+      exclude: ['body'],
       prefix: '.trpc-playground',
       transform(prefix, selector, prefixedSelector) {
-        if (['body', 'html', '.trpc-playground'].includes(selector)) {
+        if (['html', '.trpc-playground'].includes(selector)) {
           return prefix
         } else {
           return prefixedSelector

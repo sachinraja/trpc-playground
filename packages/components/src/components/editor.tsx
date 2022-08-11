@@ -7,20 +7,29 @@ import { injectTypes, setDiagnostics } from '@trpc-playground/typescript-extensi
 import { printObject } from '@trpc-playground/utils'
 import { atom, useAtom } from 'jotai'
 import { memo } from 'preact/compat'
-import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'preact/hooks'
+import { useCallback, useEffect, useLayoutEffect, useMemo } from 'preact/hooks'
 import CodeMirror, { CodeMirrorProps } from 'rodemirror'
 import { baseExtension, tsExtension } from '../editor/extensions'
 import { batchEval, serialEval, transformAndRunQueries } from '../editor/transform-and-run-queries'
 import { makePlaygroundRequest } from '../utils/playground-request'
-import { configAtom, trpcClientAtom } from './provider'
-import { currentTabAtom, previousTabAtom, previousTabIdAtom, tabsAtom, updateCurrentTabIdAtom } from './tab/store'
+import { configAtom, trpcClientAtom, typesAtom } from './provider'
+import { QueryBuilder } from './queryBuilder'
+import {
+  currentTabAtom,
+  editorAtom,
+  previousTabAtom,
+  previousTabIdAtom,
+  tabsAtom,
+  updateCurrentTabIdAtom,
+} from './tab/store'
 
 const MemoizedCodeMirror = memo((props: CodeMirrorProps) => <CodeMirror {...props} />)
 
 const responseValueAtom = atom(printObject({ foo: 'bar' }))
 
 export const Editor = () => {
-  const [editorView, setEditorView] = useState<EditorView | null>(null)
+  const [editorView, setEditorView] = useAtom(editorAtom)
+  const [, setTypes] = useAtom(typesAtom)
   const [, setTabs] = useAtom(tabsAtom)
   const [previousTab] = useAtom(previousTabAtom)
   const [previousTabId] = useAtom(previousTabIdAtom)
@@ -35,16 +44,17 @@ export const Editor = () => {
     if (!editorView) return
 
     try {
-      const types = await makePlaygroundRequest('getTypes', {
+      const response = await makePlaygroundRequest('getRouterSchema', {
         playgroundEndpoint: config.playgroundEndpoint,
       })
+      setTypes(response)
 
       editorView.dispatch(injectTypes({
-        '/index.d.ts': types.join('\n'),
+        '/index.d.ts': response.tsTypes.join('\n'),
       }))
       // server might be restarting so ignore fetch errors
       // eslint-disable-next-line no-empty
-    } catch (_) {}
+    } catch (error) {}
   }, [editorView])
 
   const extensions = useMemo(() => [
@@ -79,10 +89,6 @@ export const Editor = () => {
     javascript(),
     EditorState.readOnly.of(true),
     EditorView.theme({
-      '.cm-content': {
-        // bg-slate-800
-        backgroundColor: 'rgb(30 41 59 / var(--tw-bg-opacity)) !important',
-      },
       '.cm-line': {
         marginLeft: '30px',
       },
@@ -133,7 +139,9 @@ export const Editor = () => {
   }, [editorView, refreshTypes])
 
   return (
-    <div className='relative'>
+    <div className='relative h-full overflow-y-auto'>
+      <div className='absolute left-0 right-0 mx-auto w-[4px] z-10 h-full bg-secondary '>
+      </div>
       <button
         className='absolute left-0 right-0 mx-auto w-[75px] z-10 focus:outline-none group'
         title='Run all queries'
@@ -150,19 +158,22 @@ export const Editor = () => {
         }}
       >
         <PlayIcon
-          className='hover:text-primary group-focus:stroke-primary transition-colors duration-150'
+          className='text-neutral-400 hover:text-neutral-100 group-focus:text-green-600 transition-colors duration-150'
           width={75}
           height={75}
         >
         </PlayIcon>
       </button>
 
-      <div className='grid grid-cols-2 items-stretch'>
-        <MemoizedCodeMirror
-          extensions={extensions}
-          onEditorViewChange={(editorView) => setEditorView(editorView)}
-          elementProps={{ className: 'bg-[#282c34] border-4 border-slate-700' }}
-        />
+      <div className='grid grid-cols-2 items-stretch h-full'>
+        <div className='flex flex-col h-full'>
+          <MemoizedCodeMirror
+            extensions={extensions}
+            onEditorViewChange={(editorView) => setEditorView(editorView)}
+            elementProps={{ className: 'bg-primary flex-1' }}
+          />
+          <QueryBuilder />
+        </div>
 
         <MemoizedCodeMirror
           extensions={responseEditorExtensions}

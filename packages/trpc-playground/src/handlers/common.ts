@@ -32,6 +32,7 @@ type TrpcPlaygroundRequestHandlerArgs = {
   req: HTTPRequest
   common: CommonHandlerReqData
 }
+
 export const handleRequest = async ({ rawReq, req, common }: TrpcPlaygroundRequestHandlerArgs) => {
   const { stringifiedTypes, htmlPlaygroundPage, config } = common
 
@@ -57,10 +58,9 @@ export const handleRequest = async ({ rawReq, req, common }: TrpcPlaygroundReque
 
     const body = bodyResult.data
 
-    // req.body may already have been parsed by a json handler
     const bodyObject: HTTPBody = typeof body === 'string' ? JSON.parse(body) : body
 
-    if (bodyObject.operation === 'getTypes') {
+    if (bodyObject.operation === 'getRouterSchema') {
       return {
         headers: {
           'Content-Type': 'application/json',

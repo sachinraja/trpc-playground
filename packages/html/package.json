@@ -51,6 +51,7 @@
     "xss": "^1.0.11"
   },
   "devDependencies": {
+    "@babel/core": "^7.18.6",
     "@preact/preset-vite": "2.2.0",
     "@trpc-playground/components": "workspace:0.1.2",
     "@trpc-playground/types": "workspace:0.1.1",

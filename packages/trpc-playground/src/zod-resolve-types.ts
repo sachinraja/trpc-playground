@@ -1,8 +1,12 @@
+import { QueryDefaultAndType, ResolvedRouterSchema } from '@trpc-playground/types'
 import { AnyRouter } from '@trpc/server'
 import { ZodAny } from 'zod'
 import { printNode, zodToTs } from 'zod-to-ts'
+import { generateSnippet } from './get-default-input'
 
-const joinQueries = (functionName: string, queries: Record<string, { inputParser: ZodAny }>) => {
+type QueriesType = Record<string, { inputParser: ZodAny }>
+
+const joinQueries = (functionName: string, queries: QueriesType) => {
   const queryNames: string[] = []
 
   const queryTypes = Object.entries(queries).map(([name, query]) => {
@@ -28,12 +32,21 @@ const joinQueries = (functionName: string, queries: Record<string, { inputParser
   return `declare function ${functionName}<QueryName extends ${joinedQueryNames}>(${args.join(',')}): void`
 }
 
-export const zodResolveTypes = (router: AnyRouter) => [
-  joinQueries('query', router._def.queries),
-  joinQueries('mutation', router._def.mutations),
-]
+const getDefaultForOperations = (operations: QueriesType, operationType: string) =>
+  Object.entries(operations).reduce(
+    (prev, [name, { inputParser }]) => {
+      prev[name] = generateSnippet(inputParser, { operationType, operationName: name })
 
-const foo = <T extends string | number>(
-  first: T,
-  ...a: (T extends string ? [boolean] : [undefined])
-) => undefined
+      return prev
+    },
+    {} as QueryDefaultAndType,
+  )
+
+export const zodResolveTypes = async (router: AnyRouter): Promise<ResolvedRouterSchema> => ({
+  tsTypes: [
+    joinQueries('query', router._def.queries),
+    joinQueries('mutation', router._def.mutations),
+  ],
+  queries: getDefaultForOperations(router._def.queries, 'query'),
+  mutations: getDefaultForOperations(router._def.mutations, 'mutation'),
+})

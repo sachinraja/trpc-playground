@@ -1,13 +1,11 @@
 import { ChevronUpIcon } from '@heroicons/react/solid'
 import { atom, useAtom, WritableAtom } from 'jotai'
 import { useCallback } from 'preact/hooks'
-import { Resizable as Resize } from 're-resizable'
+import { Resizable } from 're-resizable'
 import React from 'react'
 import { typesAtom } from '../provider'
 import { editorAtom, queryBuilderOpened } from '../tab/store'
 import { getDefaultOperation } from './getDefaultOperation'
-
-const Resizable = Resize as any
 
 const generatedAtom = atom<string | null>(null)
 const baseOperationNameAtom = atom<string | null>(null)

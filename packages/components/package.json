@@ -1,7 +1,7 @@
 {
   "name": "@trpc-playground/components",
   "type": "module",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "publishConfig": {
     "access": "public"
   },
@@ -62,8 +62,8 @@
     "@dnd-kit/sortable": "^6.0.1",
     "@dnd-kit/utilities": "^3.1.0",
     "@heroicons/react": "^1.0.6",
-    "@trpc-playground/query-extension": "workspace:0.1.0",
-    "@trpc-playground/typescript-extension": "workspace:0.1.0",
+    "@trpc-playground/query-extension": "workspace:0.2.0",
+    "@trpc-playground/typescript-extension": "workspace:0.2.0",
     "@trpc-playground/utils": "workspace:0.1.0",
     "@trpc/client": "^9.22.0",
     "@trpc/react": "^9.22.0",
@@ -80,7 +80,7 @@
     "preact": "^10"
   },
   "devDependencies": {
-    "@trpc-playground/types": "workspace:0.1.1",
+    "@trpc-playground/types": "workspace:0.2.0",
     "@trpc/server": "9.22.0",
     "@types/object-inspect": "1.8.1",
     "@types/react": "17.0.44",

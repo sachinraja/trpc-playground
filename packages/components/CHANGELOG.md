@@ -1,5 +1,17 @@
 # @trpc-playground/components
 
+## 0.2.0
+
+### Minor Changes
+
+- [`c2f5e54`](https://github.com/sachinraja/trpc-playground/commit/c2f5e543056786b10ec1ebf59f32567a102de611) Thanks [@sachinraja](https://github.com/sachinraja)! - add interactive UI
+
+### Patch Changes
+
+- Updated dependencies [[`c2f5e54`](https://github.com/sachinraja/trpc-playground/commit/c2f5e543056786b10ec1ebf59f32567a102de611)]:
+  - @trpc-playground/query-extension@0.2.0
+  - @trpc-playground/typescript-extension@0.2.0
+
 ## 0.1.2
 
 ### Patch Changes

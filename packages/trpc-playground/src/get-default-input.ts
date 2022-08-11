@@ -1,4 +1,21 @@
-import { ZodAny } from 'zod'
+import {
+  ZodAny,
+  ZodArrayDef,
+  ZodEnumDef,
+  ZodFirstPartyTypeKind,
+  ZodIntersectionDef,
+  ZodLiteralDef,
+  ZodMapDef,
+  ZodNativeEnumDef,
+  ZodNullableDef,
+  ZodObjectDef,
+  ZodOptionalDef,
+  ZodPromiseDef,
+  ZodRecordDef,
+  ZodSetDef,
+  ZodTupleDef,
+  ZodUnionDef,
+} from 'zod'
 import { printNode, zodToTs } from 'zod-to-ts'
 
 type GenerateInput = {
@@ -35,45 +52,25 @@ const getDefaultInput = (inputParser: ZodAny) => {
   return defaultInput ? `, ${defaultInput}` : ``
 }
 
-import {
-  ZodArrayDef,
-  ZodEnumDef,
-  ZodFirstPartyTypeKind,
-  ZodIntersectionDef,
-  ZodLiteralDef,
-  ZodMapDef,
-  ZodNativeEnumDef,
-  ZodNullableDef,
-  ZodNumberDef,
-  ZodObjectDef,
-  ZodOptionalDef,
-  ZodPromiseDef,
-  ZodRecordDef,
-  ZodSetDef,
-  ZodStringDef,
-  ZodTupleDef,
-  ZodTypeDef,
-  ZodUnionDef,
-} from 'zod'
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getDefaultForDef = (def: any): string => {
   if (!def) return ''
 
   switch (def.typeName) {
     case ZodFirstPartyTypeKind.ZodString:
-      return defaultString(def)
+      return defaultString()
     case ZodFirstPartyTypeKind.ZodDate:
-      return defaultDate(def)
+      return defaultDate()
     case ZodFirstPartyTypeKind.ZodNumber:
-      return defaultNumber(def)
+      return defaultNumber()
     case ZodFirstPartyTypeKind.ZodBigInt:
-      return defaultBigInt(def)
+      return defaultBigInt()
     case ZodFirstPartyTypeKind.ZodBoolean:
-      return defaultBoolean(def)
+      return defaultBoolean()
     case ZodFirstPartyTypeKind.ZodUndefined:
-      return defaultUndefined(def)
+      return defaultUndefined()
     case ZodFirstPartyTypeKind.ZodNull:
-      return defaultNull(def)
+      return defaultNull()
     case ZodFirstPartyTypeKind.ZodObject:
       return defaultObject(def)
     case ZodFirstPartyTypeKind.ZodArray:
@@ -110,31 +107,31 @@ const getDefaultForDef = (def: any): string => {
   }
 }
 
-const defaultString = (_def: ZodStringDef) => {
+const defaultString = () => {
   return `""`
 }
 
-const defaultDate = (_def: ZodStringDef) => {
+const defaultDate = () => {
   return `new Date()`
 }
 
-const defaultNumber = (_def: ZodNumberDef) => {
+const defaultNumber = () => {
   return `0`
 }
 
-const defaultBigInt = (_def: ZodNumberDef) => {
+const defaultBigInt = () => {
   return `BigInt(0)`
 }
 
-const defaultBoolean = (_def: ZodTypeDef) => {
+const defaultBoolean = () => {
   return `false`
 }
 
-const defaultUndefined = (_def: ZodTypeDef) => {
+const defaultUndefined = () => {
   return `undefined`
 }
 
-const defaultNull = (_def: ZodTypeDef) => {
+const defaultNull = () => {
   return `null`
 }
 
@@ -168,7 +165,7 @@ const defaultTuple = (def: ZodTupleDef) => {
 }
 
 const defaultRecord = (_def: ZodRecordDef) => {
-  return `{}`
+  return `{ ${getDefaultForDef(_def.keyType._def)}: ${getDefaultForDef(_def.valueType._def)} }`
 }
 
 const defaultLiteral = (def: ZodLiteralDef) => {
@@ -209,11 +206,11 @@ const defaultNativeEnum = (def: ZodNativeEnumDef) => {
 }
 
 const defaultMap = (_def: ZodMapDef) => {
-  return 'new Map()'
+  return `new Map([[${getDefaultForDef(_def.keyType._def)}, ${getDefaultForDef(_def.valueType._def)}]])`
 }
 
 const defaultSet = (_def: ZodSetDef) => {
-  return 'new Set()'
+  return `new Set([${getDefaultForDef(_def.valueType._def)}])`
 }
 
 const defaultPromise = (def: ZodPromiseDef) => {

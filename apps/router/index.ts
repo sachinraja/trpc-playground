@@ -33,7 +33,6 @@ export const appRouter = trpc
     input: z.object({
       id: z.number(),
       name: z.string(),
-      // email: z.string().email()
     }),
     resolve({ input }) {
       users.push(input)

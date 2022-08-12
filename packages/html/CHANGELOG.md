@@ -1,5 +1,11 @@
 # @trpc-playground/html
 
+## 0.3.1
+
+### Patch Changes
+
+- [`e7620f3`](https://github.com/sachinraja/trpc-playground/commit/e7620f3238dd1ceea4264bc227a5a4217b42ea89) Thanks [@sachinraja](https://github.com/sachinraja)! - fix docs
+
 ## 0.3.0
 
 ### Minor Changes

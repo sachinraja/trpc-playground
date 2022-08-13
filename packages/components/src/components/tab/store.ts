@@ -1,11 +1,12 @@
 import { EditorView } from '@codemirror/view'
 import { atom } from 'jotai'
-import { GlobalState, Headers, Tab } from './types'
+import { GlobalState } from './types'
 import { createNewDefaultTab } from './utils'
 
 const defaultConfig = {
   tabs: [createNewDefaultTab()],
   headers: {},
+  currentTabId: '0',
 }
 
 export const getInitialState = (): GlobalState => {
@@ -22,35 +23,33 @@ export const getInitialState = (): GlobalState => {
 
 const stateAtom = atom(getInitialState())
 
-export const headersAtom = atom(
-  (get) => get(stateAtom).headers,
-  (get, set, updateHeaders: (headers: Headers) => Headers) => {
-    const oldValue = get(stateAtom)
-    const newValue = { ...oldValue, headers: updateHeaders(oldValue.headers) }
+const localStorageStateAtom = <
+  TKey extends keyof GlobalState,
+>(key: TKey) =>
+  atom(
+    (get) => get(stateAtom)[key],
+    (get, set, update: (previousValue: GlobalState[TKey]) => GlobalState[TKey]) => {
+      const oldValue = get(stateAtom)
+      const newValue = { ...oldValue, [key]: update(oldValue[key]) }
 
-    set(stateAtom, newValue)
-    localStorage.setItem('trpc-playground-config', JSON.stringify(newValue))
-  },
-)
+      set(stateAtom, newValue)
+      localStorage.setItem('trpc-playground-config', JSON.stringify(newValue))
+    },
+  )
 
-export const tabsAtom = atom(
-  (get) => get(stateAtom).tabs,
-  (get, set, updateTabs: (tabs: Tab[]) => Tab[]) => {
-    const oldValue = get(stateAtom)
-    const newValue = { ...oldValue, tabs: updateTabs(oldValue.tabs) }
-
-    set(stateAtom, newValue)
-    localStorage.setItem('trpc-playground-config', JSON.stringify(newValue))
-  },
-)
+export const headersAtom = localStorageStateAtom('headers')
+export const tabsAtom = localStorageStateAtom('tabs')
+export const currentTabIdAtom = localStorageStateAtom('currentTabId')
 
 export const previousTabIdAtom = atom('0')
-const currentTabIdAtom = atom('0')
 
-export const updateCurrentTabIdAtom = atom((get) => get(currentTabIdAtom), (get, set, update: string) => {
-  set(previousTabIdAtom, get(currentTabIdAtom))
-  set(currentTabIdAtom, update)
-})
+export const updateCurrentTabIdAtom = atom(
+  (get) => get(currentTabIdAtom),
+  (get, set, update: string) => {
+    set(previousTabIdAtom, get(currentTabIdAtom))
+    set(currentTabIdAtom, () => update)
+  },
+)
 
 export const currentTabAtom = atom((get) => {
   return get(tabsAtom).find((tab) => tab.id === get(currentTabIdAtom))!

@@ -108,6 +108,25 @@ export const Editor = () => {
   }, [editorView, previousTabId, currentTabId, currentTab, setTabs])
 
   useEffect(() => {
+    const onBeforeUnload = () => {
+      if (!editorView) return
+
+      setTabs((tabs) => {
+        const newTabs = [...tabs]
+        const currentTabIndex = newTabs.findIndex(tab => tab.id === currentTabId)
+        newTabs[currentTabIndex] = { ...newTabs[currentTabIndex], doc: editorView.state.doc.toString() }
+
+        return newTabs
+      })
+      setEditorView(null)
+    }
+
+    window.addEventListener('beforeunload', onBeforeUnload)
+
+    return () => window.removeEventListener('beforeunload', onBeforeUnload)
+  }, [editorView, setTabs, currentTabId])
+
+  useEffect(() => {
     if (!editorView || !currentTab) return
 
     editorView.dispatch({

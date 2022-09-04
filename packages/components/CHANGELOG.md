@@ -1,5 +1,11 @@
 # @trpc-playground/components
 
+## 0.2.2
+
+### Patch Changes
+
+- [`3eb67eb`](https://github.com/sachinraja/trpc-playground/commit/3eb67eb100e96d3f804ac34976f26888df923a37) Thanks [@sachinraja](https://github.com/sachinraja)! - fix tab state
+
 ## 0.2.1
 
 ### Patch Changes

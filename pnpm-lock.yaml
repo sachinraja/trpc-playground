@@ -52,7 +52,7 @@ importers:
       esbuild-node-loader: 0.8.0
       express: 4.17.3
       nodemon: 2.0.15
-      trpc-playground: workspace:0.3.2
+      trpc-playground: workspace:0.3.3
     dependencies:
       '@trpc/server': 9.22.0
       express: 4.17.3
@@ -69,7 +69,7 @@ importers:
       next: 12.1.4
       react: 18.0.0
       react-dom: 18.0.0
-      trpc-playground: workspace:0.3.2
+      trpc-playground: workspace:0.3.3
     dependencies:
       '@trpc/server': 9.22.0
       next: 12.1.4_zpnidt7m3osuk7shl3s4oenomq
@@ -91,7 +91,7 @@ importers:
     specifiers:
       '@babel/core': ^7.18.6
       '@preact/preset-vite': 2.2.0
-      '@trpc-playground/components': workspace:0.2.2
+      '@trpc-playground/components': workspace:0.2.3
       '@trpc/server': 9.22.0
       '@types/cors': 2.8.12
       '@types/express': 4.17.13
@@ -103,7 +103,7 @@ importers:
       postcss: 8.4.12
       postcss-prefix-selector: 1.15.0
       tailwindcss: 3.0.23
-      trpc-playground: workspace:0.3.2
+      trpc-playground: workspace:0.3.3
       vite: 2.9.1
       zod: 3.14.4
     dependencies:
@@ -122,7 +122,7 @@ importers:
       nodemon: 2.0.15
       postcss: 8.4.12
       postcss-prefix-selector: 1.15.0_postcss@8.4.12
-      tailwindcss: 3.0.23_autoprefixer@10.4.4
+      tailwindcss: 3.0.23_balfb4xu3orvwfzgle32wkroya
       vite: 2.9.1
       zod: 3.14.4
 
@@ -213,7 +213,7 @@ importers:
     specifiers:
       '@babel/core': ^7.18.6
       '@preact/preset-vite': 2.2.0
-      '@trpc-playground/components': workspace:0.2.2
+      '@trpc-playground/components': workspace:0.2.3
       '@trpc-playground/types': workspace:0.2.0
       '@types/cors': 2.8.12
       '@types/express': 4.17.13
@@ -246,7 +246,7 @@ importers:
       node-html-parser: 5.3.3
       postcss: 8.4.12
       postcss-prefix-selector: 1.15.0_postcss@8.4.12
-      tailwindcss: 3.0.23_autoprefixer@10.4.4
+      tailwindcss: 3.0.23_balfb4xu3orvwfzgle32wkroya
 
   packages/query-extension:
     specifiers:
@@ -271,7 +271,7 @@ importers:
 
   packages/trpc-playground:
     specifiers:
-      '@trpc-playground/html': workspace:0.3.2
+      '@trpc-playground/html': workspace:0.3.3
       '@trpc-playground/types': workspace:0.2.0
       '@trpc/server': 9.22.0
       '@types/express': 4.17.13
@@ -5378,12 +5378,13 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /tailwindcss/3.0.23_autoprefixer@10.4.4:
+  /tailwindcss/3.0.23_balfb4xu3orvwfzgle32wkroya:
     resolution: {integrity: sha512-+OZOV9ubyQ6oI2BXEhzw4HrqvgcARY38xv3zKcjnWtMIZstEsXdI9xftd1iB7+RbOnj2HOEzkA0OyB5BaSxPQA==}
     engines: {node: '>=12.13.0'}
     hasBin: true
     peerDependencies:
       autoprefixer: ^10.0.2
+      postcss: ^8.0.9
     dependencies:
       arg: 5.0.1
       autoprefixer: 10.4.4_postcss@8.4.12

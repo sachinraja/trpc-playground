@@ -10,10 +10,10 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "@trpc-playground/components": "workspace:0.2.2",
+    "@trpc-playground/components": "workspace:0.2.3",
     "cors": "2.8.5",
     "express": "4.17.3",
-    "trpc-playground": "workspace:0.3.2"
+    "trpc-playground": "workspace:0.3.3"
   },
   "devDependencies": {
     "@preact/preset-vite": "2.2.0",

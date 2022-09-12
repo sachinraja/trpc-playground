@@ -52,7 +52,7 @@ importers:
       esbuild-node-loader: 0.8.0
       express: 4.17.3
       nodemon: 2.0.15
-      trpc-playground: workspace:0.4.1
+      trpc-playground: workspace:0.4.2
     dependencies:
       '@trpc/server': 9.22.0
       express: 4.17.3
@@ -69,7 +69,7 @@ importers:
       next: 12.1.4
       react: 18.0.0
       react-dom: 18.0.0
-      trpc-playground: workspace:0.4.1
+      trpc-playground: workspace:0.4.2
     dependencies:
       '@trpc/server': 9.22.0
       next: 12.1.4_zpnidt7m3osuk7shl3s4oenomq
@@ -103,7 +103,7 @@ importers:
       postcss: 8.4.12
       postcss-prefix-selector: 1.15.0
       tailwindcss: 3.0.23
-      trpc-playground: workspace:0.4.1
+      trpc-playground: workspace:0.4.2
       vite: 2.9.1
       zod: 3.14.4
     dependencies:
@@ -282,14 +282,14 @@ importers:
       h3: 0.7.21
       lodash: ^4.17.21
       next: 12.1.4
-      uttp: ^0.1.2
+      uttp: ^0.1.3
       zod: 3.14.4
       zod-to-ts: ^0.2.2
     dependencies:
       '@trpc-playground/html': link:../html
       '@trpc-playground/types': link:../types
       lodash: 4.17.21
-      uttp: 0.1.2_fastify@4.5.3+h3@0.7.21
+      uttp: 0.1.3_fastify@4.5.3+h3@0.7.21
       zod-to-ts: 0.2.2_zod@3.14.4
     devDependencies:
       '@trpc/server': 9.22.0
@@ -6106,8 +6106,8 @@ packages:
     resolution: {integrity: sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=}
     engines: {node: '>= 0.4.0'}
 
-  /uttp/0.1.2_fastify@4.5.3+h3@0.7.21:
-    resolution: {integrity: sha512-NR+xxXIHAyYLgEcgePr53qn+f/QYfftWk7a4UA80H14TuXCF2Ikj0LPENJuAvNV0h5iTXPbzHZoeEGhul5CTQw==}
+  /uttp/0.1.3_fastify@4.5.3+h3@0.7.21:
+    resolution: {integrity: sha512-LWRHPNmivLr/4rTt3CXVtQfWdhzoN7OQwBPHfcsYGffeFo9a8/CtDxtl3xcVR965paRjLr3Ocxs/shwyjPzE2Q==}
     peerDependencies:
       express: ^4
       fastify: ^3 || ^4

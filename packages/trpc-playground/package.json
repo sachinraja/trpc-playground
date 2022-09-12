@@ -57,7 +57,7 @@
     "@trpc-playground/html": "workspace:0.3.3",
     "@trpc-playground/types": "workspace:0.2.0",
     "lodash": "^4.17.21",
-    "uttp": "^0.1.2",
+    "uttp": "^0.1.3",
     "zod-to-ts": "^0.2.2"
   },
   "devDependencies": {

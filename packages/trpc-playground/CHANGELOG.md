@@ -1,5 +1,11 @@
 # trpc-playground
 
+## 0.4.0
+
+### Minor Changes
+
+- [`732d401`](https://github.com/sachinraja/trpc-playground/commit/732d401f804bc24feb9905eb2161f8311c0919c3) Thanks [@sachinraja](https://github.com/sachinraja)! - support Fastify, Fetch, h3, Koa, and AWS Lambda
+
 ## 0.3.3
 
 ### Patch Changes

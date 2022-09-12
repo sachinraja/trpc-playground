@@ -1,5 +1,11 @@
 # trpc-playground
 
+## 0.4.2
+
+### Patch Changes
+
+- [`ed8a74e`](https://github.com/sachinraja/trpc-playground/commit/ed8a74e248aa8a16210595d40be9e05c96962603) Thanks [@sachinraja](https://github.com/sachinraja)! - fix body parsing (again)
+
 ## 0.4.1
 
 ### Patch Changes

@@ -4,6 +4,13 @@
 
 ### Patch Changes
 
+- Updated dependencies [[`ed8a74e`](https://github.com/sachinraja/trpc-playground/commit/ed8a74e248aa8a16210595d40be9e05c96962603)]:
+  - trpc-playground@0.4.2
+
+## null
+
+### Patch Changes
+
 - Updated dependencies [[`8fb105e`](https://github.com/sachinraja/trpc-playground/commit/8fb105ecf80b3ded6c12706ab0e16ef0ba51f7a6)]:
   - trpc-playground@0.4.1
 

@@ -94,6 +94,8 @@ runApp()
 
 </details>
 
+tRPC Playground also supports Fastify, Fetch, h3, Koa, and AWS Lambda. You can import them using this format: `trpc-playground/handlers/{framework}`.
+
 ## Settings
 
 For all configuration options, see [the API docs](https://paka.dev/npm/@trpc-playground/types@0.1.1/api#be2d1ce7878179d).

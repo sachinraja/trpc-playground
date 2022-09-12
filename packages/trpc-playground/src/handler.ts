@@ -46,8 +46,9 @@ export const handler = defineHandler(async (helpers, config: TrpcPlaygroundConfi
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         let body: string | Record<string, any> | undefined
 
+        // hack for Next.js
         const rawBody = (request.rawRequest as RawRequest & { body: unknown }).body
-        if (typeof rawBody === 'object' && rawBody !== null) {
+        if (typeof rawBody === 'object' && rawBody !== null && 'operation' in rawBody) {
           body = rawBody
         } else {
           try {

@@ -1,5 +1,11 @@
 # trpc-playground
 
+## 0.4.3
+
+### Patch Changes
+
+- [`a9b1f29`](https://github.com/sachinraja/trpc-playground/commit/a9b1f297309d4346b5e58a7df4aafed3567920ef) Thanks [@sachinraja](https://github.com/sachinraja)! - update uttp
+
 ## 0.4.2
 
 ### Patch Changes

@@ -43,12 +43,15 @@ export const handler = defineHandler(async (helpers, config: TrpcPlaygroundConfi
       }
 
       if (request.method === 'POST') {
-        let body: string | undefined = (request.rawRequest as RawRequest & { body: string | undefined }).body
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let body: string | Record<string, any> | undefined
 
-        if (!body) {
+        const rawBody = (request.rawRequest as RawRequest & { body: unknown }).body
+        if (typeof rawBody === 'object' && rawBody !== null) {
+          body = rawBody
+        } else {
           try {
             body = await helpers.parseBodyAsString(request.rawRequest)
-            console.log('body')
           } catch {
             return { status: 413, body: undefined }
           }

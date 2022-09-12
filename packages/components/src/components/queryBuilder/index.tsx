@@ -92,7 +92,7 @@ export const QueryBuilder: React.FC = () => {
             <span className='font-semibold'>Operations</span>
             <div className='pt-3'>
               <div className='ml-1'>
-                {Object.keys({ ...types.queries, ...types.mutations }).map((opName) => (
+                {Object.keys({ ...types.queries, ...types.mutations }).sort().map((opName) => (
                   <button
                     key={opName}
                     className='bg-secondary mx-1 px-2 shadow-lg mb-1'

@@ -3,5 +3,5 @@
   "compilerOptions": {
     "resolveJsonModule": true
   },
-  "include": ["src", "handlers", "tsup.config.ts"]
+  "include": ["src", "tsup.config.ts"]
 }

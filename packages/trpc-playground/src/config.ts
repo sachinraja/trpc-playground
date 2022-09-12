@@ -1,7 +1,7 @@
 import { TrpcPlaygroundConfig } from '@trpc-playground/types'
 import lodash from 'lodash'
-import { version } from '../../html/package.json'
 import { zodResolveTypes } from '.'
+import { version } from './html-version'
 
 const defineConfig = <T extends Partial<TrpcPlaygroundConfig>>(config: T): T => config
 

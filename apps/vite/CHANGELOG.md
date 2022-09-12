@@ -4,6 +4,42 @@
 
 ### Patch Changes
 
+- Updated dependencies [[`a9b1f29`](https://github.com/sachinraja/trpc-playground/commit/a9b1f297309d4346b5e58a7df4aafed3567920ef)]:
+  - trpc-playground@0.4.3
+
+## null
+
+### Patch Changes
+
+- Updated dependencies [[`ed8a74e`](https://github.com/sachinraja/trpc-playground/commit/ed8a74e248aa8a16210595d40be9e05c96962603)]:
+  - trpc-playground@0.4.2
+
+## null
+
+### Patch Changes
+
+- Updated dependencies [[`8fb105e`](https://github.com/sachinraja/trpc-playground/commit/8fb105ecf80b3ded6c12706ab0e16ef0ba51f7a6)]:
+  - trpc-playground@0.4.1
+
+## null
+
+### Patch Changes
+
+- Updated dependencies [[`732d401`](https://github.com/sachinraja/trpc-playground/commit/732d401f804bc24feb9905eb2161f8311c0919c3)]:
+  - trpc-playground@0.4.0
+
+## null
+
+### Patch Changes
+
+- Updated dependencies [[`dd904cf`](https://github.com/sachinraja/trpc-playground/commit/dd904cfe853a61e4aeb68a31250b101598794dea)]:
+  - @trpc-playground/components@0.2.3
+  - trpc-playground@0.3.3
+
+## null
+
+### Patch Changes
+
 - Updated dependencies [[`3eb67eb`](https://github.com/sachinraja/trpc-playground/commit/3eb67eb100e96d3f804ac34976f26888df923a37)]:
   - @trpc-playground/components@0.2.2
   - trpc-playground@0.3.2

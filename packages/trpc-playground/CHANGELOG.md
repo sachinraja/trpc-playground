@@ -1,5 +1,36 @@
 # trpc-playground
 
+## 0.4.3
+
+### Patch Changes
+
+- [`a9b1f29`](https://github.com/sachinraja/trpc-playground/commit/a9b1f297309d4346b5e58a7df4aafed3567920ef) Thanks [@sachinraja](https://github.com/sachinraja)! - update uttp
+
+## 0.4.2
+
+### Patch Changes
+
+- [`ed8a74e`](https://github.com/sachinraja/trpc-playground/commit/ed8a74e248aa8a16210595d40be9e05c96962603) Thanks [@sachinraja](https://github.com/sachinraja)! - fix body parsing (again)
+
+## 0.4.1
+
+### Patch Changes
+
+- [`8fb105e`](https://github.com/sachinraja/trpc-playground/commit/8fb105ecf80b3ded6c12706ab0e16ef0ba51f7a6) Thanks [@sachinraja](https://github.com/sachinraja)! - fix body parsing
+
+## 0.4.0
+
+### Minor Changes
+
+- [`732d401`](https://github.com/sachinraja/trpc-playground/commit/732d401f804bc24feb9905eb2161f8311c0919c3) Thanks [@sachinraja](https://github.com/sachinraja)! - support Fastify, Fetch, h3, Koa, and AWS Lambda
+
+## 0.3.3
+
+### Patch Changes
+
+- Updated dependencies [[`dd904cf`](https://github.com/sachinraja/trpc-playground/commit/dd904cfe853a61e4aeb68a31250b101598794dea)]:
+  - @trpc-playground/html@0.3.3
+
 ## 0.3.2
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @trpc-playground/html
 
+## 0.3.3
+
+### Patch Changes
+
+- [`dd904cf`](https://github.com/sachinraja/trpc-playground/commit/dd904cfe853a61e4aeb68a31250b101598794dea) Thanks [@sachinraja](https://github.com/sachinraja)! - sort operations in query builder
+
 ## 0.3.2
 
 ### Patch Changes

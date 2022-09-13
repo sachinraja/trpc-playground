@@ -1,52 +1,45 @@
-import { QueryDefaultAndType, ResolvedRouterSchema } from '@trpc-playground/types'
-import { AnyRouter } from '@trpc/server'
+import { ResolvedRouterSchema } from '@trpc-playground/types'
+import { AnyRouter, Procedure } from '@trpc/server'
+import _ from 'lodash'
 import { ZodAny } from 'zod'
 import { printNode, zodToTs } from 'zod-to-ts'
-import { generateSnippet } from './get-default-input'
+import { getDefaultForProcedures } from './get-default-input'
 
-type QueriesType = Record<string, { inputParser: ZodAny }>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Procedures = Record<string, Procedure<any>>
 
-const joinQueries = (functionName: string, queries: QueriesType) => {
-  const queryNames: string[] = []
+const buildTrpcTsType = (router: AnyRouter) => {
+  const procedures = router._def.procedures as Procedures
+  const procedureObject = {} as Record<string, string>
 
-  const queryTypes = Object.entries(queries).map(([name, query]) => {
-    const stringName = `'${name}'`
-    queryNames.push(stringName)
+  Object.entries(procedures).forEach(([name, procedure]) => {
+    let procedureTypeDef = ``
 
-    if (!query.inputParser._def) return `QueryName extends ${stringName} ? [undefined?]`
-    const { node } = zodToTs(query.inputParser as ZodAny)
+    const inputTypes: string[] = []
+    procedure._def.inputs.forEach((input: ZodAny) => {
+      const { node } = zodToTs(input)
+      inputTypes.push(printNode(node))
+    })
 
-    const inputType = printNode(node)
-    const queryType = `QueryName extends ${stringName} ? [${inputType}]`
-    return queryType
+    const joinedInputTypes = inputTypes.length ? `input: ${inputTypes.join('&')}` : ''
+
+    if (procedure._def?.query) procedureTypeDef += `query: (${joinedInputTypes}) => void,`
+    else if (procedure._def?.mutation) procedureTypeDef += `mutate: (${joinedInputTypes}) => void,`
+
+    _.set(procedureObject, name, `{${procedureTypeDef}}`)
   })
 
-  const filteredQueryTypes = queryTypes.filter((value): value is string => typeof value === 'string')
+  const buildNestedTrpcObject = (obj: Record<string, string>): string => {
+    return Object.entries(obj).map(([name, value]) => {
+      if (typeof value === 'string') return `'${name}': ${value}`
+      return `'${name}': {${buildNestedTrpcObject(value)}}`
+    }).join(',')
+  }
 
-  const joinedQueryNames = queryNames.join(' | ')
-  const args = ['name: QueryName']
-
-  const joinedQueryTypes = `${filteredQueryTypes.join(' : ')} : never`
-  args.push(`...args: ${joinedQueryTypes}`)
-
-  return `declare function ${functionName}<QueryName extends ${joinedQueryNames}>(${args.join(',')}): void`
+  return `type Trpc = {${buildNestedTrpcObject(procedureObject)}}\ndeclare var trpc: Trpc;`
 }
 
-const getDefaultForOperations = (operations: QueriesType, operationType: string) =>
-  Object.entries(operations).reduce(
-    (prev, [name, { inputParser }]) => {
-      prev[name] = generateSnippet(inputParser, { operationType, operationName: name })
-
-      return prev
-    },
-    {} as QueryDefaultAndType,
-  )
-
 export const zodResolveTypes = async (router: AnyRouter): Promise<ResolvedRouterSchema> => ({
-  tsTypes: [
-    joinQueries('query', router._def.queries),
-    joinQueries('mutation', router._def.mutations),
-  ],
-  queries: getDefaultForOperations(router._def.queries, 'query'),
-  mutations: getDefaultForOperations(router._def.mutations, 'mutation'),
+  tsTypes: buildTrpcTsType(router),
+  ...getDefaultForProcedures(router._def.procedures),
 })

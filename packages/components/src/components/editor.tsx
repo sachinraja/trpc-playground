@@ -50,7 +50,7 @@ export const Editor = () => {
       setTypes(response)
 
       editorView.dispatch(injectTypes({
-        '/index.d.ts': response.tsTypes.join('\n'),
+        '/index.d.ts': response.tsTypes,
       }))
       // server might be restarting so ignore fetch errors
       // eslint-disable-next-line no-empty

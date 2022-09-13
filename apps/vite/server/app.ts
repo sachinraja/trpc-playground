@@ -14,6 +14,7 @@ const runApp = async () => {
 
   const trpcMiddleware = trpcExpress.createExpressMiddleware({
     router: appRouter,
+    createContext: () => ({}),
   })
   app.use(
     trpcApiEndpoint,

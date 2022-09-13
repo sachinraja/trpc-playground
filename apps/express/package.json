@@ -7,7 +7,7 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "@trpc/server": "9.22.0",
+    "@trpc/server": "10.0.0-proxy-alpha.76",
     "express": "4.17.3",
     "trpc-playground": "workspace:0.4.3"
   },

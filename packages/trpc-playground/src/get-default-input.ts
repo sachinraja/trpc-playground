@@ -1,3 +1,4 @@
+import { ResolvedRouterSchema } from '@trpc-playground/types'
 import {
   ZodAny,
   ZodArrayDef,
@@ -17,39 +18,32 @@ import {
   ZodUnionDef,
 } from 'zod'
 import { printNode, zodToTs } from 'zod-to-ts'
+import { Procedures } from './zod-resolve-types'
 
-type GenerateInput = {
-  operationType: string
-  operationName: string
-}
+export const getDefaultForProcedures = (procedures: Procedures) => {
+  const defaultForQueries: Pick<ResolvedRouterSchema, 'queries' | 'mutations'> = { mutations: {}, queries: {} }
 
-// Generate code snippet for operation
-export const generateSnippet = (inputParser: ZodAny, { operationType, operationName }: GenerateInput) => {
-  const hasInput = !!inputParser?._def
+  Object.entries(procedures)
+    .filter(([, { _def }]) => _def.query || _def.mutation)
+    .forEach(([procedureName, procedure]) => {
+      let defaultInputValue = ''
+      let type = ''
+      procedure._def.inputs.forEach((input: ZodAny) => {
+        defaultInputValue = getDefaultForDef(input._def)
+        const { node } = zodToTs(input)
+        type = printNode(node)
+      })
 
-  let output = `await ${operationType}`
-  const input = hasInput ? getDefaultInput(inputParser) : ''
-  const type = hasInput ? getOperationType(inputParser) : ''
+      const defaultForQuery = {
+        inputLength: defaultInputValue.length,
+        value: `await trpc.${procedureName}.${procedure._def.query ? 'query' : 'mutate'}(${defaultInputValue})`,
+      }
 
-  output += `('${operationName}'${input})`
+      if (procedure._def.query) defaultForQueries.queries[procedureName] = { default: defaultForQuery, type }
+      else defaultForQueries.mutations[procedureName] = { default: defaultForQuery, type }
+    })
 
-  return {
-    type,
-    default: { value: output, inputLength: input.length },
-  }
-}
-
-const getOperationType = (inputParser: ZodAny) => {
-  const { node } = zodToTs(inputParser)
-  return printNode(node)
-}
-
-// Get default input string for query/mutation defined in the router
-const getDefaultInput = (inputParser: ZodAny) => {
-  if (typeof inputParser === 'function') return ''
-
-  const defaultInput = getDefaultForDef(inputParser._def)
-  return defaultInput ? `, ${defaultInput}` : ``
+  return defaultForQueries
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

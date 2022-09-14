@@ -1,7 +1,7 @@
 import { ResolvedRouterSchema } from '@trpc-playground/types'
 import { AnyRouter, Procedure } from '@trpc/server'
 import _ from 'lodash'
-import { ZodAny } from 'zod'
+import { AnyZodObject, z, ZodAny, ZodTypeAny } from 'zod'
 import { printNode, zodToTs } from 'zod-to-ts'
 import { getDefaultForProcedures } from './get-default-input'
 
@@ -15,16 +15,11 @@ const buildTrpcTsType = (router: AnyRouter) => {
   Object.entries(procedures).forEach(([name, procedure]) => {
     let procedureTypeDef = ``
 
-    const inputTypes: string[] = []
-    procedure._def.inputs.forEach((input: ZodAny) => {
-      const { node } = zodToTs(input)
-      inputTypes.push(printNode(node))
-    })
+    const inputParser = getInputFromInputParsers(procedure._def.inputs)
+    const inputType = inputParser ? printTypeFromInputParser(inputParser) : ''
 
-    const joinedInputTypes = inputTypes.length ? `input: ${inputTypes.join('&')}` : ''
-
-    if (procedure._def?.query) procedureTypeDef += `query: (${joinedInputTypes}) => void,`
-    else if (procedure._def?.mutation) procedureTypeDef += `mutate: (${joinedInputTypes}) => void,`
+    if (procedure._def?.query) procedureTypeDef += `query: (${inputType}) => void,`
+    else if (procedure._def?.mutation) procedureTypeDef += `mutate: (${inputType}) => void,`
 
     _.set(procedureObject, name, `{${procedureTypeDef}}`)
   })
@@ -43,3 +38,21 @@ export const zodResolveTypes = async (router: AnyRouter): Promise<ResolvedRouter
   tsTypes: buildTrpcTsType(router),
   ...getDefaultForProcedures(router._def.procedures),
 })
+
+export const getInputFromInputParsers = (inputs: ZodAny[]) => {
+  if (inputs.length === 0) return null
+  if (inputs.length === 1) return inputs[0]
+
+  let mergedObj = z.object({})
+  inputs.forEach((inputParser) => {
+    mergedObj = mergedObj.merge(inputParser as unknown as AnyZodObject)
+  })
+
+  return mergedObj
+}
+
+export const printTypeFromInputParser = (inputParser: ZodTypeAny) => {
+  const { node } = zodToTs(inputParser)
+
+  return `input: ${printNode(node)}`
+}

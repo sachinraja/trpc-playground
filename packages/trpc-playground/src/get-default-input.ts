@@ -1,6 +1,5 @@
 import { ResolvedRouterSchema } from '@trpc-playground/types'
 import {
-  ZodAny,
   ZodArrayDef,
   ZodEnumDef,
   ZodFirstPartyTypeKind,
@@ -17,8 +16,7 @@ import {
   ZodTupleDef,
   ZodUnionDef,
 } from 'zod'
-import { printNode, zodToTs } from 'zod-to-ts'
-import { Procedures } from './zod-resolve-types'
+import { getInputFromInputParsers, printTypeFromInputParser, Procedures } from './zod-resolve-types'
 
 export const getDefaultForProcedures = (procedures: Procedures) => {
   const defaultForQueries: Pick<ResolvedRouterSchema, 'queries' | 'mutations'> = { mutations: {}, queries: {} }
@@ -26,13 +24,9 @@ export const getDefaultForProcedures = (procedures: Procedures) => {
   Object.entries(procedures)
     .filter(([, { _def }]) => _def.query || _def.mutation)
     .forEach(([procedureName, procedure]) => {
-      let defaultInputValue = ''
-      let type = ''
-      procedure._def.inputs.forEach((input: ZodAny) => {
-        defaultInputValue = getDefaultForDef(input._def)
-        const { node } = zodToTs(input)
-        type = printNode(node)
-      })
+      const inputParser = getInputFromInputParsers(procedure._def.inputs)
+      const defaultInputValue = inputParser ? getDefaultForDef(inputParser._def) : ''
+      const type = inputParser ? printTypeFromInputParser(inputParser) : ''
 
       const defaultForQuery = {
         inputLength: defaultInputValue.length,

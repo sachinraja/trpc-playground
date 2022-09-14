@@ -18,8 +18,8 @@ export const appRouter = t.router({
     .input(z.object({
       userId: z.number(),
     }))
-    .query(() => {
-      return users
+    .query(({ input }) => {
+      return users.find(({ id }) => id === input.userId)
     }),
   removeLastUser: t.procedure.mutation(() => {
     users.splice(users.length - 1, 1)

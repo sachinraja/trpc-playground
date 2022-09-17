@@ -4,27 +4,22 @@ interface ProxyCallbackOptions {
 }
 type ProxyCallback = (opts: ProxyCallbackOptions) => unknown
 
-const clientCallTypeMap: Record<string, string> = {
-  query: 'query',
-  mutate: 'mutation',
-}
+type ClientCallbacks = Record<string, (path: string, args: unknown) => void>
 
-export const createTRPCProxy = (client: Record<string, unknown>) => {
+export const createTRPCProxy = (client: ClientCallbacks) => {
   return createProxy(({ args, path }) => {
     const clientCallType = path.pop()!
-
-    const procedureType = clientCallTypeMap[clientCallType]
-    if (!procedureType) return
+    if (!['query', 'mutate'].includes(clientCallType)) return
 
     const fullPath = path.join('.')
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (client as any)[procedureType](fullPath, ...args)
+    return client[clientCallType](fullPath, args[0])
   })
 }
 
 const createProxy = (cb: ProxyCallback, ...path: string[]) => {
   const proxy: unknown = new Proxy(
-    {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    () => {},
     {
       get(_target, name) {
         if (typeof name === 'string') {

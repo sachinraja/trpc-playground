@@ -70,7 +70,7 @@ export const Editor = () => {
           if (query.operation === 'query') {
             const response = await trpcClient.query(...args)
             return setResponseValue(printObject(response))
-          } else if (query.operation === 'mutation') {
+          } else if (query.operation === 'mutate') {
             const response = await trpcClient.mutation(...args)
             return setResponseValue(printObject(response))
           }

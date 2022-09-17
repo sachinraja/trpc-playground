@@ -12,17 +12,19 @@ const buildTrpcTsType = (router: AnyRouter) => {
   const procedures = router._def.procedures as Procedures
   const procedureObject = {} as Record<string, string>
 
-  Object.entries(procedures).forEach(([name, procedure]) => {
-    let procedureTypeDef = ``
+  Object.entries(procedures)
+    .filter(([, { _def }]) => _def.query || _def.mutation)
+    .forEach(([name, procedure]) => {
+      let procedureTypeDef = ``
 
-    const inputParser = getInputFromInputParsers(procedure._def.inputs)
-    const inputType = inputParser ? printTypeFromInputParser(inputParser) : ''
+      const inputParser = getInputFromInputParsers(procedure._def.inputs)
+      const inputType = inputParser ? printTypeFromInputParser(inputParser) : ''
 
-    if (procedure._def?.query) procedureTypeDef += `query: (${inputType}) => void,`
-    else if (procedure._def?.mutation) procedureTypeDef += `mutate: (${inputType}) => void,`
+      if (procedure._def?.query) procedureTypeDef += `query: (${inputType}) => void,`
+      else if (procedure._def?.mutation) procedureTypeDef += `mutate: (${inputType}) => void,`
 
-    _.set(procedureObject, name, `{${procedureTypeDef}}`)
-  })
+      _.set(procedureObject, name, `{${procedureTypeDef}}`)
+    })
 
   const buildNestedTrpcObject = (obj: Record<string, string>): string => {
     return Object.entries(obj).map(([name, value]) => {

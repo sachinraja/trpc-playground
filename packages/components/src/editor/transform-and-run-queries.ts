@@ -35,10 +35,10 @@ export const batchEval = async ({ code, trpcClient }: EvalArgs) => {
 
     await maskedEval(code, {
       trpc: createTRPCProxy({
-        async query(path: string, args: never) {
+        async query(path, args) {
           queries.push(trpcClient.query(path, args))
         },
-        async mutation(path: string, args: never) {
+        async mutate(path, args) {
           mutations.push(trpcClient.mutation(path, args))
         },
       }),
@@ -71,7 +71,7 @@ export const serialEval = async ({ code, trpcClient }: EvalArgs) => {
     await maskedEval(code, {
       trpc: createTRPCProxy(
         {
-          async query(path: string, args: never) {
+          async query(path, args) {
             try {
               const response = await trpcClient.query(path, args)
               queryResponses.push(response)
@@ -83,7 +83,7 @@ export const serialEval = async ({ code, trpcClient }: EvalArgs) => {
               throw e
             }
           },
-          async mutation(path: string, args: never) {
+          async mutate(path, args) {
             try {
               const response = await trpcClient.mutation(path, args)
               queryResponses.push(response)

@@ -10,6 +10,8 @@ https://user-images.githubusercontent.com/58836760/150659582-ff844a0f-e1b8-4cb4-
 npm install trpc-playground
 ```
 
+For tRPC v10 install `trpc-playground@next`.
+
 ## Handlers
 
 tRPC Playground provides handlers that serve the playground HTML page and handle playground-related requests such as getting types from the router.

@@ -52,7 +52,7 @@ importers:
       esbuild-node-loader: 0.8.0
       express: 4.17.3
       nodemon: 2.0.15
-      trpc-playground: workspace:0.4.3
+      trpc-playground: workspace:1.0.0-next.0
     dependencies:
       '@trpc/server': 10.0.0-proxy-alpha.76
       express: 4.17.3
@@ -69,7 +69,7 @@ importers:
       next: 12.1.4
       react: 18.0.0
       react-dom: 18.0.0
-      trpc-playground: workspace:0.4.3
+      trpc-playground: workspace:1.0.0-next.0
     dependencies:
       '@trpc/server': 10.0.0-proxy-alpha.76
       next: 12.1.4_zpnidt7m3osuk7shl3s4oenomq
@@ -91,7 +91,7 @@ importers:
     specifiers:
       '@babel/core': ^7.18.6
       '@preact/preset-vite': 2.2.0
-      '@trpc-playground/components': workspace:0.2.3
+      '@trpc-playground/components': workspace:1.0.0-next.0
       '@trpc/server': 10.0.0-proxy-alpha.76
       '@types/cors': 2.8.12
       '@types/express': 4.17.13
@@ -103,7 +103,7 @@ importers:
       postcss: 8.4.12
       postcss-prefix-selector: 1.15.0
       tailwindcss: 3.0.23
-      trpc-playground: workspace:0.4.3
+      trpc-playground: workspace:1.0.0-next.0
       vite: 2.9.1
       zod: 3.14.4
     dependencies:
@@ -122,7 +122,7 @@ importers:
       nodemon: 2.0.15
       postcss: 8.4.12
       postcss-prefix-selector: 1.15.0_postcss@8.4.12
-      tailwindcss: 3.0.23_balfb4xu3orvwfzgle32wkroya
+      tailwindcss: 3.0.23_autoprefixer@10.4.4
       vite: 2.9.1
       zod: 3.14.4
 
@@ -150,10 +150,10 @@ importers:
       '@dnd-kit/utilities': ^3.1.0
       '@heroicons/react': ^1.0.6
       '@tanstack/react-query': ^4.3.4
-      '@trpc-playground/query-extension': workspace:0.2.0
-      '@trpc-playground/types': workspace:0.2.0
-      '@trpc-playground/typescript-extension': workspace:0.2.0
-      '@trpc-playground/utils': workspace:0.1.0
+      '@trpc-playground/query-extension': workspace:1.0.0-next.0
+      '@trpc-playground/types': workspace:1.0.0-next.0
+      '@trpc-playground/typescript-extension': workspace:1.0.0-next.0
+      '@trpc-playground/utils': workspace:1.0.0-next.0
       '@trpc/client': 10.0.0-proxy-alpha.76
       '@trpc/react': 10.0.0-proxy-alpha.76
       '@trpc/server': 10.0.0-proxy-alpha.76
@@ -213,8 +213,8 @@ importers:
     specifiers:
       '@babel/core': ^7.18.6
       '@preact/preset-vite': 2.2.0
-      '@trpc-playground/components': workspace:0.2.3
-      '@trpc-playground/types': workspace:0.2.0
+      '@trpc-playground/components': workspace:1.0.0-next.0
+      '@trpc-playground/types': workspace:1.0.0-next.0
       '@types/cors': 2.8.12
       '@types/express': 4.17.13
       autoprefixer: 10.4.4
@@ -246,7 +246,7 @@ importers:
       node-html-parser: 5.3.3
       postcss: 8.4.12
       postcss-prefix-selector: 1.15.0_postcss@8.4.12
-      tailwindcss: 3.0.23_balfb4xu3orvwfzgle32wkroya
+      tailwindcss: 3.0.23_autoprefixer@10.4.4
 
   packages/query-extension:
     specifiers:
@@ -255,7 +255,7 @@ importers:
       '@codemirror/rangeset': ^0.19.9
       '@codemirror/state': ^0.19.9
       '@codemirror/view': ^0.19.48
-      '@trpc-playground/utils': workspace:0.1.0
+      '@trpc-playground/utils': workspace:1.0.0-next.0
       '@types/lodash': 4.14.181
       lodash: ^4.17.21
     dependencies:
@@ -271,8 +271,8 @@ importers:
 
   packages/trpc-playground:
     specifiers:
-      '@trpc-playground/html': workspace:0.3.3
-      '@trpc-playground/types': workspace:0.2.0
+      '@trpc-playground/html': workspace:1.0.0-next.0
+      '@trpc-playground/types': workspace:1.0.0-next.0
       '@trpc/server': 10.0.0-proxy-alpha.76
       '@types/aws-lambda': 8.10.103
       '@types/express': 4.17.13
@@ -5620,13 +5620,12 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /tailwindcss/3.0.23_balfb4xu3orvwfzgle32wkroya:
+  /tailwindcss/3.0.23_autoprefixer@10.4.4:
     resolution: {integrity: sha512-+OZOV9ubyQ6oI2BXEhzw4HrqvgcARY38xv3zKcjnWtMIZstEsXdI9xftd1iB7+RbOnj2HOEzkA0OyB5BaSxPQA==}
     engines: {node: '>=12.13.0'}
     hasBin: true
     peerDependencies:
       autoprefixer: ^10.0.2
-      postcss: ^8.0.9
     dependencies:
       arg: 5.0.1
       autoprefixer: 10.4.4_postcss@8.4.12

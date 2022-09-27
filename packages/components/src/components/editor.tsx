@@ -50,7 +50,7 @@ export const Editor = () => {
       setTypes(response)
 
       editorView.dispatch(injectTypes({
-        '/index.d.ts': response.tsTypes.join('\n'),
+        '/index.d.ts': response.tsTypes,
       }))
       // server might be restarting so ignore fetch errors
       // eslint-disable-next-line no-empty
@@ -70,7 +70,7 @@ export const Editor = () => {
           if (query.operation === 'query') {
             const response = await trpcClient.query(...args)
             return setResponseValue(printObject(response))
-          } else if (query.operation === 'mutation') {
+          } else if (query.operation === 'mutate') {
             const response = await trpcClient.mutation(...args)
             return setResponseValue(printObject(response))
           }

@@ -94,7 +94,7 @@ export type DefaultOperationType = { value: string; inputLength: number }
 export type QueryDefaultAndType = Record<string, { default: DefaultOperationType; type: string }>
 
 export type ResolvedRouterSchema = {
-  tsTypes: string[]
+  tsTypes: string
   queries: QueryDefaultAndType
   mutations: QueryDefaultAndType
 }

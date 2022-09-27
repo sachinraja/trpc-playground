@@ -1,6 +1,7 @@
 import { maskedEval } from '@trpc-playground/query-extension'
 import { printObject, transformTs } from '@trpc-playground/utils'
 import { TrpcClient } from '../types'
+import { createTRPCProxy } from './createTRPCProxy'
 
 type EvalArgs = {
   code: string
@@ -33,12 +34,14 @@ export const batchEval = async ({ code, trpcClient }: EvalArgs) => {
     const mutations: ReturnType<TrpcClient['mutation']>[] = []
 
     await maskedEval(code, {
-      async query(path: string, args: never) {
-        queries.push(trpcClient.query(path, args))
-      },
-      async mutation(path: string, args: never) {
-        mutations.push(trpcClient.mutation(path, args))
-      },
+      trpc: createTRPCProxy({
+        async query(path, args) {
+          queries.push(trpcClient.query(path, args))
+        },
+        async mutate(path, args) {
+          mutations.push(trpcClient.mutation(path, args))
+        },
+      }),
     })
 
     const allSettledResponse = await Promise.allSettled([
@@ -66,29 +69,33 @@ export const serialEval = async ({ code, trpcClient }: EvalArgs) => {
     // transform imports because export {} does not make sense in eval function
 
     await maskedEval(code, {
-      async query(path: string, args: never) {
-        try {
-          const response = await trpcClient.query(path, args)
-          queryResponses.push(response)
-          return response
-        } catch (e) {
-          // add error response before throwing
-          queryResponses.push(e)
-          didQueryFail = true
-          throw e
-        }
-      },
-      async mutation(path: string, args: never) {
-        try {
-          const response = await trpcClient.mutation(path, args)
-          queryResponses.push(response)
-          return response
-        } catch (e) {
-          queryResponses.push(e)
-          didQueryFail = true
-          throw e
-        }
-      },
+      trpc: createTRPCProxy(
+        {
+          async query(path, args) {
+            try {
+              const response = await trpcClient.query(path, args)
+              queryResponses.push(response)
+              return response
+            } catch (e) {
+              // add error response before throwing
+              queryResponses.push(e)
+              didQueryFail = true
+              throw e
+            }
+          },
+          async mutate(path, args) {
+            try {
+              const response = await trpcClient.mutation(path, args)
+              queryResponses.push(response)
+              return response
+            } catch (e) {
+              queryResponses.push(e)
+              didQueryFail = true
+              throw e
+            }
+          },
+        },
+      ),
     })
   } catch (e) {
     // if the query failed, the response object is already set

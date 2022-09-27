@@ -62,7 +62,7 @@ export const QueryBuilder: React.FC = () => {
         })
       }
     },
-    [editorView, operationName],
+    [editorView, operationName, types],
   )
 
   if (!types) return null

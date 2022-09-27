@@ -36,12 +36,12 @@
     "type-check": "tsc"
   },
   "peerDependencies": {
-    "@trpc/server": "^9"
+    "@trpc/server": "^10"
   },
   "dependencies": {
     "ts-essentials": "^9.1.2"
   },
   "devDependencies": {
-    "@trpc/server": "9.22.0"
+    "@trpc/server": "10.0.0-proxy-alpha.76"
   }
 }

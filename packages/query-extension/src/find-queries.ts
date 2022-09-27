@@ -34,7 +34,7 @@ export class QueryRangeValue extends RangeValue {
   }
 }
 
-const queryFunctions = ['query', 'mutation']
+const queryFunctions = ['query', 'mutate']
 export const findQueries = (state: EditorState): RangeSet<QueryRangeValue> => {
   const syntax = syntaxTree(state)
   const queries = new RangeSetBuilder<QueryRangeValue>()
@@ -49,12 +49,13 @@ export const findQueries = (state: EditorState): RangeSet<QueryRangeValue> => {
       // first child should be name of function
       const identifier = callExpression.firstChild
 
-      if (identifier?.name !== 'VariableName') return
+      if (identifier?.name !== 'MemberExpression') return
       // slice the doc to get the name of the function
       const identifierName = state.sliceDoc(identifier.from, identifier.to)
 
       // if the function is not a query function, return
-      if (!(queryFunctions.includes(identifierName))) return
+      const queryFunction = identifierName.split('.').pop()
+      if (!queryFunction || !(queryFunctions.includes(queryFunction))) return
 
       // get the arguments of the function
       const argList = callExpression.lastChild
@@ -76,10 +77,14 @@ export const findQueries = (state: EditorState): RangeSet<QueryRangeValue> => {
       // Ignore away the parenthesis (first and last child of `argsExpression`)
       args = args.slice(1, -1)
 
+      const endpointPath = `"${identifierName.split('.').slice(1, -1).join('.')}"`
       queries.add(
         callExpression.from,
         callExpression.to,
-        new QueryRangeValue({ operation: identifierName, args }),
+        new QueryRangeValue({
+          operation: queryFunction,
+          args: [endpointPath, ...args],
+        }),
       )
     },
   })

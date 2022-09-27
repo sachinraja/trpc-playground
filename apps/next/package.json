@@ -9,7 +9,7 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "@trpc/server": "9.22.0",
+    "@trpc/server": "10.0.0-proxy-alpha.76",
     "next": "12.1.4",
     "react": "18.0.0",
     "react-dom": "18.0.0",

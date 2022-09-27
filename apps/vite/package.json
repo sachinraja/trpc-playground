@@ -1,6 +1,6 @@
 {
   "name": "vite-app",
-  "version": "0.0.0",
+  "version": "1.0.0-next.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -11,10 +11,10 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "@trpc-playground/components": "workspace:0.2.3",
+    "@trpc-playground/components": "workspace:1.0.0-next.0",
     "cors": "2.8.5",
     "express": "4.17.3",
-    "trpc-playground": "workspace:0.4.3"
+    "trpc-playground": "workspace:1.0.0-next.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.6",

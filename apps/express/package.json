@@ -1,6 +1,6 @@
 {
   "name": "express-app",
-  "version": "0.0.0",
+  "version": "1.0.0-next.0",
   "private": true,
   "scripts": {
     "dev": "nodemon",
@@ -10,7 +10,7 @@
   "dependencies": {
     "@trpc/server": "10.0.0-proxy-alpha.76",
     "express": "4.17.3",
-    "trpc-playground": "workspace:0.4.3"
+    "trpc-playground": "workspace:1.0.0-next.0"
   },
   "devDependencies": {
     "@types/express": "4.17.13",

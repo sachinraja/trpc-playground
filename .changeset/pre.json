@@ -11,7 +11,10 @@
     "trpc-playground": "0.4.3",
     "@trpc-playground/types": "0.2.0",
     "@trpc-playground/typescript-extension": "0.2.0",
-    "@trpc-playground/utils": "0.1.0"
+    "@trpc-playground/utils": "0.1.0",
+    "router-app": "0.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "forty-badgers-perform"
+  ]
 }

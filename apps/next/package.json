@@ -1,6 +1,6 @@
 {
   "name": "next-app",
-  "version": "0.0.0",
+  "version": "1.0.0-next.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -14,6 +14,6 @@
     "next": "12.1.4",
     "react": "18.0.0",
     "react-dom": "18.0.0",
-    "trpc-playground": "workspace:0.4.3"
+    "trpc-playground": "workspace:1.0.0-next.0"
   }
 }

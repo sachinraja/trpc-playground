@@ -1,5 +1,6 @@
 {
   "name": "express-app",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "dev": "nodemon",
@@ -16,6 +17,5 @@
     "esbuild": "0.14.34",
     "esbuild-node-loader": "0.8.0",
     "nodemon": "2.0.15"
-  },
-  "version": null
+  }
 }

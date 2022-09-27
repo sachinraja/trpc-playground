@@ -1,0 +1,17 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "express-app": null,
+    "next-app": null,
+    "vite-app": null,
+    "@trpc-playground/components": "0.2.3",
+    "@trpc-playground/html": "0.3.3",
+    "@trpc-playground/query-extension": "0.2.0",
+    "trpc-playground": "0.4.3",
+    "@trpc-playground/types": "0.2.0",
+    "@trpc-playground/typescript-extension": "0.2.0",
+    "@trpc-playground/utils": "0.1.0"
+  },
+  "changesets": []
+}

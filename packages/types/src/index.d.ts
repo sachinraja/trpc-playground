@@ -50,7 +50,7 @@ export type RenderOptions = {
   version?: string | null
   /**
    * The cdn to import the @trpc-playground/html scripts from.
-   * @default //cdn.jsdelivr.net/npm
+   * @default https://cdn.jsdelivr.net/npm
    */
   cdnUrl?: string
 }

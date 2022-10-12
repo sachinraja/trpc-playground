@@ -13,7 +13,7 @@ const getDefaultConfig = () =>
       interval: 4000,
     },
     renderOptions: {
-      cdnUrl: '//cdn.jsdelivr.net/npm',
+      cdnUrl: 'https://cdn.jsdelivr.net/npm',
       version,
     },
     request: {

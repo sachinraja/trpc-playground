@@ -1,5 +1,11 @@
 # trpc-playground
 
+## 0.4.4
+
+### Patch Changes
+
+- [`fba8e34`](https://github.com/sachinraja/trpc-playground/commit/fba8e34be027364bfbd19c4f663b850dbc7eb887) Thanks [@sachinraja](https://github.com/sachinraja)! - fix fastify types
+
 ## 0.4.3
 
 ### Patch Changes

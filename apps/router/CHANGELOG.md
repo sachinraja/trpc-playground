@@ -1,5 +1,11 @@
 # router-app
 
+## 1.0.0
+
+### Major Changes
+
+- [`d226d7b`](https://github.com/sachinraja/trpc-playground/commit/d226d7b5829b79cce8bee3f70d6635f2f76fd796) Thanks [@sachinraja](https://github.com/sachinraja)! - update deps, fix bugs
+
 ## 1.0.0-next.0
 
 ### Major Changes

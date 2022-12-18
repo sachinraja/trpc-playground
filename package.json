@@ -10,7 +10,6 @@
     "lint:js": "eslint .",
     "build": "turbo run build --scope=\"@trpc-playground/**\" --scope=\"trpc-playground\" --no-deps",
     "clean": "pnpm -r clean",
-    "test": "vitest",
     "dev:vite-server": "pnpm  --filter vite-app dev:server",
     "dev:vite-client": "pnpm  --filter vite-app dev:client",
     "dev:serve-html": "pnpm --filter @trpc-playground/html serve-dev",

@@ -1,7 +1,7 @@
 import { javascript } from '@codemirror/lang-javascript'
 import { EditorState } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
-import { PlayIcon } from '@heroicons/react/solid'
+import { PlayIcon } from '@heroicons/react/24/solid'
 import { state as queryExtensionState } from '@trpc-playground/query-extension'
 import { injectTypes, setDiagnostics } from '@trpc-playground/typescript-extension'
 import { printObject } from '@trpc-playground/utils'
@@ -10,7 +10,7 @@ import { memo } from 'preact/compat'
 import { useCallback, useEffect, useLayoutEffect, useMemo } from 'preact/hooks'
 import CodeMirror, { CodeMirrorProps } from 'rodemirror'
 import { baseExtension, tsExtension } from '../editor/extensions'
-import { batchEval, serialEval, transformAndRunQueries } from '../editor/transform-and-run-queries'
+import { transformAndRunQueries } from '../editor/transform-and-run-queries'
 import { makePlaygroundRequest } from '../utils/playground-request'
 import { configAtom, trpcClientAtom, typesAtom } from './provider'
 import { QueryBuilder } from './queryBuilder'
@@ -38,7 +38,6 @@ export const Editor = () => {
   const [responseValue, setResponseValue] = useAtom(responseValueAtom)
   const [trpcClient] = useAtom(trpcClientAtom)
   const [config] = useAtom(configAtom)
-  const evalFunction = useMemo(() => config.request.batching ? batchEval : serialEval, [config.request.batching])
 
   const refreshTypes = useCallback(async () => {
     if (!editorView) return
@@ -170,7 +169,6 @@ export const Editor = () => {
           const responseObjectValue = await transformAndRunQueries({
             code: editorView.state.doc.toString(),
             trpcClient,
-            evalFunction,
           })
 
           setResponseValue(responseObjectValue)

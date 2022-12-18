@@ -1,10 +1,11 @@
-import React from 'react'
+import { ComponentChildren } from 'preact'
 
-interface SidebarOverlayProps {
+type SidebarOverlayProps = {
   hide: () => void
+  children: ComponentChildren
 }
 
-export const SidebarOverlay: React.FC<SidebarOverlayProps> = ({ hide, children }) => {
+export const SidebarOverlay = ({ hide, children }: SidebarOverlayProps) => {
   return (
     <div onClick={hide} className='absolute h-screen z-10 overflow-hidden bg-[#00000055] inset-0 w-full'>
       <div

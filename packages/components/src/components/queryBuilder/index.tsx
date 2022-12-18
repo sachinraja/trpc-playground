@@ -1,8 +1,7 @@
-import { ChevronUpIcon } from '@heroicons/react/solid'
+import { ChevronUpIcon } from '@heroicons/react/24/solid'
 import { atom, useAtom, WritableAtom } from 'jotai'
 import { useCallback } from 'preact/hooks'
 import { Resizable } from 're-resizable'
-import React from 'react'
 import { typesAtom } from '../provider'
 import { editorAtom, queryBuilderOpened } from '../tab/store'
 import { getDefaultOperation } from './getDefaultOperation'
@@ -25,7 +24,7 @@ const operationNameAtom: WritableAtom<string | null, string> = atom(
   },
 )
 
-export const QueryBuilder: React.FC = () => {
+export const QueryBuilder = () => {
   const [types] = useAtom(typesAtom)
   const [queryBuilderOpen, setQueryBuilderOpened] = useAtom(queryBuilderOpened)
   const [generated] = useAtom(generatedAtom)

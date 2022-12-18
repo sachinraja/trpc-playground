@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "run-p dev:*",
-    "dev:server": "nodemon server/app.ts",
+    "dev:server": "tsx --watch server/app.ts",
     "dev:client": "vite",
     "clean": "rimraf dist",
     "type-check": "tsc"
@@ -13,22 +13,21 @@
   "dependencies": {
     "@trpc-playground/components": "workspace:1.0.0-next.0",
     "cors": "2.8.5",
-    "express": "4.17.3",
+    "express": "4.18.2",
     "trpc-playground": "workspace:1.0.0-next.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.18.6",
-    "@preact/preset-vite": "2.2.0",
-    "@trpc/server": "10.0.0-proxy-alpha.76",
-    "@types/cors": "2.8.12",
-    "@types/express": "4.17.13",
-    "autoprefixer": "10.4.4",
-    "esbuild-node-loader": "0.8.0",
-    "nodemon": "2.0.15",
-    "postcss": "8.4.12",
-    "postcss-prefix-selector": "1.15.0",
-    "tailwindcss": "3.0.23",
-    "vite": "2.9.1",
-    "zod": "3.14.4"
+    "@babel/core": "^7.20.5",
+    "@preact/preset-vite": "2.5.0",
+    "@trpc/server": "10.5.0",
+    "@types/cors": "2.8.13",
+    "@types/express": "4.17.15",
+    "autoprefixer": "10.4.13",
+    "postcss": "8.4.20",
+    "postcss-prefix-selector": "1.16.0",
+    "tailwindcss": "3.2.4",
+    "tsx": "3.12.1",
+    "vite": "4.0.1",
+    "zod": "3.20.2"
   }
 }

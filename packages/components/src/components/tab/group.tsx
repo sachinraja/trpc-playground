@@ -1,6 +1,6 @@
 import { closestCenter, DndContext, DndContextProps, DragOverlay, useSensor, useSensors } from '@dnd-kit/core'
 import { arrayMove, horizontalListSortingStrategy, SortableContext } from '@dnd-kit/sortable'
-import { PlusIcon } from '@heroicons/react/solid'
+import { PlusIcon } from '@heroicons/react/24/solid'
 import { useAtom } from 'jotai'
 import { useCallback } from 'preact/hooks'
 import { BaseTab } from './base'
@@ -33,7 +33,7 @@ export const TabGroup = () => {
       const newIndex = tabs.findIndex((tab) => tab.id === over.id)
       const newTabs = arrayMove(tabs, activeTabIndex, newIndex)
 
-      updateCurrentTabId(active.id)
+      updateCurrentTabId(active.id as string)
       return newTabs
     })
   }, [tabs, currentTab])
@@ -44,7 +44,7 @@ export const TabGroup = () => {
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragStart={({ active }) => {
-          updateCurrentTabId(active.id)
+          updateCurrentTabId(active.id as string)
         }}
         onDragEnd={handleDragEnd}
       >

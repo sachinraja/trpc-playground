@@ -10,8 +10,6 @@ https://user-images.githubusercontent.com/58836760/150659582-ff844a0f-e1b8-4cb4-
 npm install trpc-playground
 ```
 
-For tRPC v10 install `trpc-playground@next`.
-
 ## Handlers
 
 tRPC Playground provides handlers that serve the playground HTML page and handle playground-related requests such as getting types from the router.
@@ -106,22 +104,22 @@ For all configuration options, see [the API docs](https://paka.dev/npm/@trpc-pla
 
 In the playground, writing queries is meant to mimic the experience of writing queries in a tRPC client as closely as possible. You can even write TS and your code will be transformed to JS before it is run.
 
-For `trpc.query(path, inputArgs)` or `trpc.useQuery([path, inputArgs])`:
+tRPC Playground queries follow the syntax of the [proxy vanilla client](https://trpc.io/docs/vanilla):
 
 ```ts
-await query(path, inputArgs)
+await trpc.path.query(input)
 
 // example
-await query('getUser', { id: 4 })
+await trpc.getUser.query({ id: 4 })
 ```
 
-For `trpc.mutation(path, inputArgs)` or `trpc.useMutation([path, inputArgs])`:
+For mutations:
 
 ```ts
-await mutation(path, inputArgs)
+await trpc.path.mutate(input)
 
 // example
-await mutation('createUser', { name: 'Bob' })
+await trpc.createUser.mutate({ name: 'Bob' })
 ```
 
 When using the `Run all queries` button in the center of the editor, you can write any code and it will just work:
@@ -129,17 +127,24 @@ When using the `Run all queries` button in the center of the editor, you can wri
 ```ts
 const name: string = 'John'
 
-await query('getGreeting', { name })
-await query('getFarewell', { name })
+// run queries one at a time
+await trpc.getGreeting.query({ name })
+await trpc.getFarewell.query({ name })
+
+// batch queries
+await Promise.all([
+  trpc.getGreeting.query({ name }),
+  trpc.getFarewell.query({ name }),
+])
 ```
 
 Queries can be run individually by pressing on the button to the left of them or by pressing `Alt + Q` when your cursor in the editor is on the query. Note that any variables you pass to the query will not be defined when running queries individually.
 
-If `request.batching` is `false` in your config (it is `true` by default), the queries will be run one at a time so you can use the return value of one query and pass it to the next:
+You can use the return value of one query and pass it to the next:
 
 ```ts
-const { sum } = await query('addNums', { a: 1, b: 2 })
-await query('subtractNums', { a: sum, b: -7 })
+const { sum } = await trpc.addNums.query({ a: 1, b: 2 })
+await trpc.subtractNums.query({ a: sum, b: -7 })
 ```
 
 ## Types

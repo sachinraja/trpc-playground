@@ -1,6 +1,6 @@
 import { syntaxTree } from '@codemirror/language'
-import { RangeSet, RangeSetBuilder, RangeValue } from '@codemirror/rangeset'
 import { EditorState } from '@codemirror/state'
+import { RangeSet, RangeSetBuilder, RangeValue } from '@codemirror/state'
 import { transformTs } from '@trpc-playground/utils'
 import { maskedEval } from './masked-eval'
 
@@ -40,10 +40,10 @@ export const findQueries = (state: EditorState): RangeSet<QueryRangeValue> => {
   const queries = new RangeSetBuilder<QueryRangeValue>()
 
   syntax.iterate({
-    enter(type, from, to, get) {
-      if (type.name !== 'CallExpression') return
+    enter(node) {
+      if (node.name !== 'CallExpression') return
 
-      const callExpression = get()
+      const callExpression = node.node
 
       // check if the call expression is a query function
       // first child should be name of function

@@ -1,6 +1,5 @@
-import { gutter as cmGutter, GutterMarker } from '@codemirror/gutter'
 import { Extension } from '@codemirror/state'
-import { EditorView } from '@codemirror/view'
+import { EditorView, gutter as cmGutter, GutterMarker } from '@codemirror/view'
 import { isCursorInRange } from './find-cursor'
 import { queryStateField } from './state'
 
@@ -45,6 +44,7 @@ export const gutter = (): Extension => {
         // If (beginning of) selection range (aka the cursor) is inside the query, add (visible) markers for all lines in query (and invisible ones for others)
         // Toggling between visible/invisible instead of adding/removing markers makes it so the editor does not jump when a marker is shown as your cursor moves around
         let marker: QueryGutterMarker = new QueryGutterMarker('invisible')
+
         view.state
           .field(queryStateField)
           .between(line.from, line.to, (from, to) => {

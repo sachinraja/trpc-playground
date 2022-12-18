@@ -1,14 +1,14 @@
-import { PlusIcon, XIcon } from '@heroicons/react/solid'
+import { PlusIcon, XMarkIcon } from '@heroicons/react/20/solid'
 import { useAtom } from 'jotai'
 import { SidebarOverlay } from './sidebarOverlay'
 import { headersAtom } from './tab/store'
 import { Headers as HeadersType } from './tab/types'
 
-interface SettingsProps {
+type SettingsProps = {
   hide: () => void
 }
 
-export const Settings: React.FC<SettingsProps> = ({ hide }) => {
+export const Settings = ({ hide }: SettingsProps) => {
   return (
     <SidebarOverlay hide={hide}>
       <div className='bg-primary p-3 sticky top-0 shadow-md flex justify-between items-center'>
@@ -17,7 +17,7 @@ export const Settings: React.FC<SettingsProps> = ({ hide }) => {
         </h1>
 
         <button onClick={hide}>
-          <XIcon
+          <XMarkIcon
             width={20}
             height={20}
             className='text-neutral-300 hover:text-white transition-colors'
@@ -125,7 +125,7 @@ const Header: React.FC<HeaderProps> = ({ name, value }) => {
         }}
         title='Remove Header'
       >
-        <XIcon
+        <XMarkIcon
           width={20}
           height={20}
           className='text-neutral-400 ml-2 hover:text-neutral-200 transition-colors cursor-pointer'

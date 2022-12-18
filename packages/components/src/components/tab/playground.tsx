@@ -1,4 +1,4 @@
-import { XIcon } from '@heroicons/react/solid'
+import { XMarkIcon } from '@heroicons/react/20/solid'
 import clsx from 'clsx'
 import { atom, useAtom } from 'jotai'
 import { useCallback, useMemo, useState } from 'preact/hooks'
@@ -102,7 +102,7 @@ export const PlaygroundTab = ({ index }: TabProps) => {
           setTabs(() => newTabs)
         }}
       >
-        <XIcon className='text-neutral-500 hover:text-neutral-300' width={18} height={18} />
+        <XMarkIcon className='text-neutral-500 hover:text-neutral-300' width={18} height={18} />
       </button>
     </BaseTab>
   )

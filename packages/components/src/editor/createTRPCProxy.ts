@@ -27,7 +27,7 @@ const createProxy = (cb: ProxyCallback, ...path: string[]) => {
         }
       },
       apply(_1, _2, args) {
-        cb({ args, path })
+        return cb({ args, path })
       },
     },
   )

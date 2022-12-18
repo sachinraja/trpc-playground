@@ -1,6 +1,5 @@
-import { gutter, GutterMarker } from '@codemirror/gutter'
 import { EditorSelection, Extension } from '@codemirror/state'
-import { EditorView } from '@codemirror/view'
+import { EditorView, gutter, GutterMarker } from '@codemirror/view'
 import { isCursorInRange } from './find-cursor'
 import { Query } from './find-queries'
 import { OnErrorFacet, OnExecuteFacet, queryStateField } from './state'

@@ -1,3 +1,5 @@
+import { TrpcPlaygroundConfig } from '@trpc-playground/types'
+import { Handler } from 'express'
 import { getExpressAdapter } from 'uttp/adapters/express'
 import { handler } from '../handler'
 

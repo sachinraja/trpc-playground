@@ -4,11 +4,11 @@ import React from 'react'
 import { typesAtom } from './provider'
 import { SidebarOverlay } from './sidebarOverlay'
 
-interface DocsProps {
+type DocsProps = {
   hide: () => void
 }
 
-export const Docs: React.FC<DocsProps> = ({ hide }) => {
+export const Docs = ({ hide }: DocsProps) => {
   const [types] = useAtom<ResolvedRouterSchema | null>(typesAtom)
 
   return (

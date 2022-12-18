@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { DeepRequiredClientConfig, ResolvedRouterSchema } from '@trpc-playground/types'
-import { createTRPCReact } from '@trpc/react'
+import { createTRPCReact, httpBatchLink } from '@trpc/react-query'
 import { AnyRouter } from '@trpc/server'
 import { atom, Provider as JotaiProvider } from 'jotai'
 import { ComponentChildren } from 'preact'
@@ -11,7 +11,7 @@ import { getInitialState } from './tab/store'
 import { createInitialValues } from './utils'
 
 // need to pass in AnyRouter to satisfy rollup-plugin-dts
-export const trpc = createTRPCReact<AnyRouter>()
+export const trpc = createTRPCReact<AnyRouter>({})
 
 type PlaygroundProviderProps = {
   config: DeepRequiredClientConfig
@@ -34,8 +34,7 @@ export const PlaygroundProvider = ({ config, children }: PlaygroundProviderProps
   const transformer = config.request.superjson ? superjson : undefined
   const trpcClient = useMemo(() =>
     trpc.createClient({
-      url: config.trpcApiEndpoint,
-      headers: getHeaders,
+      links: [httpBatchLink({ url: config.trpcApiEndpoint, headers: getHeaders })],
       transformer,
     }), [])
 

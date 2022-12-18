@@ -30,11 +30,6 @@ export type ClientConfig = {
      */
     globalHeaders?: Record<string, string | undefined>
     /**
-     * Batch the playground requests that are sent when the `Run all queries` button is clicked.
-     * @default true
-     */
-    batching?: boolean
-    /**
      * Enable the superjson transformer.
      * @default false
      */

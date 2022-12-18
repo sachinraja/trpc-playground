@@ -7,7 +7,7 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "@trpc/server": "10.0.0-proxy-alpha.76",
+    "@trpc/server": "10.5.0",
     "superjson": "^1.8.1",
     "zod": "3.14.4"
   }

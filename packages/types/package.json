@@ -39,9 +39,9 @@
     "@trpc/server": "^10"
   },
   "dependencies": {
-    "ts-essentials": "^9.1.2"
+    "ts-essentials": "^9.3.0"
   },
   "devDependencies": {
-    "@trpc/server": "10.0.0-proxy-alpha.76"
+    "@trpc/server": "10.5.0"
   }
 }

@@ -18,7 +18,6 @@ const getDefaultConfig = () =>
     },
     request: {
       globalHeaders: {},
-      batching: true,
       superjson: false,
     },
     server: {

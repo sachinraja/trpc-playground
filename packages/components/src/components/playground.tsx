@@ -4,6 +4,7 @@ import { Editor } from './editor'
 import { PlaygroundProvider } from './provider'
 import { TabGroup } from './tab/group'
 import { Toolbar } from './toolbar'
+
 export type PlaygroundProps = {
   config: DeepRequiredClientConfig
   children?: ComponentChildren

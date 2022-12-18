@@ -1,5 +1,4 @@
-import { RangeSet } from '@codemirror/rangeset'
-import { Extension, Facet, StateField } from '@codemirror/state'
+import { Extension, Facet, RangeSet, StateField } from '@codemirror/state'
 import { EditorView } from '@codemirror/view'
 import noop from 'lodash/noop'
 import over from 'lodash/over'

@@ -1,4 +1,5 @@
 import { atom, useAtom } from 'jotai'
+import { ComponentChildren } from 'preact'
 import { Docs } from './docs'
 import { configAtom } from './provider'
 import { Settings } from './settings'
@@ -24,7 +25,11 @@ export const Toolbar = () => {
   )
 }
 
-const NavButton: React.FC<{ onClick?: () => void }> = ({ children, onClick }) => {
+type NavButtonProps = {
+  onClick?: () => void
+  children: ComponentChildren
+}
+const NavButton = ({ children, onClick }: NavButtonProps) => {
   return (
     <span
       onClick={onClick}

@@ -1,15 +1,18 @@
-import { autocompletion } from '@codemirror/autocomplete'
-import { closeBrackets } from '@codemirror/closebrackets'
-import { highlightActiveLineGutter } from '@codemirror/gutter'
-import { history } from '@codemirror/history'
+import { autocompletion, closeBrackets } from '@codemirror/autocomplete'
+import { history } from '@codemirror/commands'
 import { javascript } from '@codemirror/lang-javascript'
-import { indentOnInput } from '@codemirror/language'
-import { bracketMatching } from '@codemirror/matchbrackets'
-import { rectangularSelection } from '@codemirror/rectangular-selection'
+import { bracketMatching, indentOnInput } from '@codemirror/language'
 import { highlightSelectionMatches } from '@codemirror/search'
 import { EditorState, Extension } from '@codemirror/state'
 import { oneDark } from '@codemirror/theme-one-dark'
-import { drawSelection, dropCursor, highlightActiveLine, highlightSpecialChars } from '@codemirror/view'
+import {
+  drawSelection,
+  dropCursor,
+  highlightActiveLine,
+  highlightActiveLineGutter,
+  highlightSpecialChars,
+  rectangularSelection,
+} from '@codemirror/view'
 import * as queryExtension from '@trpc-playground/query-extension'
 import { tsTheme, typescript } from '@trpc-playground/typescript-extension'
 import { baseKeymap } from './keymap'

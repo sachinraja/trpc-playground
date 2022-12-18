@@ -10,10 +10,10 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "@trpc/server": "10.0.0-proxy-alpha.76",
-    "next": "12.1.4",
-    "react": "18.0.0",
-    "react-dom": "18.0.0",
+    "@trpc/server": "10.5.0",
+    "next": "13.0.7",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "trpc-playground": "workspace:1.0.0-next.0"
   }
 }

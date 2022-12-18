@@ -1,1 +1,1 @@
-export * from '../dist/handlers/fetch'
+export * from '../dist/handlers/fastify'

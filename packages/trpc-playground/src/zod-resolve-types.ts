@@ -1,12 +1,12 @@
 import { ResolvedRouterSchema } from '@trpc-playground/types'
-import { AnyRouter, Procedure } from '@trpc/server'
-import _ from 'lodash'
+import { AnyProcedure, AnyRouter } from '@trpc/server'
+import lodash from 'lodash'
 import { AnyZodObject, z, ZodAny, ZodTypeAny } from 'zod'
 import { printNode, zodToTs } from 'zod-to-ts'
 import { getDefaultForProcedures } from './get-default-input'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Procedures = Record<string, Procedure<any>>
+export type Procedures = Record<string, AnyProcedure>
 
 const buildTrpcTsType = (router: AnyRouter) => {
   const procedures = router._def.procedures as Procedures
@@ -23,7 +23,7 @@ const buildTrpcTsType = (router: AnyRouter) => {
       if (procedure._def?.query) procedureTypeDef += `query: (${inputType}) => void,`
       else if (procedure._def?.mutation) procedureTypeDef += `mutate: (${inputType}) => void,`
 
-      _.set(procedureObject, name, `{${procedureTypeDef}}`)
+      lodash.set(procedureObject, name, `{${procedureTypeDef}}`)
     })
 
   const buildNestedTrpcObject = (obj: Record<string, string>): string => {

@@ -27,15 +27,13 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@codemirror/gutter": "^0.19.9",
-    "@codemirror/language": "^0.19.10",
-    "@codemirror/rangeset": "^0.19.9",
-    "@codemirror/state": "^0.19.9",
-    "@codemirror/view": "^0.19.48",
+    "@codemirror/language": "^6.3.2",
+    "@codemirror/state": "^6.1.4",
+    "@codemirror/view": "^6.7.1",
     "@trpc-playground/utils": "workspace:1.0.0-next.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/lodash": "4.14.181"
+    "@types/lodash": "4.14.191"
   }
 }

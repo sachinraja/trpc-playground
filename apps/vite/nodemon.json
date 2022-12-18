@@ -1,9 +1,0 @@
-{
-  "$schema": "https://json.schemastore.org/nodemon.json",
-  "restartable": "rs",
-  "watch": ["server", "../router", "../../packages/trpc-playground/src/handlers"],
-  "execMap": {
-    "ts": "node --loader esbuild-node-loader"
-  },
-  "ext": "ts,js,json"
-}

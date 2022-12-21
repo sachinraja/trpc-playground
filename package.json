@@ -10,10 +10,13 @@
     "lint:js": "eslint .",
     "build": "turbo run build --scope=\"@trpc-playground/**\" --scope=\"trpc-playground\" --no-deps",
     "clean": "pnpm -r clean",
-    "dev:vite-server": "pnpm  --filter vite-app dev:server",
-    "dev:vite-client": "pnpm  --filter vite-app dev:client",
+    "dev:vite-server": "pnpm --filter vite-app dev:server",
+    "dev:vite-client": "pnpm --filter vite-app dev:client",
     "dev:serve-html": "pnpm --filter @trpc-playground/html serve-dev",
-    "dev": "run-p dev:*"
+    "dev": "run-p dev:*",
+    "prod": "pnpm build && run-p prod:*",
+    "prod:next-server": "pnpm --filter next-app dev",
+    "prod:serve-html": "pnpm --filter @trpc-playground/html serve-dev"
   },
   "devDependencies": {
     "@changesets/changelog-github": "0.4.7",

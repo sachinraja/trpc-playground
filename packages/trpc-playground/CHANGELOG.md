@@ -1,5 +1,12 @@
 # trpc-playground
 
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies [[`012cb1e`](https://github.com/sachinraja/trpc-playground/commit/012cb1e3888e69ddc76abf55492b2d3441989fa8)]:
+  - @trpc-playground/html@1.0.1
+
 ## 1.0.0
 
 ### Major Changes

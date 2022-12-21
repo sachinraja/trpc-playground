@@ -1,5 +1,13 @@
 # vite-app
 
+## 1.0.1
+
+### Patch Changes
+
+- Updated dependencies []:
+  - trpc-playground@1.0.1
+  - @trpc-playground/components@1.0.1
+
 ## 1.0.0
 
 ### Major Changes

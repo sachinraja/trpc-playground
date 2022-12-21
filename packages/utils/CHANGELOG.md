@@ -1,5 +1,11 @@
 # @trpc-playground/utils
 
+## 1.0.1
+
+### Patch Changes
+
+- [`012cb1e`](https://github.com/sachinraja/trpc-playground/commit/012cb1e3888e69ddc76abf55492b2d3441989fa8) Thanks [@sachinraja](https://github.com/sachinraja)! - fix esm exports and print full object depth
+
 ## 1.0.0
 
 ### Major Changes

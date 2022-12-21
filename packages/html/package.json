@@ -29,7 +29,8 @@
     "./package.json": "./package.json",
     ".": {
       "types": "./index.d.ts",
-      "default": "./dist/index.js"
+      "import": "./dist/index.js",
+      "default": "./dist/index.cjs"
     },
     "./css": "./dist/assets/index.css"
   },

@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "private": true,
   "scripts": {
-    "dev": "tsx --watch server.ts",
+    "dev": "tsx watch server.ts",
     "type-check": "tsc"
   },
   "dependencies": {

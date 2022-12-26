@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "run-p dev:*",
-    "dev:server": "tsx --watch server/app.ts",
+    "dev:server": "tsx watch server/app.ts",
     "dev:client": "vite",
     "clean": "rimraf dist",
     "type-check": "tsc"

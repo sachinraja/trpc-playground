@@ -48,6 +48,9 @@ export const getInputFromInputParsers = (inputs: ZodAny[]) => {
   let mergedObj = z.object({})
   inputs.forEach((inputParser) => {
     mergedObj = mergedObj.merge(inputParser as unknown as AnyZodObject)
+    if (inputParser.description) {
+      mergedObj = mergedObj.describe(inputParser.description)
+    }
   })
 
   return mergedObj

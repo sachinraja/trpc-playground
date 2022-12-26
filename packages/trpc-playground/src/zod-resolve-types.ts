@@ -2,7 +2,7 @@ import { ResolvedRouterSchema } from '@trpc-playground/types'
 import { AnyProcedure, AnyRouter } from '@trpc/server'
 import lodash from 'lodash'
 import { AnyZodObject, z, ZodAny, ZodTypeAny } from 'zod'
-import { printNode, zodToTs } from 'zod-to-ts'
+import { createTypeAlias, printNode, zodToTs } from 'zod-to-ts'
 import { getDefaultForProcedures } from './get-default-input'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -57,4 +57,10 @@ export const printTypeFromInputParser = (inputParser: ZodTypeAny) => {
   const { node } = zodToTs(inputParser)
 
   return `input: ${printNode(node)}`
+}
+
+export const printTypeForDocs = (inputParser: ZodTypeAny) => {
+  const { node } = zodToTs(inputParser)
+
+  return printNode(createTypeAlias(node, 'input', inputParser.description))
 }

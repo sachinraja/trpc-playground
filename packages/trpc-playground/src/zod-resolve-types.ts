@@ -1,24 +1,23 @@
-import { ResolvedRouterSchema } from '@trpc-playground/types'
+import { ProcedureSchemas, ResolvedRouterSchema } from '@trpc-playground/types'
 import { AnyProcedure, AnyRouter } from '@trpc/server'
 import lodash from 'lodash'
 import { AnyZodObject, z, ZodAny, ZodTypeAny } from 'zod'
 import { createTypeAlias, printNode, zodToTs } from 'zod-to-ts'
-import { getDefaultForProcedures } from './get-default-input'
+import { getProcedureSchemas } from './get-default-input'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Procedures = Record<string, AnyProcedure>
 
-const buildTrpcTsType = (router: AnyRouter) => {
+const buildTrpcTsType = (router: AnyRouter, procedureSchemas: ProcedureSchemas) => {
   const procedures = router._def.procedures as Procedures
   const procedureObject = {} as Record<string, string>
 
   Object.entries(procedures)
     .filter(([, { _def }]) => _def.query || _def.mutation)
     .forEach(([name, procedure]) => {
-      let procedureTypeDef = ``
+      let procedureTypeDef = ''
 
-      const inputParser = getInputFromInputParsers(procedure._def.inputs)
-      const inputType = inputParser ? printTypeFromInputParser(inputParser) : ''
+      const inputType = procedureSchemas.mutations[name]?.type || procedureSchemas.queries[name]?.type || ''
 
       if (procedure._def?.query) procedureTypeDef += `query: (${inputType}) => void,`
       else if (procedure._def?.mutation) procedureTypeDef += `mutate: (${inputType}) => void,`
@@ -36,27 +35,23 @@ const buildTrpcTsType = (router: AnyRouter) => {
   return `type Trpc = {${buildNestedTrpcObject(procedureObject)}}\ndeclare var trpc: Trpc;`
 }
 
-export const zodResolveTypes = async (router: AnyRouter): Promise<ResolvedRouterSchema> => ({
-  tsTypes: buildTrpcTsType(router),
-  ...getDefaultForProcedures(router._def.procedures),
-})
+export const zodResolveTypes = async (router: AnyRouter): Promise<ResolvedRouterSchema> => {
+  const procedureSchemas = getProcedureSchemas(router._def.procedures)
+  return {
+    tsTypes: buildTrpcTsType(router, procedureSchemas),
+    ...procedureSchemas,
+  }
+}
 
 export const getInputFromInputParsers = (inputs: ZodAny[]) => {
   if (inputs.length === 0) return null
   if (inputs.length === 1) return inputs[0]
 
-  let mergedObj = z.object({})
-  inputs.forEach((inputParser) => {
-    mergedObj = mergedObj.merge(inputParser as unknown as AnyZodObject)
-  })
+  const mergedObj = inputs.reduce((mergedObj, inputParser) => {
+    return mergedObj.merge(inputParser as unknown as AnyZodObject)
+  }, z.object({}))
 
   return mergedObj
-}
-
-export const printTypeFromInputParser = (inputParser: ZodTypeAny) => {
-  const { node } = zodToTs(inputParser)
-
-  return `input: ${printNode(node)}`
 }
 
 export const printTypeForDocs = (inputParser: ZodTypeAny) => {

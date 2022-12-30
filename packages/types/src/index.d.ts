@@ -1,4 +1,4 @@
-import { AnyRouter } from '@trpc/server'
+import { AnyRouter, Procedure } from '@trpc/server'
 import { DeepRequired } from 'ts-essentials'
 
 export type ClientConfig = {
@@ -88,8 +88,11 @@ export type DefaultOperationType = { value: string; inputLength: number }
 
 export type QueryDefaultAndType = Record<string, { default: DefaultOperationType; type: string }>
 
-export type ResolvedRouterSchema = {
-  tsTypes: string
+export type ProcedureSchemas = {
   queries: QueryDefaultAndType
   mutations: QueryDefaultAndType
 }
+
+export type ResolvedRouterSchema = {
+  tsTypes: string
+} & Procedure

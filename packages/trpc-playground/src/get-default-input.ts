@@ -1,4 +1,4 @@
-import { ResolvedRouterSchema } from '@trpc-playground/types'
+import { ProcedureSchemas } from '@trpc-playground/types'
 import {
   ZodArrayDef,
   ZodEnumDef,
@@ -18,8 +18,8 @@ import {
 } from 'zod'
 import { getInputFromInputParsers, printTypeForDocs, Procedures } from './zod-resolve-types'
 
-export const getDefaultForProcedures = (procedures: Procedures) => {
-  const defaultForQueries: Pick<ResolvedRouterSchema, 'queries' | 'mutations'> = { mutations: {}, queries: {} }
+export const getProcedureSchemas = (procedures: Procedures) => {
+  const procedureSchemas: ProcedureSchemas = { mutations: {}, queries: {} }
 
   Object.entries(procedures)
     .filter(([, { _def }]) => _def.query || _def.mutation)
@@ -28,16 +28,16 @@ export const getDefaultForProcedures = (procedures: Procedures) => {
       const defaultInputValue = inputParser ? getDefaultForDef(inputParser._def) : ''
       const type = inputParser ? printTypeForDocs(inputParser) : ''
 
-      const defaultForQuery = {
+      const procedureDefaults = {
         inputLength: defaultInputValue.length,
         value: `await trpc.${procedureName}.${procedure._def.query ? 'query' : 'mutate'}(${defaultInputValue})`,
       }
 
-      if (procedure._def.query) defaultForQueries.queries[procedureName] = { default: defaultForQuery, type }
-      else defaultForQueries.mutations[procedureName] = { default: defaultForQuery, type }
+      if (procedure._def.query) procedureSchemas.queries[procedureName] = { default: procedureDefaults, type }
+      else procedureSchemas.mutations[procedureName] = { default: procedureDefaults, type }
     })
 
-  return defaultForQueries
+  return procedureSchemas
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

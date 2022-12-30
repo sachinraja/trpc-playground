@@ -1,5 +1,12 @@
 # next-app
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies [[`838a7b5`](https://github.com/sachinraja/trpc-playground/commit/838a7b5ebff49aab13497703266c985ba2bb5c1f)]:
+  - trpc-playground@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes

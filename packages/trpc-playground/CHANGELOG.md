@@ -1,5 +1,11 @@
 # trpc-playground
 
+## 1.0.2
+
+### Patch Changes
+
+- [`838a7b5`](https://github.com/sachinraja/trpc-playground/commit/838a7b5ebff49aab13497703266c985ba2bb5c1f) Thanks [@sachinraja](https://github.com/sachinraja)! - support interop mode
+
 ## 1.0.1
 
 ### Patch Changes

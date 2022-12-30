@@ -20,6 +20,7 @@ export const handler = defineHandler(async (helpers, config: TrpcPlaygroundConfi
   }
 
   const types = await resolvedConfig.resolveTypes(config.router)
+  console.log(types)
   const stringifiedTypes = JSON.stringify(types)
 
   return {

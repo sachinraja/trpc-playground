@@ -1,4 +1,4 @@
-import { initTRPC } from '@trpc/server'
+import { initTRPC, router } from '@trpc/server'
 import superjson from 'superjson'
 import { z } from 'zod'
 
@@ -14,6 +14,11 @@ export const appRouter = t.router({
   getUsers: t.procedure.query(() => {
     return users
   }),
+  b: router().query('hi', {
+    resolve() {
+      return 'bruh'
+    },
+  }).interop(),
   getUsersById: t.procedure
     .input(z.object({
       userId: z.number(),

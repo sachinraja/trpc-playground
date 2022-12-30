@@ -252,13 +252,13 @@ importers:
       next: 13.0.7
       uttp: ^0.1.3
       zod: 3.20.2
-      zod-to-ts: ^1.1.1
+      zod-to-ts: ^1.1.2
     dependencies:
       '@trpc-playground/html': link:../html
       '@trpc-playground/types': link:../types
       lodash: 4.17.21
       uttp: 0.1.3_fastify@4.10.2+h3@1.0.2
-      zod-to-ts: 1.1.1_zod@3.20.2
+      zod-to-ts: 1.1.2_zod@3.20.2
     devDependencies:
       '@trpc/server': 10.5.0
       '@types/aws-lambda': 8.10.109
@@ -5985,10 +5985,10 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /zod-to-ts/1.1.1_zod@3.20.2:
-    resolution: {integrity: sha512-7UGV+GnuKLUyJbJeyrkfMqCP8wk37dFkOwguIWN/jVL7kQg2e1N5o0SDPVodlfTutxeAP9IRXsWLoSlEnmetCA==}
+  /zod-to-ts/1.1.2_zod@3.20.2:
+    resolution: {integrity: sha512-IZdM0Ga1l/vQnrNy63aV3qsLNchD0aUYZEtXcyt8A3xA7+erFO0zeImEcUH5qNLA6tXDTjRpcWp0paoVoH/D0A==}
     peerDependencies:
-      typescript: ^4
+      typescript: ^4.9.4
       zod: ^3
     dependencies:
       zod: 3.20.2

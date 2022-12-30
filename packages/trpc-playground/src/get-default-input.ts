@@ -1,5 +1,6 @@
 import { ProcedureSchemas } from '@trpc-playground/types'
 import {
+  z,
   ZodArrayDef,
   ZodEnumDef,
   ZodFirstPartyTypeKind,
@@ -16,28 +17,45 @@ import {
   ZodTupleDef,
   ZodUnionDef,
 } from 'zod'
-import { getInputFromInputParsers, printTypeForDocs, Procedures } from './zod-resolve-types'
+import { createTypeAlias, printNode, zodToTs } from 'zod-to-ts'
+import { getInputFromInputParsers, Procedures, ProcedureTypes } from './zod-resolve-types'
 
 export const getProcedureSchemas = (procedures: Procedures) => {
-  const procedureSchemas: ProcedureSchemas = { mutations: {}, queries: {} }
+  const procedureSchemas: ProcedureSchemas = { queries: {}, mutations: {} }
+  const procedureTypes: ProcedureTypes = { queries: {}, mutations: {} }
 
   Object.entries(procedures)
     .filter(([, { _def }]) => _def.query || _def.mutation)
     .forEach(([procedureName, procedure]) => {
       const inputParser = getInputFromInputParsers(procedure._def.inputs)
+      if (typeof inputParser === 'function') {
+        return z.any()
+      }
+
       const defaultInputValue = inputParser ? getDefaultForDef(inputParser._def) : ''
-      const type = inputParser ? printTypeForDocs(inputParser) : ''
+
+      let procedureType = ''
+      let docsType = ''
+
+      if (inputParser) {
+        const { node } = zodToTs(inputParser)
+        procedureType = `input: ${printNode(node)}`
+
+        docsType = printNode(createTypeAlias(node, 'input', inputParser.description))
+      }
 
       const procedureDefaults = {
         inputLength: defaultInputValue.length,
         value: `await trpc.${procedureName}.${procedure._def.query ? 'query' : 'mutate'}(${defaultInputValue})`,
       }
 
-      if (procedure._def.query) procedureSchemas.queries[procedureName] = { default: procedureDefaults, type }
-      else procedureSchemas.mutations[procedureName] = { default: procedureDefaults, type }
+      const procedureObject = procedure._def.query ? procedureSchemas.queries : procedureSchemas.mutations
+      const typeProcedureObject = procedure._def.query ? procedureTypes.queries : procedureTypes.mutations
+      procedureObject[procedureName] = { default: procedureDefaults, type: docsType }
+      typeProcedureObject[procedureName] = procedureType
     })
 
-  return procedureSchemas
+  return { schemas: procedureSchemas, types: procedureTypes }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

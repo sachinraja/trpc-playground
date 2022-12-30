@@ -1,5 +1,11 @@
 # @trpc-playground/components
 
+## 1.0.2
+
+### Patch Changes
+
+- [`1d7112c`](https://github.com/sachinraja/trpc-playground/commit/1d7112cc2987d0daccb611becd3661a9fad8123c) Thanks [@sachinraja](https://github.com/sachinraja)! - fix typescript autocompletion
+
 ## 1.0.1
 
 ### Patch Changes

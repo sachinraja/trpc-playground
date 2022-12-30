@@ -28,7 +28,6 @@ const basicSetup: Extension = [
   indentOnInput(),
   bracketMatching(),
   closeBrackets(),
-  autocompletion(),
   rectangularSelection(),
   highlightActiveLine(),
   highlightSelectionMatches(),

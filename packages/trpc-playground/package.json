@@ -1,7 +1,7 @@
 {
   "name": "trpc-playground",
   "type": "module",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publishConfig": {
     "access": "public"
   },
@@ -54,7 +54,7 @@
     "zod": "^3"
   },
   "dependencies": {
-    "@trpc-playground/html": "workspace:1.0.1",
+    "@trpc-playground/html": "workspace:1.0.4",
     "@trpc-playground/types": "workspace:1.0.0",
     "lodash": "^4.17.21",
     "uttp": "^0.1.3",

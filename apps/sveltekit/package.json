@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-    "type-check": "tsc",
+    "type-check": "pnpm build && tsc",
     "clean": "rimraf .svelte-kit"
   },
   "devDependencies": {

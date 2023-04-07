@@ -21,8 +21,8 @@ tRPC Playground provides handlers that serve the playground HTML page and handle
 
 ```ts
 // pages/api/trpc-playground.ts
+import { appRouter } from '@router'
 import { NextApiHandler } from 'next'
-import { appRouter } from 'server/routers/_app'
 import { nextHandler } from 'trpc-playground/handlers/next'
 
 const setupHandler = nextHandler({
@@ -47,16 +47,48 @@ export default handler
 </details>
 
 <details>
+<summary>SvelteKit</summary>
+
+[Example](https://github.com/sachinraja/trpc-playground/tree/main/apps/sveltekit)
+
+```ts
+// src/hooks.server.ts
+import { appRouter } from '@router'
+import { sequence } from '@sveltejs/kit/hooks'
+import { svelteKitHandler } from 'trpc-playground/handlers/sveltekit'
+import { createTRPCHandle } from 'trpc-sveltekit'
+
+const trpcApiEndpoint = '/api/trpc'
+const playgroundEndpoint = '/api/playground'
+
+const trpcHandle = createTRPCHandle({ router: appRouter, url: trpcApiEndpoint })
+
+const playgroundHandle = await svelteKitHandler({
+  router: appRouter,
+  trpcApiEndpoint,
+  playgroundEndpoint,
+  // uncomment this if you're using superjson
+  // request: {
+  //   superjson: true,
+  // },
+})
+
+export const handle = sequence(trpcHandle, playgroundHandle)
+```
+
+</details>
+
+<details>
 <summary>Express</summary>
 
 [Example](https://github.com/sachinraja/trpc-playground/tree/main/apps/express)
 
 ```ts
 // server.ts
+import { appRouter } from '@router'
 import * as trpcExpress from '@trpc/server/adapters/express'
 import express from 'express'
 import { expressHandler } from 'trpc-playground/handlers/express'
-import { appRouter } from './router'
 
 const runApp = async () => {
   const app = express()

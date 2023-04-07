@@ -7,8 +7,7 @@ export const svelteKitHandler = async (config: TrpcPlaygroundConfig): Promise<Ha
 
   return async ({ event, resolve }) => {
     if (event.url.pathname.startsWith(config.playgroundEndpoint)) {
-      const { body, headers, status, statusText } = await handler(event.request)
-      return new Response(body, { status, statusText, headers })
+      return handler(event.request)
     }
 
     return resolve(event)

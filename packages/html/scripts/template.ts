@@ -4,7 +4,7 @@
 // some variables used after injection
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ClientConfig, DeepRequiredClientConfig } from '@trpc-playground/types'
-import { filterXSS } from 'xss'
+import filterXSS from 'xss'
 import { RenderPlaygroundPageOptions } from '..'
 
 const CONFIG_ID = 'playground-config'

@@ -1,4 +1,4 @@
-import { autocompletion, closeBrackets } from '@codemirror/autocomplete'
+import { closeBrackets } from '@codemirror/autocomplete'
 import { history } from '@codemirror/commands'
 import { javascript } from '@codemirror/lang-javascript'
 import { bracketMatching, indentOnInput } from '@codemirror/language'

@@ -47,7 +47,7 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "vite": "^4.0.1",
+    "vite": "^4.2.0",
     "xss": "^1.0.14"
   },
   "devDependencies": {

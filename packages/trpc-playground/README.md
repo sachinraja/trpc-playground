@@ -94,7 +94,6 @@ runApp()
 
 </details>
 
-
 <details>
 <summary>trpc-nuxt</summary>
 

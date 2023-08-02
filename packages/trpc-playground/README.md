@@ -111,6 +111,10 @@ export default defineLazyEventHandler(async () => {
     router: appRouter,
     trpcApiEndpoint: '/api/trpc',
     playgroundEndpoint: '/api/trpc-playground',
+    // uncomment this if you're using superjson
+    // request: {
+    //   superjson: true,
+    // },
   })
 
   return defineEventHandler(setupHandler)

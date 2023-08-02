@@ -103,8 +103,8 @@ runApp()
 ```ts
 // server/api/trpc-playground.ts
 
-import { appRouter } from '~~/server/trpc/routers'
 import { h3Handler } from 'trpc-playground/handlers/h3'
+import { appRouter } from '~~/server/trpc/routers'
 
 export default defineLazyEventHandler(async () => {
   const setupHandler = await h3Handler({

@@ -8,10 +8,10 @@ export const baseTheme = EditorView.theme({
     backgroundColor: 'var(--primary-color) !important',
   },
   '.cm-activeLine': {
-    backgroundColor: 'var(--secondary-color) !important',
+    backgroundColor: 'rgba(var(--secondary-color-triplet), .5) !important',
   },
   '.cm-selectionBackground': {
-    backgroundColor: '#292929 !important',
+    backgroundColor: '#323232 !important',
   },
 })
 

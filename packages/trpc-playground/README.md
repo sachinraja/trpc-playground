@@ -17,6 +17,29 @@ tRPC Playground provides handlers that serve the playground HTML page and handle
 <details>
 <summary>Next.js</summary>
 
+Next.js App Router
+
+```ts
+// src/app/api/trpc-playground/route.ts
+import { appRouter } from '@/server'
+import { fetchHandler } from 'trpc-playground/handlers/fetch'
+
+const setupHandler = fetchHandler({
+  router: appRouter,
+  trpcApiEndpoint: '/api/trpc',
+  playgroundEndpoint: '/api/trpc-playground',
+})
+
+const handler = async (req: Request) => {
+  const playgroundHandler = await setupHandler
+  return await playgroundHandler(req)
+}
+
+export { handler as GET, handler as POST }
+```
+
+Next.js Pages Router
+
 [Example](https://github.com/sachinraja/trpc-playground/tree/main/apps/next)
 
 ```ts
